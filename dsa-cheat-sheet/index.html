@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DSA Master Syntax Cheat Sheet — C++ vs Java vs Python</title>
 <meta name="description" content="Interview-focused DSA syntax cheat sheet comparing C++, Java, and Python with time and space complexity.">
-<meta name="theme-color" content="#0b1020">
+<meta name="theme-color" content="#0d1117">
 <style>
-:root{--bg:#0b1020;--panel:#111827;--panel2:#182235;--text:#e5e7eb;--muted:#9ca3af;--line:#2b3548;--accent:#60a5fa;--code:#090d18;--good:#86efac;--warn:#fbbf24;--shadow:0 10px 30px rgba(0,0,0,.22);--scroll:72px}
-html[data-theme="light"]{--bg:#f8fafc;--panel:#fff;--panel2:#f1f5f9;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;--accent:#2563eb;--code:#f8fafc;--good:#15803d;--warn:#b45309;--shadow:0 8px 24px rgba(15,23,42,.08)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.62;transition:background .2s,color .2s}
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#010409;--text:#e6edf3;--muted:#8b949e;--line:#30363d;--accent:#58a6ff;--code:#0d1117;--good:#3fb950;--warn:#d29922;--heading:#f0f6fc;--heading-2:#c9d1d9;--heading-3:#b1bac4;--toc:#c9d1d9;--toc-muted:#8b949e;--code-inline-bg:rgba(110,118,129,.2);--code-inline-border:#30363d;--code-inline-text:#79c0ff;--chip-active-bg:rgba(56,139,253,.15);--chip-active-border:#388bfd;--chip-active-text:#58a6ff;--badge-border:#238636;--badge-bg:rgba(46,160,67,.15);--shadow:0 8px 24px rgba(1,4,9,.35);--scroll:72px;--cpp:#79c0ff;--java:#ffa657;--python:#3fb950}
+html[data-theme="light"]{--bg:#ffffff;--panel:#f6f8fa;--panel2:#f6f8fa;--text:#1f2328;--muted:#656d76;--line:#d0d7de;--accent:#0969da;--code:#f6f8fa;--good:#1a7f37;--warn:#9a6700;--heading:#1f2328;--heading-2:#24292f;--heading-3:#424a53;--toc:#24292f;--toc-muted:#656d76;--code-inline-bg:rgba(175,184,193,.2);--code-inline-border:#d0d7de;--code-inline-text:#0550ae;--chip-active-bg:#ddf4ff;--chip-active-border:#0969da;--chip-active-text:#0969da;--badge-border:#1a7f37;--badge-bg:#dafbe1;--shadow:0 8px 24px rgba(31,35,40,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";background:var(--bg);color:var(--text);line-height:1.62;transition:background .2s,color .2s}
 a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 .progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:30;background:transparent}
-.progress>span{display:block;height:100%;width:0;background:linear-gradient(90deg,#3b82f6,#22d3ee);transition:width .1s linear}
+.progress>span{display:block;height:100%;width:0;background:linear-gradient(90deg,#58a6ff,#3fb950);transition:width .1s linear}
 .shell{display:grid;grid-template-columns:320px minmax(0,1fr);min-height:100vh}
 .sidebar{position:sticky;top:0;height:100vh;overflow:auto;padding:20px 16px 28px;border-right:1px solid var(--line);background:var(--panel2)}
 .back{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);margin-bottom:14px}
@@ -22,62 +22,188 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
 .btn,.chip{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer}
 .btn:hover,.chip:hover{border-color:var(--accent)}
-.chip.active{background:#1e3a5f;border-color:#3b82f6;color:#dbeafe}
-html[data-theme="light"] .chip.active{background:#dbeafe;color:#1e3a8a}
+.chip.active{background:var(--chip-active-bg);border-color:var(--chip-active-border);color:var(--chip-active-text)}
 .search-wrap{position:relative;margin-bottom:10px}
 .search{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--text);outline:none}
-.search:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(96,165,250,.15)}
+.search:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(88,166,255,.2)}
 .search-hint{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--muted);pointer-events:none}
 .search-meta{font-size:11px;color:var(--muted);margin:-4px 0 12px;min-height:16px}
-#toc a{display:block;padding:6px 8px;border-radius:7px;color:#cbd5e1;font-size:12.5px;line-height:1.35;border-left:2px solid transparent}
+#toc a{display:flex;align-items:flex-start;gap:6px;padding:6px 8px;border-radius:7px;color:var(--toc);font-size:12.5px;line-height:1.35;border-left:2px solid transparent}
 #toc a:hover{background:var(--panel);text-decoration:none}
-#toc a.active{background:var(--panel);border-left-color:var(--accent);color:#fff}
-html[data-theme="light"] #toc a{color:#334155}
-html[data-theme="light"] #toc a.active{color:#0f172a}
-#toc a.h1{font-weight:700;margin-top:8px;color:#e2e8f0}
-#toc a.h2{padding-left:14px;font-size:12px;color:#9fb0c7}
-#toc a.h3{padding-left:22px;font-size:11.5px;color:#7c8ea5}
+#toc a.active{background:var(--panel);border-left-color:var(--accent);color:var(--heading)}
+#toc a.h1{font-weight:700;margin-top:8px;color:var(--heading)}
+#toc a.h2{padding-left:14px;font-size:12px;color:var(--toc-muted)}
+#toc a.h3{padding-left:22px;font-size:11.5px;color:var(--muted)}
 .main{min-width:0;padding:42px clamp(20px,4vw,62px) 80px}
 .content{max-width:1180px;margin:0 auto}
-h1,h2,h3{scroll-margin-top:var(--scroll);line-height:1.2}
-h1{font-size:clamp(34px,5vw,58px);letter-spacing:-.035em;margin:0 0 10px}
-h2{font-size:27px;margin-top:54px;padding-top:8px;border-top:1px solid var(--line)}
-h3{font-size:19px;margin-top:30px}
-p,li{color:#d1d5db}
-html[data-theme="light"] p,html[data-theme="light"] li{color:#334155}
+h1,h2,h3{scroll-margin-top:var(--scroll);line-height:1.25}
+h1{font-size:clamp(28px,3.5vw,40px);letter-spacing:-.03em;margin:0 0 12px;font-weight:800;color:var(--heading)}
+section.level1:not(:first-of-type)>h1{font-size:20px;font-weight:700;margin:44px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line);letter-spacing:-.015em;color:var(--heading)}
+h2{font-size:18px;margin-top:28px;padding-top:0;border-top:0;color:var(--heading-2);font-weight:600}
+h3{font-size:15px;margin-top:22px;font-weight:600;color:var(--heading-3)}
+p,li{color:var(--text)}
 blockquote{margin:20px 0;padding:12px 16px;border-left:4px solid var(--accent);background:var(--panel);border-radius:0 10px 10px 0}
 blockquote p{margin:0}
 hr{border:0;border-top:1px solid var(--line);margin:36px 0}
 .table-wrap{overflow-x:auto;margin:18px 0 26px;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
 table{border-collapse:collapse;width:100%;min-width:700px;background:var(--panel)}
 th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
-th{position:sticky;top:0;background:var(--panel2);font-size:13px;color:#f3f4f6;z-index:1}
-html[data-theme="light"] th{color:#0f172a}
+th{position:sticky;top:0;background:var(--panel2);font-size:13px;color:var(--heading);z-index:1}
 td{font-size:13.5px}tr:last-child td{border-bottom:0}
 .col-hidden{display:none!important}
-code{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;background:#172033;border:1px solid #26324a;padding:.12em .36em;border-radius:5px;color:#dbeafe;font-size:.92em}
-html[data-theme="light"] code{background:#e2e8f0;border-color:#cbd5e1;color:#1e293b}
+code{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;background:var(--code-inline-bg);border:1px solid var(--code-inline-border);padding:.12em .36em;border-radius:6px;color:var(--code-inline-text);font-size:.92em}
 pre{position:relative;overflow:auto;background:var(--code);border:1px solid var(--line);border-radius:12px;padding:34px 18px 17px;margin:15px 0 24px;box-shadow:var(--shadow)}
-pre code{background:transparent;border:0;padding:0;color:#d8e4f3;font-size:13px}
-html[data-theme="light"] pre code{color:#1e293b}
+pre code{background:transparent;border:0;padding:0;color:var(--text);font-size:13px}
 .lang-badge{position:absolute;left:10px;top:8px;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:2px 6px;background:var(--panel)}
+.lang-badge.lang-cpp,.chip[data-lang="cpp"].active,th[data-lang="cpp"]{color:var(--cpp);border-color:rgba(121,192,255,.45)}
+.lang-badge.lang-java,.chip[data-lang="java"].active,th[data-lang="java"]{color:var(--java);border-color:rgba(255,166,87,.45)}
+.lang-badge.lang-python,.chip[data-lang="python"].active,th[data-lang="python"]{color:var(--python);border-color:rgba(63,185,80,.45)}
+td[data-lang="cpp"],th[data-lang="cpp"]{background:rgba(121,192,255,.07)}
+td[data-lang="java"],th[data-lang="java"]{background:rgba(255,166,87,.07)}
+td[data-lang="python"],th[data-lang="python"]{background:rgba(63,185,80,.07)}
+pre[data-lang="cpp"],.sourceCode[data-lang="cpp"] pre{border-left:3px solid var(--cpp)}
+pre[data-lang="java"],.sourceCode[data-lang="java"] pre{border-left:3px solid var(--java)}
+pre[data-lang="python"],.sourceCode[data-lang="python"] pre{border-left:3px solid var(--python)}
+.lang-syntax-table{min-width:0}
+.lang-syntax-table .lang-name{width:7.5rem;font-weight:700;white-space:nowrap;vertical-align:middle}
+.lang-syntax-table tr[data-lang="cpp"] .lang-name{color:var(--cpp)}
+.lang-syntax-table tr[data-lang="java"] .lang-name{color:var(--java)}
+.lang-syntax-table tr[data-lang="python"] .lang-name{color:var(--python)}
+.lang-syntax-table .sourceCode,.lang-syntax-table pre{margin:0}
+.lang-syntax-table pre{box-shadow:none;padding-top:16px}
+.lang-syntax-table .lang-badge{display:none}
 .copy{position:absolute;right:8px;top:8px;border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:7px;padding:5px 8px;font-size:11px;cursor:pointer}
 .copy:hover{border-color:var(--accent)}
-strong{color:#fff}html[data-theme="light"] strong{color:#0f172a}
-mark.search-hit{background:rgba(251,191,36,.35);color:inherit;padding:0 2px;border-radius:3px}
+strong{color:var(--heading)}
+mark.search-hit{background:rgba(210,153,34,.35);color:inherit;padding:0 2px;border-radius:3px}
 .complexity{display:inline-flex;gap:8px;flex-wrap:wrap}
-.badge{border:1px solid #305339;background:#102719;color:var(--good);border-radius:999px;padding:2px 8px;font-size:12px;font-weight:700}
+.badge{border:1px solid var(--badge-border);background:var(--badge-bg);color:var(--good);border-radius:999px;padding:2px 8px;font-size:12px;font-weight:700}
 .topbar{display:none}
 .hidden-by-search{display:none!important}
 .footer{margin-top:70px;border-top:1px solid var(--line);padding-top:22px;color:var(--muted);font-size:13px}
+.section-heading{display:flex;align-items:center;gap:10px}
+.heading-icon{display:inline-flex;width:22px;height:22px;flex-shrink:0;color:var(--accent)}
+.heading-icon svg{width:100%;height:100%;display:block}
+.section-visual{margin:10px 0 18px;padding:12px 14px 8px;border:1px solid var(--line);border-radius:12px;background:var(--panel);max-width:560px}
+.section-visual svg{display:block;width:100%;height:auto}
+.viz{font-family:inherit}
+.viz-kicker{fill:var(--accent);font-size:12px;font-weight:700;letter-spacing:.06em}
+.viz-sub{fill:var(--muted);font-size:11px}
+.viz-label,.viz-num{fill:var(--heading);font-size:12px;font-weight:700}
+.viz-muted{fill:var(--muted);font-size:10px}
+.viz-action{fill:var(--accent);font-size:11px;font-weight:700}
+.viz-good-fill{fill:var(--good)}
+.viz-accent-fill{fill:var(--accent)}
+.viz-cell{fill:var(--panel2);stroke:var(--line)}
+.viz-plate{fill:rgba(88,166,255,.16);stroke:var(--accent)}
+.viz-plate-on{fill:rgba(63,185,80,.2);stroke:var(--good)}
+.viz-well{fill:transparent;stroke:var(--line)}
+.viz-node{fill:var(--panel2);stroke:var(--line);stroke-width:1.5}
+.viz-edge{fill:none;stroke:var(--line);stroke-width:1.5}
+.viz-flow{fill:none;stroke:var(--accent);stroke-width:2}
+.viz-good-stroke{stroke:var(--good)}
+.viz-scan,.viz-hit,.viz-window,.viz-range{fill:none;stroke:var(--accent);stroke-width:2}
+.viz-key{fill:rgba(88,166,255,.12);stroke:var(--accent)}
+.viz-caret{fill:var(--accent)}
+.viz-group{fill:rgba(88,166,255,.08);stroke:var(--line)}
+.viz-int{fill:rgba(88,166,255,.16);stroke:var(--accent)}
+.viz-bar rect{fill:rgba(88,166,255,.2);stroke:var(--accent)}
+.viz-token{fill:var(--good);stroke:none}
+.viz-walk{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-dasharray:140;stroke-dashoffset:140}
+.viz-merge{stroke:var(--good);stroke-width:2;stroke-dasharray:6 4;opacity:0}
+.viz .viz-n,.viz-moving,.viz-scan,.viz-cursor,.viz-L,.viz-R,.viz-bubble,.viz-window,.viz-range,.viz-item-a,.viz-item-d,.viz-hash-arrow,.viz-hit,.viz-pref .viz-p0,.viz-pref .viz-p1,.viz-pref .viz-p2,.viz-pref .viz-p3,.viz-pref .viz-p4,.viz-dp0,.viz-dp1,.viz-dp2,.viz-dp3,.viz-dp4,.viz-dp5,.viz-bar,.viz-bit,.viz-int,.viz-merged,.viz-push-label,.viz-pop-label,.viz-lvl,.viz-mid-label,.viz-lo,.viz-hi,.viz-window-sum,.viz-tr-word,.viz-dp-label,.viz-bit-label{transform-box:fill-box;transform-origin:center}
+@keyframes viz-drop{0%,8%{transform:translateY(-56px);opacity:0}20%,48%{transform:translateY(0);opacity:1}62%,100%{transform:translateY(-56px);opacity:0}}
+@keyframes viz-swap-label{0%,45%{opacity:1}50%,100%{opacity:0}}
+@keyframes viz-show-late{0%,48%{opacity:0}55%,100%{opacity:1}}
+@keyframes viz-fade-out{0%,20%{opacity:1}35%,100%{opacity:0}}
+@keyframes viz-fade-in{0%,45%{opacity:0}60%,100%{opacity:1}}
+@keyframes viz-shift{0%,25%{transform:translateX(0)}40%,100%{transform:translateX(-50px)}}
+@keyframes viz-scan-x{0%{transform:translateX(0)}16%{transform:translateX(44px)}32%{transform:translateX(88px)}48%{transform:translateX(132px)}64%{transform:translateX(176px)}80%,100%{transform:translateX(220px)}}
+@keyframes viz-grid{0%,20%{transform:translate(0,0)}20.1%,40%{transform:translate(44px,0)}40.1%,60%{transform:translate(88px,0)}60.1%,80%{transform:translate(0,44px)}80.1%,100%{transform:translate(44px,44px)}}
+@keyframes viz-range{0%,18%{transform:scaleX(1)}36%,54%{transform:scaleX(.55)}72%,100%{transform:scaleX(.28)}}
+@keyframes viz-window{0%,20%{transform:translateX(0)}25%,45%{transform:translateX(44px)}50%,70%{transform:translateX(88px)}75%,100%{transform:translateX(132px)}}
+@keyframes viz-left{0%,15%{transform:translateX(0)}35%,50%{transform:translateX(52px)}70%,100%{transform:translateX(104px)}}
+@keyframes viz-right{0%,15%{transform:translateX(0)}35%,50%{transform:translateX(-52px)}70%,100%{transform:translateX(-104px)}}
+@keyframes viz-pulse{0%,100%{opacity:.35}40%{opacity:1}}
+@keyframes viz-on{0%,15%{opacity:.25}20%,100%{opacity:1}}
+@keyframes viz-walk{0%{stroke-dashoffset:140}45%,100%{stroke-dashoffset:0}}
+@keyframes viz-cursor{0%,20%{transform:translateX(0)}25%,45%{transform:translateX(80px)}50%,70%{transform:translateX(160px)}75%,100%{transform:translateX(240px)}}
+@keyframes viz-bubble{0%,20%{transform:translate(0,0)}40%,55%{transform:translate(-30px,-42px)}75%,100%{transform:translate(30px,-86px)}}
+@keyframes viz-fill{0%{opacity:0;transform:scale(.7)}20%,100%{opacity:1;transform:scale(1)}}
+@keyframes viz-hit{0%,40%{opacity:0}50%,100%{opacity:1}}
+@keyframes viz-token{to{offset-distance:100%}}
+@keyframes viz-swap{0%,25%{transform:translateX(0)}40%,100%{transform:translateX(50px)}}
+@keyframes viz-swap-back{0%,25%{transform:translateX(0)}40%,100%{transform:translateX(-50px)}}
+@keyframes viz-bitflip{0%,40%{opacity:1}50%,100%{filter:none}}
+@keyframes viz-merge-box{0%,45%{opacity:0}60%,100%{opacity:.35}}
+@keyframes viz-merge-line{0%,40%{opacity:0}55%,100%{opacity:1}}
+.viz-stack .viz-moving{animation:viz-drop 4.2s ease-in-out infinite}
+.viz-stack .viz-push-label{animation:viz-swap-label 4.2s linear infinite}
+.viz-stack .viz-pop-label{animation:viz-show-late 4.2s linear infinite}
+.viz-queue .viz-item-a{animation:viz-fade-out 3.6s ease-in-out infinite}
+.viz-queue .viz-item-d{animation:viz-fade-in 3.6s ease-in-out infinite}
+.viz-queue .viz-belt{animation:viz-shift 3.6s ease-in-out infinite;transform-box:fill-box;transform-origin:left center}
+.viz-array .viz-scan,.viz-array .viz-scan-label{animation:viz-scan-x 5s ease-in-out infinite}
+.viz-matrix .viz-scan{animation:viz-grid 5s steps(1) infinite}
+.viz-binarySearch .viz-range{transform-origin:left center;animation:viz-range 5.5s ease-in-out infinite}
+.viz-binarySearch .viz-hi{animation:viz-right 5.5s ease-in-out infinite}
+.viz-slidingWindow .viz-window,.viz-slidingWindow .viz-window-sum{animation:viz-window 5s ease-in-out infinite}
+.viz-twoPointers .viz-L{animation:viz-left 4.8s ease-in-out infinite}
+.viz-twoPointers .viz-R{animation:viz-right 4.8s ease-in-out infinite}
+.viz-bfs .viz-n0{animation:viz-pulse 4.8s ease-in-out infinite}
+.viz-bfs .viz-n1{animation:viz-pulse 4.8s ease-in-out 1.2s infinite}
+.viz-bfs .viz-n2{animation:viz-pulse 4.8s ease-in-out 2.4s infinite}
+.viz-bfs .viz-lvl{animation:viz-pulse 4.8s ease-in-out infinite}
+.viz-dfs .viz-d0{animation:viz-pulse 5s ease-in-out infinite}
+.viz-dfs .viz-d1{animation:viz-pulse 5s ease-in-out .6s infinite}
+.viz-dfs .viz-d2{animation:viz-pulse 5s ease-in-out 1.2s infinite}
+.viz-dfs .viz-d3{animation:viz-pulse 5s ease-in-out 2.4s infinite}
+.viz-dfs .viz-walk{animation:viz-walk 5s ease-in-out infinite}
+.viz-tree .viz-t0{animation:viz-pulse 4.2s ease-in-out infinite}
+.viz-tree .viz-t1{animation:viz-pulse 4.2s ease-in-out .7s infinite}
+.viz-tree .viz-t2{animation:viz-pulse 4.2s ease-in-out 1.4s infinite}
+.viz-tree .viz-t3{animation:viz-pulse 4.2s ease-in-out 2.1s infinite}
+.viz-linkedList .viz-cursor{animation:viz-cursor 5s ease-in-out infinite}
+.viz-heap .viz-bubble{animation:viz-bubble 4.8s ease-in-out infinite}
+.viz-heap .viz-hroot{animation:viz-pulse 4.8s ease-in-out infinite}
+.viz-hashmap .viz-hit{animation:viz-hit 3.2s ease-in-out infinite}
+.viz-hashmap .viz-hash-arrow{stroke-dasharray:4 3;animation:viz-pulse 1.4s linear infinite}
+.viz-dp0{animation:viz-fill 6s ease-in-out infinite}
+.viz-dp1{animation:viz-fill 6s ease-in-out .5s infinite}
+.viz-dp2{animation:viz-fill 6s ease-in-out 1s infinite}
+.viz-dp3{animation:viz-fill 6s ease-in-out 1.5s infinite}
+.viz-dp4{animation:viz-fill 6s ease-in-out 2s infinite}
+.viz-dp5{animation:viz-fill 6s ease-in-out 2.5s infinite}
+.viz-trie .viz-tr0{animation:viz-pulse 4s ease-in-out infinite}
+.viz-trie .viz-tr1{animation:viz-pulse 4s ease-in-out .6s infinite}
+.viz-trie .viz-tr2{animation:viz-pulse 4s ease-in-out 1.2s infinite}
+.viz-prefix .viz-p0{animation:viz-fill 5s ease-in-out infinite}
+.viz-prefix .viz-p1{animation:viz-fill 5s ease-in-out .45s infinite}
+.viz-prefix .viz-p2{animation:viz-fill 5s ease-in-out .9s infinite}
+.viz-prefix .viz-p3{animation:viz-fill 5s ease-in-out 1.35s infinite}
+.viz-prefix .viz-p4{animation:viz-fill 5s ease-in-out 1.8s infinite}
+.viz-sort .viz-b1{animation:viz-swap 3.6s ease-in-out infinite}
+.viz-sort .viz-b2{animation:viz-swap-back 3.6s ease-in-out infinite}
+.viz-dsu .viz-merge{animation:viz-merge-line 3.8s ease-in-out infinite}
+.viz-dsu .viz-g2{animation:viz-shift 3.8s ease-in-out infinite}
+.viz-bits .viz-bit1{animation:viz-pulse 2.8s ease-in-out infinite}
+.viz-intervals .viz-merged{fill:rgba(63,185,80,.2);stroke:var(--good);animation:viz-merge-box 4s ease-in-out infinite}
+.viz-graph .viz-token{offset-path:path("M110 110 L200 70 L320 100 L250 148 L110 110");offset-rotate:0deg;animation:viz-token 5s linear infinite}
+@media (prefers-reduced-motion:reduce){
+.section-visual *{animation:none!important}
+}
+.toc-icon{display:inline-flex;width:16px;height:16px;flex-shrink:0;margin-top:1px;color:var(--muted)}
+#toc a.active .toc-icon{color:var(--accent)}
+.toc-icon svg{width:100%;height:100%;display:block}
+.toc-label{flex:1;min-width:0}
 .overlay{display:none}
 @media(max-width:900px){
 .shell{display:block}.sidebar{position:fixed;z-index:25;left:-340px;width:320px;transition:left .2s;box-shadow:var(--shadow)}
-.sidebar.open{left:0}.overlay.open{display:block;position:fixed;inset:0;background:rgba(2,6,23,.55);z-index:24}
+.sidebar.open{left:0}.overlay.open{display:block;position:fixed;inset:0;background:rgba(1,4,9,.65);z-index:24}
 .main{padding-top:72px}.topbar{display:flex;position:fixed;top:0;left:0;right:0;z-index:15;height:54px;align-items:center;justify-content:space-between;padding:0 15px;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .menu{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:8px;padding:7px 10px}
 .table-wrap{margin-left:-8px;margin-right:-8px}}
-@media print{.sidebar,.topbar,.copy,.progress,.overlay,.toolbar,.search-wrap,.search-meta{display:none!important}.shell{display:block}.main{padding:0;color:#000}.content{max-width:none}body{background:white;color:#000}p,li{color:#111}h2{border-color:#bbb}pre{box-shadow:none;white-space:pre-wrap;padding-top:17px}table{min-width:0}.table-wrap{overflow:visible;box-shadow:none}.col-hidden{display:table-cell!important}}
+@media print{.sidebar,.topbar,.copy,.progress,.overlay,.toolbar,.search-wrap,.search-meta{display:none!important}.shell{display:block}.main{padding:0;color:#000}.content{max-width:none}body{background:white;color:#000}p,li{color:#111}h2{border-color:#bbb}pre{box-shadow:none;white-space:pre-wrap;padding-top:17px}table{min-width:0}.table-wrap{overflow:visible;box-shadow:none}.col-hidden{display:unset!important}}
 </style>
 </head>
 <body>
@@ -500,6 +626,10 @@ implementation-dependent</td>
 </tr>
 </tbody>
 </table>
+<p><strong>Note:</strong> C++ <code>s[i]</code> is a <code>char</code>.
+Python <code>s[i]</code> is a 1-character <code>str</code> (not
+mutable). Java strings are immutable; use
+<code>StringBuilder</code> to edit in place.</p>
 <section id="character-frequency" class="level2">
 <h2>Character frequency</h2>
 <div class="sourceCode" id="cb8"><pre
@@ -547,16 +677,16 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a h
 </tr>
 <tr class="even">
 <td>Lookup</td>
-<td><code>mp[k]</code></td>
+<td><code>mp.at(k)</code> / <code>find</code></td>
 <td><code>mp.get(k)</code></td>
-<td><code>mp[k]</code></td>
+<td><code>mp.get(k)</code></td>
 <td style="text-align: right;"><code>O(1)</code></td>
 <td style="text-align: right;"><code>O(n)</code></td>
 </tr>
 <tr class="odd">
 <td>Contains</td>
 <td><code>mp.count(k)</code></td>
-<td><code>containsKey(k)</code></td>
+<td><code>mp.containsKey(k)</code></td>
 <td><code>k in mp</code></td>
 <td style="text-align: right;"><code>O(1)</code></td>
 <td style="text-align: right;"><code>O(n)</code></td>
@@ -571,14 +701,19 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a h
 </tr>
 <tr class="odd">
 <td>Iterate all</td>
-<td>range loop</td>
-<td><code>entrySet()</code></td>
-<td><code>.items()</code></td>
+<td><code>for (auto&amp; [k,v] : mp)</code></td>
+<td><code>mp.entrySet()</code></td>
+<td><code>mp.items()</code></td>
 <td style="text-align: right;"><code>O(n)</code></td>
 <td style="text-align: right;"><code>O(n)</code></td>
 </tr>
 </tbody>
 </table>
+<p><strong>Gotcha:</strong> C++ <code>mp[k]</code> <em>inserts</em>
+<code>0</code> if the key is missing. Use <code>count</code>/<code>find</code>/<code>at</code>
+for a read-only lookup. Java <code>get</code> returns <code>null</code>;
+Python <code>mp[k]</code> raises <code>KeyError</code> (prefer
+<code>mp.get(k)</code>).</p>
 <p><strong>Space:</strong> <code>O(n)</code>.</p>
 <section id="frequency-map" class="level2">
 <h2>Frequency map</h2>
@@ -3186,6 +3321,7 @@ upper_bound     -&gt; custom binary     -&gt; bisect_right</code></pre>
 </section>
 <div class="footer">Self-contained DSA reference · Press <kbd>/</kbd> to search · Filter languages in the sidebar · <a href="../">Back to portal</a></div></article></main>
 </div>
+<script src="assets/section-visuals.js"></script>
 <script>
 (function(){
  const content = document.getElementById('content');
@@ -3219,6 +3355,14 @@ upper_bound     -&gt; custom binary     -&gt; bisect_right</code></pre>
    }
  }
 
+ function detectLang(el) {
+   const classes = [...(el?.classList || [])];
+   if (el?.querySelector) {
+     el.querySelectorAll('code, pre').forEach((node) => classes.push(...node.classList));
+   }
+   return ['cpp', 'java', 'python'].find((name) => classes.includes(name)) || '';
+ }
+
  function wrapTables() {
    document.querySelectorAll('table').forEach((table) => {
      if (table.closest('.table-wrap')) return;
@@ -3241,17 +3385,27 @@ upper_bound     -&gt; custom binary     -&gt; bisect_right</code></pre>
          if (index === langMap.python) cell.dataset.lang = 'python';
        });
      });
+     if (headers[0] === 'language') {
+       table.querySelectorAll('tbody tr').forEach((row) => {
+         const label = (row.children[0]?.textContent || '').trim().toLowerCase();
+         if (label === 'c++') row.dataset.lang = 'cpp';
+         if (label === 'java') row.dataset.lang = 'java';
+         if (label === 'python') row.dataset.lang = 'python';
+       });
+     }
    });
  }
 
  function initCodeBlocks() {
+   const labels = { cpp: 'C++', java: 'Java', python: 'Python' };
    document.querySelectorAll('pre').forEach((pre) => {
-     const code = pre.querySelector('code');
-     const langClass = code && [...code.classList].find((name) => name.startsWith('sourceCode'));
-     if (langClass) {
+     const lang = detectLang(pre) || detectLang(pre.parentElement);
+     if (lang) {
+       pre.dataset.lang = lang;
+       if (pre.parentElement?.classList.contains('sourceCode')) pre.parentElement.dataset.lang = lang;
        const badge = document.createElement('span');
-       badge.className = 'lang-badge';
-       badge.textContent = langClass.replace('sourceCode ', '').replace('sourceCode', 'text');
+       badge.className = 'lang-badge lang-' + lang;
+       badge.textContent = labels[lang];
        pre.appendChild(badge);
      }
      const btn = document.createElement('button');
@@ -3259,12 +3413,84 @@ upper_bound     -&gt; custom binary     -&gt; bisect_right</code></pre>
      btn.type = 'button';
      btn.textContent = 'Copy';
      btn.onclick = async () => {
-       const text = pre.innerText.replace(/^(Copy|C\+\+|JAVA|PYTHON|TEXT|CPP)\n/i, '').trim();
+       const text = pre.innerText.replace(/^(Copy|C\+\+|Java|Python|TEXT|CPP)\n/i, '').trim();
        await navigator.clipboard.writeText(text);
        btn.textContent = 'Copied';
        setTimeout(() => { btn.textContent = 'Copy'; }, 1000);
      };
      pre.appendChild(btn);
+   });
+ }
+
+ function groupLangSnippets() {
+   const labels = { cpp: 'C++', java: 'Java', python: 'Python' };
+   content.querySelectorAll('section').forEach((section) => {
+     const kids = [...section.children];
+     let i = 0;
+     while (i < kids.length) {
+       const seen = [];
+       let j = i;
+       while (j < kids.length && kids[j].classList.contains('sourceCode')) {
+         const lang = detectLang(kids[j]);
+         if (!lang || seen.includes(lang)) break;
+         seen.push(lang);
+         j += 1;
+       }
+       if (j - i >= 2) {
+         const wrap = document.createElement('div');
+         wrap.className = 'table-wrap';
+         const table = document.createElement('table');
+         table.className = 'lang-syntax-table';
+         table.innerHTML = '<thead><tr><th>Language</th><th>Syntax</th></tr></thead>';
+         const tbody = document.createElement('tbody');
+         kids[i].parentNode.insertBefore(wrap, kids[i]);
+         for (let k = i; k < j; k += 1) {
+           const lang = detectLang(kids[k]);
+           const row = document.createElement('tr');
+           row.dataset.lang = lang;
+           const name = document.createElement('td');
+           name.className = 'lang-name';
+           name.textContent = labels[lang] || lang;
+           const syntax = document.createElement('td');
+           syntax.appendChild(kids[k]);
+           row.appendChild(name);
+           row.appendChild(syntax);
+           tbody.appendChild(row);
+         }
+         table.appendChild(tbody);
+         wrap.appendChild(table);
+       }
+       i = j > i ? j : i + 1;
+     }
+   });
+ }
+
+ function normalizeHeadings() {
+   content.querySelectorAll('section.level1 > h1').forEach((heading) => {
+     if (heading.closest('#dsa-master-syntax-cheat-sheet')) return;
+     heading.textContent = heading.textContent.replace(/^\d+\.\s+/, '');
+   });
+ }
+
+ function decorateSectionVisuals() {
+   if (!window.DSA_SECTION_VISUALS) return;
+   content.querySelectorAll('section.level1 > h1').forEach((heading) => {
+     const section = heading.closest('section.level1');
+     const visual = window.DSA_SECTION_VISUALS.resolve(heading.textContent, section.id);
+     heading.classList.add('section-heading');
+     if (!heading.querySelector('.heading-icon')) {
+       const icon = document.createElement('span');
+       icon.className = 'heading-icon';
+       icon.innerHTML = visual.icon;
+       icon.setAttribute('aria-hidden', 'true');
+       heading.prepend(icon);
+     }
+     if (section.id !== 'dsa-master-syntax-cheat-sheet' && visual.diagram && !section.querySelector('.section-visual')) {
+       const card = document.createElement('div');
+       card.className = 'section-visual';
+       card.innerHTML = visual.diagram;
+       heading.insertAdjacentElement('afterend', card);
+     }
    });
  }
 
@@ -3274,8 +3500,22 @@ upper_bound     -&gt; custom binary     -&gt; bisect_right</code></pre>
      if (!heading.id) heading.id = 'section-' + index;
      const link = document.createElement('a');
      link.href = '#' + heading.id;
-     link.textContent = heading.textContent;
      link.dataset.target = heading.id;
+     if (heading.tagName === 'H1' && window.DSA_SECTION_VISUALS) {
+       const visual = window.DSA_SECTION_VISUALS.resolve(
+         heading.textContent,
+         heading.closest('section')?.id || ''
+       );
+       const iconSpan = document.createElement('span');
+       iconSpan.className = 'toc-icon';
+       iconSpan.innerHTML = visual.icon;
+       iconSpan.setAttribute('aria-hidden', 'true');
+       link.appendChild(iconSpan);
+     }
+     const label = document.createElement('span');
+     label.className = 'toc-label';
+     label.textContent = heading.textContent;
+     link.appendChild(label);
      if (heading.tagName === 'H1') link.className = 'h1';
      if (heading.tagName === 'H2') link.className = 'h2';
      if (heading.tagName === 'H3') link.className = 'h3';
@@ -3322,10 +3562,8 @@ upper_bound     -&gt; custom binary     -&gt; bisect_right</code></pre>
  function applyLangFilters() {
    const active = [...langFilters.querySelectorAll('.chip')].filter((chip) => chip.classList.contains('active')).map((chip) => chip.dataset.lang);
    const showAll = active.includes('all') || active.length === 3;
-   document.querySelectorAll('table').forEach((table) => {
-     table.querySelectorAll('[data-lang]').forEach((cell) => {
-       cell.classList.toggle('col-hidden', !showAll && !active.includes(cell.dataset.lang));
-     });
+   content.querySelectorAll('[data-lang]').forEach((el) => {
+     el.classList.toggle('col-hidden', !showAll && !active.includes(el.dataset.lang));
    });
    localStorage.setItem(langKey, JSON.stringify(active));
  }
@@ -3371,6 +3609,9 @@ upper_bound     -&gt; custom binary     -&gt; bisect_right</code></pre>
  initTheme();
  wrapTables();
  initCodeBlocks();
+ groupLangSnippets();
+ normalizeHeadings();
+ decorateSectionVisuals();
  buildToc();
  updateActiveHeading();
  try {
