@@ -4,8 +4,22 @@
     {
       "slug": "dsa-cheat-sheet",
       "title": "DSA Master Cheat Sheet",
-      "description": "C++ · Java · Python syntax and complexity reference for interviews.",
-      "tags": ["dsa", "interview", "cheatsheet"]
+      "description": "C++ \u00b7 Java \u00b7 Python syntax and complexity reference for interviews.",
+      "tags": [
+        "dsa",
+        "interview",
+        "cheatsheet"
+      ]
+    },
+    {
+      "slug": "resume",
+      "title": "Resume",
+      "description": "Shubham Singhal \u2014 Senior Software Engineer resume.",
+      "tags": [
+        "resume",
+        "backend",
+        "distributed-systems"
+      ]
     }
   ]
 }

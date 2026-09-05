@@ -6,6 +6,7 @@ Slug-based static site hosting on GitHub Pages.
 
 - Portal: https://singhalshubham89.github.io/website/
 - DSA Cheat Sheet: https://singhalshubham89.github.io/website/dsa-cheat-sheet/
+- Resume: https://singhalshubham89.github.io/website/resume/
 
 ## How it works
 
