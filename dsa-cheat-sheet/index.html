@@ -4,19 +4,108 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DSA Master Syntax Cheat Sheet — C++ vs Java vs Python</title>
+<meta name="description" content="Interview-focused DSA syntax cheat sheet comparing C++, Java, and Python with time and space complexity.">
+<meta name="theme-color" content="#0b1020">
 <style>
-:root{--bg:#0b1020;--panel:#111827;--panel2:#182235;--text:#e5e7eb;--muted:#9ca3af;--line:#2b3548;--accent:#60a5fa;--code:#090d18;--good:#86efac;--shadow:0 10px 30px rgba(0,0,0,.22)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.62}
+:root{--bg:#0b1020;--panel:#111827;--panel2:#182235;--text:#e5e7eb;--muted:#9ca3af;--line:#2b3548;--accent:#60a5fa;--code:#090d18;--good:#86efac;--warn:#fbbf24;--shadow:0 10px 30px rgba(0,0,0,.22);--scroll:72px}
+html[data-theme="light"]{--bg:#f8fafc;--panel:#fff;--panel2:#f1f5f9;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;--accent:#2563eb;--code:#f8fafc;--good:#15803d;--warn:#b45309;--shadow:0 8px 24px rgba(15,23,42,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.62;transition:background .2s,color .2s}
 a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
-.shell{display:grid;grid-template-columns:300px minmax(0,1fr);min-height:100vh}.sidebar{position:sticky;top:0;height:100vh;overflow:auto;padding:24px 18px;border-right:1px solid var(--line);background:#0d1426}.brand{font-size:18px;font-weight:800;margin-bottom:6px}.sub{font-size:13px;color:var(--muted);margin-bottom:18px}.search{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--text);outline:none;margin-bottom:16px}.search:focus{border-color:var(--accent)}#toc a{display:block;padding:5px 8px;border-radius:7px;color:#cbd5e1;font-size:13px;line-height:1.35}#toc a:hover{background:var(--panel2);text-decoration:none}#toc a.h2{padding-left:16px;font-size:12px;color:#9fb0c7}.main{min-width:0;padding:42px clamp(20px,4vw,62px) 80px}.content{max-width:1180px;margin:0 auto}h1,h2,h3{scroll-margin-top:22px;line-height:1.2}h1{font-size:clamp(34px,5vw,58px);letter-spacing:-.035em;margin:0 0 10px}h2{font-size:27px;margin-top:54px;padding-top:8px;border-top:1px solid var(--line)}h3{font-size:19px;margin-top:30px}p,li{color:#d1d5db}blockquote{margin:20px 0;padding:12px 16px;border-left:4px solid var(--accent);background:var(--panel);border-radius:0 10px 10px 0}blockquote p{margin:0}hr{border:0;border-top:1px solid var(--line);margin:36px 0}.table-wrap{overflow-x:auto;margin:18px 0 26px;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}table{border-collapse:collapse;width:100%;min-width:700px;background:var(--panel)}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}th{position:sticky;top:0;background:var(--panel2);font-size:13px;color:#f3f4f6}td{font-size:13.5px}tr:last-child td{border-bottom:0}code{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;background:#172033;border:1px solid #26324a;padding:.12em .36em;border-radius:5px;color:#dbeafe;font-size:.92em}pre{position:relative;overflow:auto;background:var(--code);border:1px solid var(--line);border-radius:12px;padding:17px 18px;margin:15px 0 24px;box-shadow:var(--shadow)}pre code{background:transparent;border:0;padding:0;color:#d8e4f3;font-size:13px}.copy{position:absolute;right:8px;top:8px;border:1px solid var(--line);background:#141d2f;color:#cbd5e1;border-radius:7px;padding:5px 8px;font-size:11px;cursor:pointer}.copy:hover{border-color:var(--accent)}strong{color:#fff}.complexity{display:inline-flex;gap:8px;flex-wrap:wrap}.badge{border:1px solid #305339;background:#102719;color:var(--good);border-radius:999px;padding:2px 8px;font-size:12px;font-weight:700}.topbar{display:none}.hidden-by-search{display:none!important}.footer{margin-top:70px;border-top:1px solid var(--line);padding-top:22px;color:var(--muted);font-size:13px}
-@media(max-width:900px){.shell{display:block}.sidebar{position:fixed;z-index:20;left:-320px;width:300px;transition:left .2s}.sidebar.open{left:0}.main{padding-top:72px}.topbar{display:flex;position:fixed;top:0;left:0;right:0;z-index:15;height:54px;align-items:center;justify-content:space-between;padding:0 15px;background:rgba(11,16,32,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}.menu{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:8px;padding:7px 10px}.table-wrap{margin-left:-8px;margin-right:-8px}}
-@media print{.sidebar,.topbar,.copy{display:none!important}.shell{display:block}.main{padding:0;color:#000}.content{max-width:none}body{background:white;color:#000}p,li{color:#111}h2{border-color:#bbb}pre{box-shadow:none;white-space:pre-wrap}table{min-width:0}.table-wrap{overflow:visible;box-shadow:none}}
+.progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:30;background:transparent}
+.progress>span{display:block;height:100%;width:0;background:linear-gradient(90deg,#3b82f6,#22d3ee);transition:width .1s linear}
+.shell{display:grid;grid-template-columns:320px minmax(0,1fr);min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;overflow:auto;padding:20px 16px 28px;border-right:1px solid var(--line);background:var(--panel2)}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);margin-bottom:14px}
+.back:hover{color:var(--accent);text-decoration:none}
+.brand{font-size:17px;font-weight:800;margin-bottom:4px;line-height:1.25}
+.sub{font-size:12px;color:var(--muted);margin-bottom:14px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn,.chip{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer}
+.btn:hover,.chip:hover{border-color:var(--accent)}
+.chip.active{background:#1e3a5f;border-color:#3b82f6;color:#dbeafe}
+html[data-theme="light"] .chip.active{background:#dbeafe;color:#1e3a8a}
+.search-wrap{position:relative;margin-bottom:10px}
+.search{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--text);outline:none}
+.search:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(96,165,250,.15)}
+.search-hint{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--muted);pointer-events:none}
+.search-meta{font-size:11px;color:var(--muted);margin:-4px 0 12px;min-height:16px}
+#toc a{display:block;padding:6px 8px;border-radius:7px;color:#cbd5e1;font-size:12.5px;line-height:1.35;border-left:2px solid transparent}
+#toc a:hover{background:var(--panel);text-decoration:none}
+#toc a.active{background:var(--panel);border-left-color:var(--accent);color:#fff}
+html[data-theme="light"] #toc a{color:#334155}
+html[data-theme="light"] #toc a.active{color:#0f172a}
+#toc a.h1{font-weight:700;margin-top:8px;color:#e2e8f0}
+#toc a.h2{padding-left:14px;font-size:12px;color:#9fb0c7}
+#toc a.h3{padding-left:22px;font-size:11.5px;color:#7c8ea5}
+.main{min-width:0;padding:42px clamp(20px,4vw,62px) 80px}
+.content{max-width:1180px;margin:0 auto}
+h1,h2,h3{scroll-margin-top:var(--scroll);line-height:1.2}
+h1{font-size:clamp(34px,5vw,58px);letter-spacing:-.035em;margin:0 0 10px}
+h2{font-size:27px;margin-top:54px;padding-top:8px;border-top:1px solid var(--line)}
+h3{font-size:19px;margin-top:30px}
+p,li{color:#d1d5db}
+html[data-theme="light"] p,html[data-theme="light"] li{color:#334155}
+blockquote{margin:20px 0;padding:12px 16px;border-left:4px solid var(--accent);background:var(--panel);border-radius:0 10px 10px 0}
+blockquote p{margin:0}
+hr{border:0;border-top:1px solid var(--line);margin:36px 0}
+.table-wrap{overflow-x:auto;margin:18px 0 26px;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:700px;background:var(--panel)}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{position:sticky;top:0;background:var(--panel2);font-size:13px;color:#f3f4f6;z-index:1}
+html[data-theme="light"] th{color:#0f172a}
+td{font-size:13.5px}tr:last-child td{border-bottom:0}
+.col-hidden{display:none!important}
+code{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;background:#172033;border:1px solid #26324a;padding:.12em .36em;border-radius:5px;color:#dbeafe;font-size:.92em}
+html[data-theme="light"] code{background:#e2e8f0;border-color:#cbd5e1;color:#1e293b}
+pre{position:relative;overflow:auto;background:var(--code);border:1px solid var(--line);border-radius:12px;padding:34px 18px 17px;margin:15px 0 24px;box-shadow:var(--shadow)}
+pre code{background:transparent;border:0;padding:0;color:#d8e4f3;font-size:13px}
+html[data-theme="light"] pre code{color:#1e293b}
+.lang-badge{position:absolute;left:10px;top:8px;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:2px 6px;background:var(--panel)}
+.copy{position:absolute;right:8px;top:8px;border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:7px;padding:5px 8px;font-size:11px;cursor:pointer}
+.copy:hover{border-color:var(--accent)}
+strong{color:#fff}html[data-theme="light"] strong{color:#0f172a}
+mark.search-hit{background:rgba(251,191,36,.35);color:inherit;padding:0 2px;border-radius:3px}
+.complexity{display:inline-flex;gap:8px;flex-wrap:wrap}
+.badge{border:1px solid #305339;background:#102719;color:var(--good);border-radius:999px;padding:2px 8px;font-size:12px;font-weight:700}
+.topbar{display:none}
+.hidden-by-search{display:none!important}
+.footer{margin-top:70px;border-top:1px solid var(--line);padding-top:22px;color:var(--muted);font-size:13px}
+.overlay{display:none}
+@media(max-width:900px){
+.shell{display:block}.sidebar{position:fixed;z-index:25;left:-340px;width:320px;transition:left .2s;box-shadow:var(--shadow)}
+.sidebar.open{left:0}.overlay.open{display:block;position:fixed;inset:0;background:rgba(2,6,23,.55);z-index:24}
+.main{padding-top:72px}.topbar{display:flex;position:fixed;top:0;left:0;right:0;z-index:15;height:54px;align-items:center;justify-content:space-between;padding:0 15px;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.menu{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:8px;padding:7px 10px}
+.table-wrap{margin-left:-8px;margin-right:-8px}}
+@media print{.sidebar,.topbar,.copy,.progress,.overlay,.toolbar,.search-wrap,.search-meta{display:none!important}.shell{display:block}.main{padding:0;color:#000}.content{max-width:none}body{background:white;color:#000}p,li{color:#111}h2{border-color:#bbb}pre{box-shadow:none;white-space:pre-wrap;padding-top:17px}table{min-width:0}.table-wrap{overflow:visible;box-shadow:none}.col-hidden{display:table-cell!important}}
 </style>
 </head>
 <body>
-<div class="topbar"><strong>DSA Cheat Sheet</strong><button class="menu" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ Contents</button></div>
+<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+<div class="topbar"><strong>DSA Cheat Sheet</strong><div><button class="btn" type="button" onclick="toggleTheme()" title="Toggle theme">Theme</button> <button class="menu" type="button" onclick="toggleSidebar()">☰ Contents</button></div></div>
 <div class="shell">
-<aside class="sidebar"><div class="brand">DSA Master Cheat Sheet</div><div class="sub">C++ · Java · Python · Complexity</div><input id="search" class="search" type="search" placeholder="Search e.g. Dijkstra, heap, O(n)…"><nav id="toc"></nav></aside>
+<aside class="sidebar" id="sidebar">
+<a class="back" href="../">← All sites</a>
+<div class="brand">DSA Master Cheat Sheet</div>
+<div class="sub">C++ · Java · Python · Complexity</div>
+<div class="toolbar">
+<button class="btn" type="button" onclick="toggleTheme()">Light / Dark</button>
+<button class="btn" type="button" onclick="window.print()">Print</button>
+</div>
+<div class="search-wrap">
+<input id="search" class="search" type="search" placeholder="Search topics, syntax, complexity…" autocomplete="off">
+<span class="search-hint">/</span>
+</div>
+<div class="search-meta" id="searchMeta"></div>
+<div class="toolbar" id="langFilters" aria-label="Language column filters">
+<button class="chip active" type="button" data-lang="all">All</button>
+<button class="chip active" type="button" data-lang="cpp">C++</button>
+<button class="chip active" type="button" data-lang="java">Java</button>
+<button class="chip active" type="button" data-lang="python">Python</button>
+</div>
+<nav id="toc" aria-label="Table of contents"></nav>
+</aside>
 <main class="main"><article class="content" id="content"><section id="dsa-master-syntax-cheat-sheet" class="level1">
 <h1>DSA Master Syntax Cheat Sheet</h1>
 <section id="c-vs-java-vs-python--with-time--space-complexity"
@@ -3095,17 +3184,204 @@ lower_bound     -&gt; custom binary     -&gt; bisect_left
 upper_bound     -&gt; custom binary     -&gt; bisect_right</code></pre>
 </section>
 </section>
-<div class="footer">Self-contained offline DSA reference. Use browser search or the sidebar filter for quick lookup.</div></article></main>
+<div class="footer">Self-contained DSA reference · Press <kbd>/</kbd> to search · Filter languages in the sidebar · <a href="../">Back to portal</a></div></article></main>
 </div>
 <script>
 (function(){
- const content=document.getElementById('content'), toc=document.getElementById('toc');
- document.querySelectorAll('table').forEach(t=>{const w=document.createElement('div');w.className='table-wrap';t.parentNode.insertBefore(w,t);w.appendChild(t)});
- document.querySelectorAll('pre').forEach(pre=>{const b=document.createElement('button');b.className='copy';b.textContent='Copy';b.onclick=async()=>{await navigator.clipboard.writeText(pre.innerText.replace(/^Copy\n/,''));b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1000)};pre.appendChild(b)});
- const hs=[...content.querySelectorAll('h2,h3')];
- hs.forEach((h,i)=>{if(!h.id)h.id='section-'+i;const a=document.createElement('a');a.href='#'+h.id;a.textContent=h.textContent;a.className=h.tagName==='H3'?'h2':'';a.onclick=()=>document.querySelector('.sidebar').classList.remove('open');toc.appendChild(a)});
- const search=document.getElementById('search');
- search.addEventListener('input',()=>{const q=search.value.trim().toLowerCase();const sections=[...content.querySelectorAll('section.level1, section.level2')]; if(!q){sections.forEach(s=>s.classList.remove('hidden-by-search'));return;} sections.forEach(s=>{s.classList.toggle('hidden-by-search',!s.textContent.toLowerCase().includes(q));});});
+ const content = document.getElementById('content');
+ const toc = document.getElementById('toc');
+ const search = document.getElementById('search');
+ const searchMeta = document.getElementById('searchMeta');
+ const progressBar = document.getElementById('progressBar');
+ const langFilters = document.getElementById('langFilters');
+ const themeKey = 'dsa-cheat-sheet-theme';
+ const langKey = 'dsa-cheat-sheet-langs';
+ let headings = [];
+
+ window.toggleSidebar = function() {
+   document.getElementById('sidebar').classList.toggle('open');
+   document.getElementById('overlay').classList.toggle('open');
+ };
+ window.closeSidebar = function() {
+   document.getElementById('sidebar').classList.remove('open');
+   document.getElementById('overlay').classList.remove('open');
+ };
+ window.toggleTheme = function() {
+   const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+   document.documentElement.setAttribute('data-theme', next === 'light' ? 'light' : '');
+   localStorage.setItem(themeKey, next);
+ };
+
+ function initTheme() {
+   const saved = localStorage.getItem(themeKey);
+   if (saved === 'light' || (!saved && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+     document.documentElement.setAttribute('data-theme', 'light');
+   }
+ }
+
+ function wrapTables() {
+   document.querySelectorAll('table').forEach((table) => {
+     if (table.closest('.table-wrap')) return;
+     const wrap = document.createElement('div');
+     wrap.className = 'table-wrap';
+     table.parentNode.insertBefore(wrap, table);
+     wrap.appendChild(table);
+     const headers = [...table.querySelectorAll('thead th')].map((th) => th.textContent.trim().toLowerCase());
+     const langMap = { cpp: -1, java: -1, python: -1 };
+     headers.forEach((text, index) => {
+       if (text === 'c++') langMap.cpp = index;
+       if (text === 'java') langMap.java = index;
+       if (text === 'python') langMap.python = index;
+     });
+     table.dataset.langCols = JSON.stringify(langMap);
+     table.querySelectorAll('tr').forEach((row) => {
+       [...row.children].forEach((cell, index) => {
+         if (index === langMap.cpp) cell.dataset.lang = 'cpp';
+         if (index === langMap.java) cell.dataset.lang = 'java';
+         if (index === langMap.python) cell.dataset.lang = 'python';
+       });
+     });
+   });
+ }
+
+ function initCodeBlocks() {
+   document.querySelectorAll('pre').forEach((pre) => {
+     const code = pre.querySelector('code');
+     const langClass = code && [...code.classList].find((name) => name.startsWith('sourceCode'));
+     if (langClass) {
+       const badge = document.createElement('span');
+       badge.className = 'lang-badge';
+       badge.textContent = langClass.replace('sourceCode ', '').replace('sourceCode', 'text');
+       pre.appendChild(badge);
+     }
+     const btn = document.createElement('button');
+     btn.className = 'copy';
+     btn.type = 'button';
+     btn.textContent = 'Copy';
+     btn.onclick = async () => {
+       const text = pre.innerText.replace(/^(Copy|C\+\+|JAVA|PYTHON|TEXT|CPP)\n/i, '').trim();
+       await navigator.clipboard.writeText(text);
+       btn.textContent = 'Copied';
+       setTimeout(() => { btn.textContent = 'Copy'; }, 1000);
+     };
+     pre.appendChild(btn);
+   });
+ }
+
+ function buildToc() {
+   const links = [];
+   content.querySelectorAll('section.level1 > h1, h2, h3').forEach((heading, index) => {
+     if (!heading.id) heading.id = 'section-' + index;
+     const link = document.createElement('a');
+     link.href = '#' + heading.id;
+     link.textContent = heading.textContent;
+     link.dataset.target = heading.id;
+     if (heading.tagName === 'H1') link.className = 'h1';
+     if (heading.tagName === 'H2') link.className = 'h2';
+     if (heading.tagName === 'H3') link.className = 'h3';
+     link.addEventListener('click', closeSidebar);
+     toc.appendChild(link);
+     links.push({ heading, link });
+   });
+   headings = links;
+ }
+
+ function updateActiveHeading() {
+   const offset = window.innerWidth <= 900 ? 90 : 24;
+   let current = headings[0];
+   for (const item of headings) {
+     if (item.heading.getBoundingClientRect().top <= offset + 8) current = item;
+   }
+   headings.forEach((item) => item.link.classList.toggle('active', item === current));
+ }
+
+ function clearSearchMarks() {
+   content.querySelectorAll('mark.search-hit').forEach((mark) => {
+     mark.replaceWith(document.createTextNode(mark.textContent));
+   });
+ }
+
+ function runSearch() {
+   const query = search.value.trim().toLowerCase();
+   clearSearchMarks();
+   const sections = [...content.querySelectorAll('section.level1, section.level2')];
+   if (!query) {
+     sections.forEach((section) => section.classList.remove('hidden-by-search'));
+     searchMeta.textContent = '';
+     return;
+   }
+   let visible = 0;
+   sections.forEach((section) => {
+     const match = section.textContent.toLowerCase().includes(query);
+     section.classList.toggle('hidden-by-search', !match);
+     if (match) visible += 1;
+   });
+   searchMeta.textContent = visible ? visible + ' section(s) matched' : 'No matches — try another keyword';
+ }
+
+ function applyLangFilters() {
+   const active = [...langFilters.querySelectorAll('.chip')].filter((chip) => chip.classList.contains('active')).map((chip) => chip.dataset.lang);
+   const showAll = active.includes('all') || active.length === 3;
+   document.querySelectorAll('table').forEach((table) => {
+     table.querySelectorAll('[data-lang]').forEach((cell) => {
+       cell.classList.toggle('col-hidden', !showAll && !active.includes(cell.dataset.lang));
+     });
+   });
+   localStorage.setItem(langKey, JSON.stringify(active));
+ }
+
+ langFilters.addEventListener('click', (event) => {
+   const chip = event.target.closest('.chip');
+   if (!chip) return;
+   if (chip.dataset.lang === 'all') {
+     langFilters.querySelectorAll('.chip').forEach((item) => item.classList.add('active'));
+   } else {
+     chip.classList.toggle('active');
+     langFilters.querySelector('[data-lang="all"]').classList.remove('active');
+     const langs = langFilters.querySelectorAll('.chip:not([data-lang="all"])');
+     const anyOn = [...langs].some((item) => item.classList.contains('active'));
+     if (!anyOn) chip.classList.add('active');
+     if ([...langs].every((item) => item.classList.contains('active'))) {
+       langFilters.querySelector('[data-lang="all"]').classList.add('active');
+     }
+   }
+   applyLangFilters();
+ });
+
+ search.addEventListener('input', runSearch);
+ window.addEventListener('scroll', () => {
+   const max = document.documentElement.scrollHeight - window.innerHeight;
+   progressBar.style.width = max > 0 ? ((window.scrollY / max) * 100) + '%' : '0%';
+   updateActiveHeading();
+ }, { passive: true });
+
+ window.addEventListener('keydown', (event) => {
+   if (event.key === '/' && document.activeElement !== search) {
+     event.preventDefault();
+     search.focus();
+   }
+   if (event.key === 'Escape') {
+     search.value = '';
+     runSearch();
+     search.blur();
+     closeSidebar();
+   }
+ });
+
+ initTheme();
+ wrapTables();
+ initCodeBlocks();
+ buildToc();
+ updateActiveHeading();
+ try {
+   const savedLangs = JSON.parse(localStorage.getItem(langKey) || '[]');
+   if (savedLangs.length) {
+     langFilters.querySelectorAll('.chip').forEach((chip) => {
+       chip.classList.toggle('active', savedLangs.includes(chip.dataset.lang));
+     });
+   }
+ } catch (_) {}
+ applyLangFilters();
 })();
 </script>
 </body></html>
