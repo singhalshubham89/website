@@ -484,22 +484,22 @@ Ackermann function (effectively constant).</p>
 </tr>
 <tr class="odd">
 <td>Insert middle</td>
-<td><code>v.insert(...)</code></td>
-<td><code>v.add(i,x)</code></td>
-<td><code>v.insert(i,x)</code></td>
+<td><code>v.insert(v.begin()+i, x)</code></td>
+<td><code>v.add(i, x)</code></td>
+<td><code>v.insert(i, x)</code></td>
 <td style="text-align: right;"><code>O(n)</code></td>
 </tr>
 <tr class="even">
 <td>Delete middle</td>
-<td><code>v.erase(...)</code></td>
+<td><code>v.erase(v.begin()+i)</code></td>
 <td><code>v.remove(i)</code></td>
 <td><code>v.pop(i)</code></td>
 <td style="text-align: right;"><code>O(n)</code></td>
 </tr>
 <tr class="odd">
 <td>Search unsorted</td>
-<td><code>find(...)</code></td>
-<td><code>contains()</code></td>
+<td><code>find(v.begin(), v.end(), x)</code></td>
+<td><code>v.contains(x)</code></td>
 <td><code>x in v</code></td>
 <td style="text-align: right;"><code>O(n)</code></td>
 </tr>
@@ -512,8 +512,8 @@ Ackermann function (effectively constant).</p>
 </tr>
 <tr class="odd">
 <td>Reverse</td>
-<td><code>reverse(...)</code></td>
-<td><code>Collections.reverse()</code></td>
+<td><code>reverse(v.begin(), v.end())</code></td>
+<td><code>Collections.reverse(v)</code></td>
 <td><code>v.reverse()</code></td>
 <td style="text-align: right;"><code>O(n)</code></td>
 </tr>
@@ -605,8 +605,8 @@ implementation-dependent</td>
 </tr>
 <tr class="even">
 <td>Reverse</td>
-<td><code>reverse(...)</code></td>
-<td><code>StringBuilder.reverse()</code></td>
+<td><code>reverse(s.begin(), s.end())</code></td>
+<td><code>new StringBuilder(s).reverse()</code></td>
 <td><code>s[::-1]</code></td>
 <td style="text-align: right;"><code>O(n)</code></td>
 </tr>
@@ -760,6 +760,18 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a h
 </tr>
 </tbody>
 </table>
+<div class="sourceCode" id="cb153"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb153-1"><a href="#cb153-1" aria-hidden="true" tabindex="-1"></a>map<span class="op">&lt;</span><span class="dt">int</span><span class="op">,</span><span class="dt">int</span><span class="op">&gt;</span> mp<span class="op">;</span></span>
+<span id="cb153-2"><a href="#cb153-2" aria-hidden="true" tabindex="-1"></a>mp<span class="op">[</span><span class="dv">3</span><span class="op">]</span> <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb153-3"><a href="#cb153-3" aria-hidden="true" tabindex="-1"></a><span class="kw">auto</span> it <span class="op">=</span> mp<span class="op">.</span>lower_bound<span class="op">(</span><span class="dv">3</span><span class="op">);</span></span></code></pre></div>
+<div class="sourceCode" id="cb154"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb154-1"><a href="#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="bu">TreeMap</span><span class="op">&lt;</span><span class="bu">Integer</span><span class="op">,</span><span class="bu">Integer</span><span class="op">&gt;</span> mp <span class="op">=</span> <span class="kw">new</span> <span class="bu">TreeMap</span><span class="op">&lt;&gt;();</span></span>
+<span id="cb154-2"><a href="#cb154-2" aria-hidden="true" tabindex="-1"></a>mp<span class="op">.</span><span class="fu">put</span><span class="op">(</span><span class="dv">3</span><span class="op">,</span> <span class="dv">10</span><span class="op">);</span></span>
+<span id="cb154-3"><a href="#cb154-3" aria-hidden="true" tabindex="-1"></a><span class="bu">Integer</span> floor <span class="op">=</span> mp<span class="op">.</span><span class="fu">floorKey</span><span class="op">(</span><span class="dv">3</span><span class="op">);</span></span></code></pre></div>
+<div class="sourceCode" id="cb155"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="co"># no built-in balanced tree; keep keys sorted yourself</span></span>
+<span id="cb155-2"><a href="#cb155-2" aria-hidden="true" tabindex="-1"></a>keys <span class="op">=</span> <span class="bu">sorted</span>(mp)</span>
+<span id="cb155-3"><a href="#cb155-3" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> bisect.bisect_left(keys, <span class="dv">3</span>)</span></code></pre></div>
 <p>Use ordered maps when you need sorted keys, predecessor/successor,
 floor/ceiling, etc.</p>
 <hr />
@@ -810,10 +822,20 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a h
 <section id="ordered-set" class="level3">
 <h3>Ordered set</h3>
 <div class="sourceCode" id="cb20"><pre
-class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>set<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> st<span class="op">;</span></span></code></pre></div>
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>set<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> st<span class="op">;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>st<span class="op">.</span>insert<span class="op">(</span><span class="dv">3</span><span class="op">);</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="kw">auto</span> it <span class="op">=</span> st<span class="op">.</span>lower_bound<span class="op">(</span><span class="dv">3</span><span class="op">);</span></span></code></pre></div>
 <div class="sourceCode" id="cb21"><pre
-class="sourceCode java"><code class="sourceCode java"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">TreeSet</span><span class="op">&lt;</span><span class="bu">Integer</span><span class="op">&gt;</span> st <span class="op">=</span> <span class="kw">new</span> <span class="bu">TreeSet</span><span class="op">&lt;&gt;();</span></span></code></pre></div>
-<p>Insert / search / delete: <code>O(log n)</code>.</p>
+class="sourceCode java"><code class="sourceCode java"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">TreeSet</span><span class="op">&lt;</span><span class="bu">Integer</span><span class="op">&gt;</span> st <span class="op">=</span> <span class="kw">new</span> <span class="bu">TreeSet</span><span class="op">&lt;&gt;();</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>st<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="dv">3</span><span class="op">);</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">Integer</span> ceil <span class="op">=</span> st<span class="op">.</span><span class="fu">ceiling</span><span class="op">(</span><span class="dv">3</span><span class="op">);</span></span></code></pre></div>
+<div class="sourceCode" id="cb156"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="co"># no built-in TreeSet; bisect on a sorted list</span></span>
+<span id="cb156-2"><a href="#cb156-2" aria-hidden="true" tabindex="-1"></a>st <span class="op">=</span> []</span>
+<span id="cb156-3"><a href="#cb156-3" aria-hidden="true" tabindex="-1"></a>bisect.insort(st, <span class="dv">3</span>)</span>
+<span id="cb156-4"><a href="#cb156-4" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> bisect.bisect_left(st, <span class="dv">3</span>)</span></code></pre></div>
+<p>Insert / search / delete: <code>O(log n)</code> for tree sets;
+Python list + bisect is <code>O(n)</code> to insert.</p>
 <hr />
 </section>
 </section>
@@ -884,6 +906,25 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a h
 </section>
 <section id="10-deque" class="level1">
 <h1>10. Deque</h1>
+<div class="sourceCode" id="cb157"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a>deque<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> dq<span class="op">;</span></span>
+<span id="cb157-2"><a href="#cb157-2" aria-hidden="true" tabindex="-1"></a>dq<span class="op">.</span>push_front<span class="op">(</span>x<span class="op">);</span></span>
+<span id="cb157-3"><a href="#cb157-3" aria-hidden="true" tabindex="-1"></a>dq<span class="op">.</span>push_back<span class="op">(</span>x<span class="op">);</span></span>
+<span id="cb157-4"><a href="#cb157-4" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a <span class="op">=</span> dq<span class="op">.</span>front<span class="op">();</span></span>
+<span id="cb157-5"><a href="#cb157-5" aria-hidden="true" tabindex="-1"></a>dq<span class="op">.</span>pop_front<span class="op">();</span></span></code></pre></div>
+<div class="sourceCode" id="cb158"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Deque</span><span class="op">&lt;</span><span class="bu">Integer</span><span class="op">&gt;</span> dq <span class="op">=</span> <span class="kw">new</span> <span class="bu">ArrayDeque</span><span class="op">&lt;&gt;();</span></span>
+<span id="cb158-2"><a href="#cb158-2" aria-hidden="true" tabindex="-1"></a>dq<span class="op">.</span><span class="fu">addFirst</span><span class="op">(</span>x<span class="op">);</span></span>
+<span id="cb158-3"><a href="#cb158-3" aria-hidden="true" tabindex="-1"></a>dq<span class="op">.</span><span class="fu">addLast</span><span class="op">(</span>x<span class="op">);</span></span>
+<span id="cb158-4"><a href="#cb158-4" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> a <span class="op">=</span> dq<span class="op">.</span><span class="fu">peekFirst</span><span class="op">();</span></span>
+<span id="cb158-5"><a href="#cb158-5" aria-hidden="true" tabindex="-1"></a>dq<span class="op">.</span><span class="fu">pollFirst</span><span class="op">();</span></span></code></pre></div>
+<div class="sourceCode" id="cb159"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> deque</span>
+<span id="cb159-2"><a href="#cb159-2" aria-hidden="true" tabindex="-1"></a>dq <span class="op">=</span> deque()</span>
+<span id="cb159-3"><a href="#cb159-3" aria-hidden="true" tabindex="-1"></a>dq.appendleft(x)</span>
+<span id="cb159-4"><a href="#cb159-4" aria-hidden="true" tabindex="-1"></a>dq.append(x)</span>
+<span id="cb159-5"><a href="#cb159-5" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> dq[<span class="dv">0</span>]</span>
+<span id="cb159-6"><a href="#cb159-6" aria-hidden="true" tabindex="-1"></a>dq.popleft()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -897,37 +938,37 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a h
 <tbody>
 <tr class="odd">
 <td>Add front</td>
-<td><code>push_front(x)</code></td>
-<td><code>addFirst(x)</code></td>
-<td><code>appendleft(x)</code></td>
+<td><code>dq.push_front(x)</code></td>
+<td><code>dq.addFirst(x)</code></td>
+<td><code>dq.appendleft(x)</code></td>
 <td style="text-align: right;"><code>O(1)</code></td>
 </tr>
 <tr class="even">
 <td>Add back</td>
-<td><code>push_back(x)</code></td>
-<td><code>addLast(x)</code></td>
-<td><code>append(x)</code></td>
+<td><code>dq.push_back(x)</code></td>
+<td><code>dq.addLast(x)</code></td>
+<td><code>dq.append(x)</code></td>
 <td style="text-align: right;"><code>O(1)</code></td>
 </tr>
 <tr class="odd">
 <td>Remove front</td>
-<td><code>pop_front()</code></td>
-<td><code>pollFirst()</code></td>
-<td><code>popleft()</code></td>
+<td><code>dq.pop_front()</code></td>
+<td><code>dq.pollFirst()</code></td>
+<td><code>dq.popleft()</code></td>
 <td style="text-align: right;"><code>O(1)</code></td>
 </tr>
 <tr class="even">
 <td>Remove back</td>
-<td><code>pop_back()</code></td>
-<td><code>pollLast()</code></td>
-<td><code>pop()</code></td>
+<td><code>dq.pop_back()</code></td>
+<td><code>dq.pollLast()</code></td>
+<td><code>dq.pop()</code></td>
 <td style="text-align: right;"><code>O(1)</code></td>
 </tr>
 <tr class="odd">
 <td>Peek ends</td>
-<td><code>front/back</code></td>
-<td><code>peekFirst/Last</code></td>
-<td><code>dq[0]/dq[-1]</code></td>
+<td><code>dq.front()</code> / <code>dq.back()</code></td>
+<td><code>dq.peekFirst()</code> / <code>dq.peekLast()</code></td>
+<td><code>dq[0]</code> / <code>dq[-1]</code></td>
 <td style="text-align: right;"><code>O(1)</code></td>
 </tr>
 </tbody>
@@ -1031,8 +1072,8 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb39-1"><a h
 <div class="sourceCode" id="cb40"><pre
 class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>sort<span class="op">(</span>nums<span class="op">.</span>rbegin<span class="op">(),</span> nums<span class="op">.</span>rend<span class="op">());</span></span></code></pre></div>
 <div class="sourceCode" id="cb41"><pre
-class="sourceCode java"><code class="sourceCode java"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="bu">List</span><span class="op">&lt;</span><span class="bu">Integer</span><span class="op">&gt;</span> list <span class="op">=</span> <span class="kw">...</span><span class="op">;</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>list<span class="op">.</span><span class="fu">sort</span><span class="op">(</span><span class="bu">Collections</span><span class="op">.</span><span class="fu">reverseOrder</span><span class="op">());</span></span></code></pre></div>
+class="sourceCode java"><code class="sourceCode java"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="bu">Integer</span><span class="op">[]</span> nums <span class="op">=</span> <span class="op">{</span><span class="dv">3</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span><span class="op">};</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="bu">Arrays</span><span class="op">.</span><span class="fu">sort</span><span class="op">(</span>nums<span class="op">,</span> <span class="bu">Collections</span><span class="op">.</span><span class="fu">reverseOrder</span><span class="op">());</span></span></code></pre></div>
 <div class="sourceCode" id="cb42"><pre
 class="sourceCode python"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>nums.sort(reverse<span class="op">=</span><span class="va">True</span>)</span></code></pre></div>
 </section>
@@ -1113,6 +1154,9 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb48-1"><a h
 <p>First index where <code>a[i] &gt;= target</code>.</p>
 <div class="sourceCode" id="cb49"><pre
 class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> i <span class="op">=</span> lower_bound<span class="op">(</span>a<span class="op">.</span>begin<span class="op">(),</span> a<span class="op">.</span>end<span class="op">(),</span> target<span class="op">)</span> <span class="op">-</span> a<span class="op">.</span>begin<span class="op">();</span></span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb160-1"><a href="#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> i <span class="op">=</span> <span class="bu">Arrays</span><span class="op">.</span><span class="fu">binarySearch</span><span class="op">(</span>a<span class="op">,</span> target<span class="op">);</span></span>
+<span id="cb160-2"><a href="#cb160-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>i <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> i <span class="op">=</span> <span class="op">-</span>i <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> <span class="co">// insertion point = lower bound</span></span></code></pre></div>
 <div class="sourceCode" id="cb50"><pre
 class="sourceCode python"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> bisect.bisect_left(a, target)</span></code></pre></div>
 </section>
@@ -1121,9 +1165,13 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb50-1"><a h
 <p>First index where <code>a[i] &gt; target</code>.</p>
 <div class="sourceCode" id="cb51"><pre
 class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> i <span class="op">=</span> upper_bound<span class="op">(</span>a<span class="op">.</span>begin<span class="op">(),</span> a<span class="op">.</span>end<span class="op">(),</span> target<span class="op">)</span> <span class="op">-</span> a<span class="op">.</span>begin<span class="op">();</span></span></code></pre></div>
+<div class="sourceCode" id="cb161"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> i <span class="op">=</span> <span class="bu">Arrays</span><span class="op">.</span><span class="fu">binarySearch</span><span class="op">(</span>a<span class="op">,</span> target<span class="op">);</span></span>
+<span id="cb161-2"><a href="#cb161-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>i <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> i <span class="op">=</span> <span class="op">-</span>i <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb161-3"><a href="#cb161-3" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span> <span class="cf">while</span> <span class="op">(</span>i <span class="op">&lt;</span> a<span class="op">.</span>length <span class="op">&amp;&amp;</span> a<span class="op">[</span>i<span class="op">]</span> <span class="op">==</span> target<span class="op">)</span> i<span class="op">++;</span></span></code></pre></div>
 <div class="sourceCode" id="cb52"><pre
 class="sourceCode python"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> bisect.bisect_right(a, target)</span></code></pre></div>
-<p>Java typically uses a custom binary-search loop.</p>
+<p>Prefer a custom binary-search loop in Java when you need exact lower/upper bound.</p>
 <p><strong>Complexity:</strong> <code>O(log n)</code>.</p>
 <hr />
 </section>
@@ -1184,7 +1232,12 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb58-1"><a h
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
 <span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>    prefix[i<span class="op">+</span><span class="dv">1</span>] <span class="op">=</span> prefix[i] <span class="op">+</span> nums[i]</span></code></pre></div>
 <p>Range sum <code>[l,r]</code>:</p>
-<pre class="text"><code>prefix[r+1] - prefix[l]</code></pre>
+<div class="sourceCode" id="cb162"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb162-1"><a href="#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="dt">long</span> <span class="dt">long</span> sum <span class="op">=</span> prefix<span class="op">[</span>r<span class="op">+</span><span class="dv">1</span><span class="op">]</span> <span class="op">-</span> prefix<span class="op">[</span>l<span class="op">];</span></span></code></pre></div>
+<div class="sourceCode" id="cb163"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="dt">long</span> sum <span class="op">=</span> prefix<span class="op">[</span>r<span class="op">+</span><span class="dv">1</span><span class="op">]</span> <span class="op">-</span> prefix<span class="op">[</span>l<span class="op">];</span></span></code></pre></div>
+<div class="sourceCode" id="cb164"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb164-1"><a href="#cb164-1" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> prefix[r<span class="op">+</span><span class="dv">1</span>] <span class="op">-</span> prefix[l]</span></code></pre></div>
 <p><strong>Complexity</strong></p>
 <ul>
 <li>Build: <code>O(n)</code></li>
@@ -2267,23 +2320,24 @@ case.</li>
 <h1>38. Dynamic Programming — Bottom-Up</h1>
 <section id="1d-dp" class="level2">
 <h2>1D DP</h2>
+<p>Example: climbing stairs, <code>dp[i] = dp[i-1] + dp[i-2]</code>.</p>
 <div class="sourceCode" id="cb123"><pre
-class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> dp<span class="op">(</span>n<span class="op">);</span></span>
-<span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb123-3"><a href="#cb123-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i<span class="op">=</span><span class="dv">1</span><span class="op">;</span>i<span class="op">&lt;</span>n<span class="op">;</span>i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb123-4"><a href="#cb123-4" aria-hidden="true" tabindex="-1"></a>    dp<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="op">...;</span></span>
-<span id="cb123-5"><a href="#cb123-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;</span> dp<span class="op">(</span>n<span class="op">+</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a>dp<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb123-3"><a href="#cb123-3" aria-hidden="true" tabindex="-1"></a>dp<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb123-4"><a href="#cb123-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i<span class="op">=</span><span class="dv">2</span><span class="op">;</span>i<span class="op">&lt;=</span>n<span class="op">;</span>i<span class="op">++)</span></span>
+<span id="cb123-5"><a href="#cb123-5" aria-hidden="true" tabindex="-1"></a>    dp<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> dp<span class="op">[</span>i<span class="op">-</span><span class="dv">1</span><span class="op">]</span> <span class="op">+</span> dp<span class="op">[</span>i<span class="op">-</span><span class="dv">2</span><span class="op">];</span></span></code></pre></div>
 <div class="sourceCode" id="cb124"><pre
-class="sourceCode java"><code class="sourceCode java"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">[]</span> dp <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>n<span class="op">];</span></span>
-<span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb124-3"><a href="#cb124-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i<span class="op">=</span><span class="dv">1</span><span class="op">;</span>i<span class="op">&lt;</span>n<span class="op">;</span>i<span class="op">++)</span> <span class="op">{</span></span>
-<span id="cb124-4"><a href="#cb124-4" aria-hidden="true" tabindex="-1"></a>    dp<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> <span class="kw">...</span><span class="op">;</span></span>
-<span id="cb124-5"><a href="#cb124-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+class="sourceCode java"><code class="sourceCode java"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span><span class="op">[]</span> dp <span class="op">=</span> <span class="kw">new</span> <span class="dt">int</span><span class="op">[</span>n<span class="op">+</span><span class="dv">1</span><span class="op">];</span></span>
+<span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a>dp<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb124-3"><a href="#cb124-3" aria-hidden="true" tabindex="-1"></a>dp<span class="op">[</span><span class="dv">1</span><span class="op">]</span> <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb124-4"><a href="#cb124-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span><span class="op">(</span><span class="dt">int</span> i<span class="op">=</span><span class="dv">2</span><span class="op">;</span>i<span class="op">&lt;=</span>n<span class="op">;</span>i<span class="op">++)</span></span>
+<span id="cb124-5"><a href="#cb124-5" aria-hidden="true" tabindex="-1"></a>    dp<span class="op">[</span>i<span class="op">]</span> <span class="op">=</span> dp<span class="op">[</span>i<span class="op">-</span><span class="dv">1</span><span class="op">]</span> <span class="op">+</span> dp<span class="op">[</span>i<span class="op">-</span><span class="dv">2</span><span class="op">];</span></span></code></pre></div>
 <div class="sourceCode" id="cb125"><pre
-class="sourceCode python"><code class="sourceCode python"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a>dp <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> n</span>
-<span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb125-3"><a href="#cb125-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>,n):</span>
-<span id="cb125-4"><a href="#cb125-4" aria-hidden="true" tabindex="-1"></a>    dp[i] <span class="op">=</span> ...</span></code></pre></div>
+class="sourceCode python"><code class="sourceCode python"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a>dp <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> (n<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a>dp[<span class="dv">0</span>] <span class="op">=</span> dp[<span class="dv">1</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb125-3"><a href="#cb125-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>, n<span class="op">+</span><span class="dv">1</span>):</span>
+<span id="cb125-4"><a href="#cb125-4" aria-hidden="true" tabindex="-1"></a>    dp[i] <span class="op">=</span> dp[i<span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> dp[i<span class="op">-</span><span class="dv">2</span>]</span></code></pre></div>
 <p>If there are <code>n</code> states and each state takes
 <code>O(1)</code>:</p>
 <p><strong>Time:</strong> <code>O(n)</code><br />
@@ -2448,6 +2502,31 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb137-1"><a 
 <section id="42-subsets" class="level1">
 <h1>42. Subsets</h1>
 <p>Number of subsets = <code>2^n</code>.</p>
+<div class="sourceCode" id="cb165"><pre
+class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> dfs<span class="op">(</span><span class="dt">int</span> i<span class="op">,</span> vector<span class="op">&lt;</span><span class="dt">int</span><span class="op">&gt;&amp;</span> path<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb165-2"><a href="#cb165-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span><span class="op">(</span>i <span class="op">==</span> n<span class="op">)</span> <span class="op">{</span> ans<span class="op">.</span>push_back<span class="op">(</span>path<span class="op">);</span> <span class="cf">return</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb165-3"><a href="#cb165-3" aria-hidden="true" tabindex="-1"></a>    path<span class="op">.</span>push_back<span class="op">(</span>nums<span class="op">[</span>i<span class="op">]);</span></span>
+<span id="cb165-4"><a href="#cb165-4" aria-hidden="true" tabindex="-1"></a>    dfs<span class="op">(</span>i<span class="op">+</span><span class="dv">1</span><span class="op">,</span> path<span class="op">);</span></span>
+<span id="cb165-5"><a href="#cb165-5" aria-hidden="true" tabindex="-1"></a>    path<span class="op">.</span>pop_back<span class="op">();</span></span>
+<span id="cb165-6"><a href="#cb165-6" aria-hidden="true" tabindex="-1"></a>    dfs<span class="op">(</span>i<span class="op">+</span><span class="dv">1</span><span class="op">,</span> path<span class="op">);</span></span>
+<span id="cb165-7"><a href="#cb165-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb166"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb166-1"><a href="#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> <span class="fu">dfs</span><span class="op">(</span><span class="dt">int</span> i<span class="op">,</span> <span class="bu">List</span><span class="op">&lt;</span><span class="bu">Integer</span><span class="op">&gt;</span> path<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb166-2"><a href="#cb166-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span><span class="op">(</span>i <span class="op">==</span> n<span class="op">)</span> <span class="op">{</span> ans<span class="op">.</span><span class="fu">add</span><span class="op">(</span><span class="kw">new</span> <span class="bu">ArrayList</span><span class="op">&lt;&gt;(</span>path<span class="op">));</span> <span class="cf">return</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb166-3"><a href="#cb166-3" aria-hidden="true" tabindex="-1"></a>    path<span class="op">.</span><span class="fu">add</span><span class="op">(</span>nums<span class="op">[</span>i<span class="op">]);</span></span>
+<span id="cb166-4"><a href="#cb166-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dfs</span><span class="op">(</span>i<span class="op">+</span><span class="dv">1</span><span class="op">,</span> path<span class="op">);</span></span>
+<span id="cb166-5"><a href="#cb166-5" aria-hidden="true" tabindex="-1"></a>    path<span class="op">.</span><span class="fu">remove</span><span class="op">(</span>path<span class="op">.</span><span class="fu">size</span><span class="op">()-</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb166-6"><a href="#cb166-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dfs</span><span class="op">(</span>i<span class="op">+</span><span class="dv">1</span><span class="op">,</span> path<span class="op">);</span></span>
+<span id="cb166-7"><a href="#cb166-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb167"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> dfs(i, path):</span>
+<span id="cb167-2"><a href="#cb167-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">==</span> n:</span>
+<span id="cb167-3"><a href="#cb167-3" aria-hidden="true" tabindex="-1"></a>        ans.append(path.copy())</span>
+<span id="cb167-4"><a href="#cb167-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span></span>
+<span id="cb167-5"><a href="#cb167-5" aria-hidden="true" tabindex="-1"></a>    path.append(nums[i])</span>
+<span id="cb167-6"><a href="#cb167-6" aria-hidden="true" tabindex="-1"></a>    dfs(i<span class="op">+</span><span class="dv">1</span>, path)</span>
+<span id="cb167-7"><a href="#cb167-7" aria-hidden="true" tabindex="-1"></a>    path.pop()</span>
+<span id="cb167-8"><a href="#cb167-8" aria-hidden="true" tabindex="-1"></a>    dfs(i<span class="op">+</span><span class="dv">1</span>, path)</span></code></pre></div>
 <p><strong>Time:</strong> <code>O(n × 2^n)</code> if each subset is
 copied.<br />
 <strong>Output space:</strong> <code>O(n × 2^n)</code>.<br />
