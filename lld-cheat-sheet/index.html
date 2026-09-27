@@ -1,0 +1,1732 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Low Level Design Cheat Sheet — Java</title>
+<meta name="description" content="Java interview reference for low level design: a 45-minute delivery clock, principles, OOP, patterns, concurrency, and case studies.">
+<meta name="theme-color" content="#0d1117">
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#010409;--text:#e6edf3;--muted:#8b949e;--line:#30363d;--accent:#58a6ff;--code:#0d1117;--good:#3fb950;--warn:#d29922;--bad:#f85149;--heading:#f0f6fc;--heading-2:#c9d1d9;--heading-3:#b1bac4;--toc:#c9d1d9;--toc-muted:#8b949e;--code-inline-bg:rgba(110,118,129,.2);--code-inline-border:#30363d;--code-inline-text:#79c0ff;--chip-active-bg:rgba(56,139,253,.15);--chip-active-border:#388bfd;--chip-active-text:#58a6ff;--shadow:0 8px 24px rgba(1,4,9,.35);--scroll:72px}
+html[data-theme="light"]{--bg:#ffffff;--panel:#f6f8fa;--panel2:#f6f8fa;--text:#1f2328;--muted:#656d76;--line:#d0d7de;--accent:#0969da;--code:#f6f8fa;--good:#1a7f37;--warn:#9a6700;--bad:#cf222e;--heading:#1f2328;--heading-2:#24292f;--heading-3:#424a53;--toc:#24292f;--toc-muted:#656d76;--code-inline-bg:rgba(175,184,193,.2);--code-inline-border:#d0d7de;--code-inline-text:#0550ae;--chip-active-bg:#ddf4ff;--chip-active-border:#0969da;--chip-active-text:#0969da;--shadow:0 8px 24px rgba(31,35,40,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.62}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:30;background:transparent}
+.progress>span{display:block;height:100%;width:0;background:linear-gradient(90deg,#58a6ff,#3fb950)}
+.shell{display:grid;grid-template-columns:300px minmax(0,1fr);min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;overflow:auto;padding:20px 16px 28px;border-right:1px solid var(--line);background:var(--panel2)}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);margin-bottom:14px}
+.back:hover{color:var(--accent);text-decoration:none}
+.brand{font-size:17px;font-weight:800;margin-bottom:4px;line-height:1.25}
+.sub{font-size:12px;color:var(--muted);margin-bottom:14px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn,.chip{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer}
+a.chip{text-decoration:none;display:inline-block}
+.btn:hover,.chip:hover{border-color:var(--accent);text-decoration:none}
+.search-wrap{position:relative;margin-bottom:10px}
+.search{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--text);outline:none}
+.search:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(88,166,255,.2)}
+.search-hint{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--muted);pointer-events:none}
+.search-meta{font-size:11px;color:var(--muted);margin:-4px 0 12px;min-height:16px}
+#toc a{display:block;padding:6px 8px;border-radius:7px;color:var(--toc);font-size:12.5px;line-height:1.35;border-left:2px solid transparent}
+#toc a:hover{background:var(--panel);text-decoration:none}
+#toc a.active{background:var(--panel);border-left-color:var(--accent);color:var(--heading)}
+#toc a.h1{font-weight:700;margin-top:8px;color:var(--heading)}
+#toc a.h2{padding-left:14px;font-size:12px;color:var(--toc-muted)}
+#toc a.h3{padding-left:22px;font-size:11.5px;color:var(--muted)}
+.main{min-width:0;padding:42px clamp(20px,4vw,62px) 80px}
+.content{max-width:1100px;margin:0 auto}
+h1,h2,h3{scroll-margin-top:var(--scroll);line-height:1.25}
+h1{font-size:clamp(28px,3.5vw,40px);letter-spacing:-.03em;margin:0 0 12px;font-weight:800;color:var(--heading)}
+section.level1>h1{font-size:clamp(26px,3vw,34px)}
+section.level1:not(:first-of-type)>h1{margin-top:8px}
+h2{font-size:20px;margin:28px 0 10px;color:var(--heading-2);font-weight:700}
+h3{font-size:16px;margin:22px 0 8px;font-weight:650;color:var(--heading-3)}
+p,li{color:var(--text)}
+.lead{color:var(--muted);margin-top:0}
+blockquote{margin:16px 0;padding:12px 16px;border-left:4px solid var(--accent);background:var(--panel);border-radius:0 10px 10px 0}
+blockquote p{margin:0}
+.group-label{margin:36px 0 4px;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.smell{margin:8px 0 12px;padding:8px 12px;border-radius:8px;background:rgba(210,153,34,.12);color:var(--warn);font-size:14px}
+.pair,.pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0 8px}
+.example{min-width:0}
+.example-label{font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.example-label.bad{color:var(--bad)}
+.example-label.fix{color:var(--good)}
+.pros-cons{margin-bottom:8px}
+.pros-cons .box{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:12px 14px}
+.mini-title{margin:0 0 8px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--heading)}
+.pros-cons ul{margin:0;padding-left:18px}
+.note{font-size:14px;color:var(--muted)}
+.table-wrap{overflow-x:auto;margin:18px 0 26px;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:640px;background:var(--panel)}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--panel2);font-size:13px;color:var(--heading)}
+td{font-size:13.5px}tr:last-child td{border-bottom:0}
+code{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;background:var(--code-inline-bg);border:1px solid var(--code-inline-border);padding:.12em .36em;border-radius:6px;color:var(--code-inline-text);font-size:.92em}
+pre{position:relative;overflow:auto;background:var(--code);border:1px solid var(--line);border-left:3px solid #ffa657;border-radius:12px;padding:34px 16px 16px;margin:0 0 8px;box-shadow:var(--shadow)}
+pre code{background:transparent;border:0;padding:0;color:var(--text);font-size:12.5px;line-height:1.5}
+.lang-badge{position:absolute;left:10px;top:8px;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#ffa657;border:1px solid rgba(255,166,87,.45);border-radius:6px;padding:2px 6px;background:var(--panel)}
+.copy{position:absolute;right:8px;top:8px;border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:7px;padding:5px 8px;font-size:11px;cursor:pointer}
+.copy:hover{border-color:var(--accent)}
+.stub{border:1px dashed var(--line);border-radius:12px;padding:12px 14px;margin:8px 0 18px;background:var(--panel)}
+.stub dt{font-weight:700;margin-top:8px;color:var(--heading)}
+.stub dd{margin:2px 0 0;color:var(--muted)}
+.hidden-by-search{display:none!important}
+.footer{margin-top:70px;border-top:1px solid var(--line);padding-top:22px;color:var(--muted);font-size:13px}
+.topbar{display:none}
+.overlay{display:none}
+kbd{font-family:inherit;font-size:11px;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 5px;background:var(--panel)}
+@media(max-width:900px){
+.shell{display:block}
+.sidebar{position:fixed;z-index:25;left:-320px;width:300px;transition:left .2s;box-shadow:var(--shadow)}
+.sidebar.open{left:0}
+.overlay.open{display:block;position:fixed;inset:0;background:rgba(1,4,9,.65);z-index:24}
+.main{padding-top:72px}
+.topbar{display:flex;position:fixed;top:0;left:0;right:0;z-index:15;height:54px;align-items:center;justify-content:space-between;padding:0 15px;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.menu{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:8px;padding:7px 10px}
+.pair,.pros-cons{grid-template-columns:1fr}
+}
+@media print{
+.sidebar,.topbar,.copy,.progress,.overlay,.toolbar,.search-wrap,.search-meta,.lang-badge{display:none!important}
+.shell{display:block}.main{padding:0}.content{max-width:none}
+body{background:white;color:#000}p,li{color:#111}
+pre{box-shadow:none;white-space:pre-wrap;padding-top:16px}
+.pair,.pros-cons{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+<div class="topbar"><strong>LLD Cheat Sheet</strong><div><button class="btn" type="button" onclick="toggleTheme()">Theme</button> <button class="menu" type="button" onclick="toggleSidebar()">☰ Contents</button></div></div>
+<div class="shell">
+<aside class="sidebar" id="sidebar">
+<a class="back" href="../">← All sites</a>
+<div class="brand">Low Level Design Cheat Sheet</div>
+<div class="sub">Java · Interviews · 45 minutes</div>
+<div class="toolbar">
+<button class="btn" type="button" onclick="toggleTheme()">Light / Dark</button>
+<button class="btn" type="button" onclick="window.print()">Print</button>
+</div>
+<div class="search-wrap">
+<input id="search" class="search" type="search" placeholder="Search principles, patterns, concurrency…" autocomplete="off" aria-label="Search cheat sheet">
+<span class="search-hint">/</span>
+</div>
+<div class="search-meta" id="searchMeta"></div>
+<div class="toolbar" aria-label="Section jumps">
+<a class="chip" href="#delivery-framework">Framework</a>
+<a class="chip" href="#concepts">Concepts</a>
+<a class="chip" href="#concurrency">Concurrency</a>
+<a class="chip" href="#case-studies">Case studies</a>
+</div>
+<nav id="toc" aria-label="Table of contents"></nav>
+</aside>
+<main class="main"><article class="content" id="content">
+<section id="delivery-framework" class="level1">
+<h1>Delivery Framework</h1>
+<p class="lead">How to spend a 45-minute low level design interview, including time to answer and time to write. The clock below fits any problem. Connect Four is one worked example of filling it in, not the script for every question.</p>
+
+<section id="forty-five-minute-clock" class="level2">
+<h2>45-minute clock</h2>
+<p>Talk through requirements, entities, and relationships before you write APIs. For a small problem, code starts around minute 15. A larger problem spends more of the middle on the model and the signatures, and less on a complete implementation.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Phase</th><th>Clock</th><th>Talk</th><th>Write</th><th>What you do</th></tr></thead>
+<tbody>
+<tr><td>Clarify</td><td>0–5</td><td>4 min</td><td>1 min</td><td>Functional requirements, actors, and the happy path. Non-functional requirements only if asked (concurrency, persistence). Write a short requirements note. Name what is out of scope.</td></tr>
+<tr><td>Entities and relationships</td><td>5–10</td><td>3 min</td><td>2 min</td><td>Name the types and the state each one owns. One sentence per ownership edge. State each invariant in one line. If two splits are acceptable, say so. Do not write method bodies yet.</td></tr>
+<tr><td>APIs</td><td>10–15</td><td>2 min</td><td>3 min</td><td>Public methods only, now that the types exist. Signatures, not bodies. Name the core method and what it returns: status, winner, or a result type.</td></tr>
+<tr><td>Implement</td><td>15–38</td><td>5 min</td><td>18 min</td><td>Core path in dependency order: types and enums, the state holder, the rule check, the orchestrator, a tiny driver. Narrate only the tricky parts while you type.</td></tr>
+<tr><td>Harden</td><td>38–43</td><td>3 min</td><td>2 min</td><td>Invalid input, a full or exhausted state, an operation after completion, and the terminal outcome (win, draw, or failure). Mention one extension. Do not code it unless asked.</td></tr>
+<tr><td>Walkthrough</td><td>43–45</td><td>2 min</td><td>—</td><td>One successful scenario and one rejected operation, using the code you actually wrote.</td></tr>
+</tbody>
+</table></div>
+</section>
+
+<section id="worked-timing-connect-four" class="level2">
+<h2>Worked timing: Connect Four</h2>
+<p>Same phases, filled in for a 6×7 gravity board. Parking Lot or Splitwise would name different entities before any signature. They would not start with <code>Board.drop</code>.</p>
+<ul>
+<li><strong>Clarify.</strong> Two players, gravity drop, connect four horizontal, vertical, and both diagonals, draw when the board is full, reject a bad column. Defer undo, AI, network, and persistence.</li>
+<li><strong>Entities and relationships.</strong> <code>Board</code> owns the cells. <code>Game</code> owns the turn and the status. <code>WinChecker</code> reads the board and does not own it. <code>Color</code> is the side.</li>
+<li><strong>APIs.</strong> Core method <code>play(column)</code> returns a result, not void. <code>Board.drop</code> returns the row where the disc landed.</li>
+<li><strong>Implement.</strong> Enums and status, board drop, win check from the last move, game turn loop, tiny driver.</li>
+<li><strong>Harden.</strong> Invalid column, full column, play after the game is over, draw.</li>
+<li><strong>Walkthrough.</strong> One winning sequence and one rejected move.</li>
+<li><strong>Win check.</strong> From the last disc, walk four directions. Each direction is O(K), and K is 4, so the check is constant for this ruleset. It is not O(1) for an arbitrary win length. A full-board scan is acceptable on a tiny board when time is short.</li>
+</ul>
+<p>The reference design is in <a href="#connect-four">Connect Four</a>.</p>
+</section>
+
+<section id="done-checklist-and-traps" class="level2">
+<h2>Done checklist and traps</h2>
+<p>Stop when these are true:</p>
+<ul>
+<li>Requirements and out-of-scope items are written down.</li>
+<li>Entities and who owns what are written down before any signature.</li>
+<li>The core method has a signature and a return value.</li>
+<li>Invariants are stated, and the code enforces them.</li>
+<li>The happy path and one failure path have been walked through.</li>
+<li>One extension has been named, not implemented.</li>
+</ul>
+<p>Traps that cost the round:</p>
+<ul>
+<li>Naming a pattern for every class before any API exists.</li>
+<li>Writing method bodies before the signatures are agreed.</li>
+<li>Putting rules, storage, and printing in one orchestrator.</li>
+</ul>
+</section>
+</section>
+
+<section id="concepts" class="level1">
+<h1>Concepts</h1>
+<p class="lead">Design principles, OOP, and the patterns that show up in Java LLD interviews. Each card is one idea, the interview smell, a bad snippet, and the fix for that same snippet.</p>
+
+<p class="group-label">Design principles</p>
+
+<section id="single-responsibility" class="level2">
+<h2>Single Responsibility</h2>
+<p>A type changes for one reason. In an interview that usually means storage, rules, and output are not the same class.</p>
+<p class="smell"><strong>Interview smell:</strong> <code>play</code> validates the column, writes the grid, and prints the move.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>class GameService {
+    void play(int column, String color) {
+        if (column &lt; 0 || column &gt; 6) return;
+        grid[column] = color;
+        System.out.println(color + " played " + column);
+    }
+    String[] grid = new String[7];
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>class Board {
+    private final String[] columnTop = new String[7];
+    void drop(int column, String color) {
+        if (column &lt; 0 || column &gt; 6) {
+            throw new IllegalArgumentException("column");
+        }
+        columnTop[column] = color;
+    }
+}
+class Game {
+    private final Board board = new Board();
+    void play(int column, String color) {
+        board.drop(column, color);
+        System.out.println(color + " played " + column);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li><code>GameService.play</code> checks the column, assigns <code>grid[column]</code>, and prints. After the split, <code>Board.drop</code> only checks the column and writes <code>columnTop</code>. <code>Game.play</code> only prints.</li><li>Changing the sentence <code>color + " played " + column</code> edits <code>Game.play</code> only. Changing how a disc is stored edits <code>Board.drop</code> only. Each type now has one reason to change.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li>One move is now <code>Board</code> plus <code>Game</code>. Before, it was the single method <code>GameService.play</code>.</li><li>To see the full move you read <code>Game.play</code>, then <code>Board.drop</code>. The bad <code>play</code> had the check, the write to <code>grid[column]</code>, and the print in one method.</li></ul></div>
+</div>
+<div class="pros-cons">
+<div class="box" style="grid-column:1 / -1"><p class="mini-title">Over-engineering</p><ul><li>A new type whose only line is <code>if (column &lt; 0 || column &gt; 6)</code>. That check exists so <code>columnTop[column]</code> is a legal index. It changes for the same reason as <code>Board.drop</code>.</li><li>A new type whose only line is <code>System.out.println</code>. After <code>board.drop</code>, that print is already the job of <code>Game.play</code>. Nothing else calls it.</li></ul></div>
+</div>
+<p class="note">Split when you can name an edit that touches only the new type. <code>Board</code> passes: a storage edit does not touch the print. A column-check type or a print type fails: its only line is already the body of <code>Board.drop</code> or <code>Game.play</code>.</p>
+</section>
+
+<section id="open-closed" class="level2">
+<h2>Open/Closed</h2>
+<p>Add a behavior by adding a type, not by editing a growing <code>switch</code>.</p>
+<p class="smell"><strong>Interview smell:</strong> another <code>case</code> inside <code>Pricer.total</code>.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>class Pricer {
+    int total(String kind, int amount) {
+        switch (kind) {
+            case "none": return amount;
+            case "half": return amount / 2;
+            default: throw new IllegalArgumentException(kind);
+        }
+    }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>interface PriceRule { int apply(int amount); }
+class FullPrice implements PriceRule {
+    public int apply(int amount) { return amount; }
+}
+class HalfPrice implements PriceRule {
+    public int apply(int amount) { return amount / 2; }
+}
+class Pricer {
+    int total(PriceRule rule, int amount) { return rule.apply(amount); }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li><code>Pricer.total</code> calls <code>rule.apply(amount)</code>. It has no <code>case "half"</code>.</li><li><code>HalfPrice.apply</code> returns <code>amount / 2</code>. That division is not inside <code>Pricer.total</code>.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li>The fix adds <code>PriceRule</code>, <code>FullPrice</code>, and <code>HalfPrice</code>. The bad version is one method, <code>Pricer.total</code>.</li><li>Reading <code>Pricer.total</code> does not show the <code>"half"</code> case. That case is <code>HalfPrice.apply</code>.</li></ul></div>
+</div>
+</section>
+
+<section id="liskov-substitution" class="level2">
+<h2>Liskov Substitution</h2>
+<p>A subtype must honor the supertype's contract. Callers that use the parent type must still be correct.</p>
+<p class="smell"><strong>Interview smell:</strong> <code>Square extends Rectangle</code> and <code>setWidth</code> also changes height, so area is no longer width times the height the caller set.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>class Rectangle {
+    int width; int height;
+    void setWidth(int width) { this.width = width; }
+    int area() { return width * height; }
+}
+class Square extends Rectangle {
+    void setWidth(int width) { this.width = width; this.height = width; }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>interface Shape { int area(); }
+class Rectangle implements Shape {
+    private final int width; private final int height;
+    Rectangle(int width, int height) { this.width = width; this.height = height; }
+    public int area() { return width * height; }
+}
+class Square implements Shape {
+    private final int side;
+    Square(int side) { this.side = side; }
+    public int area() { return side * side; }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li>The bad <code>Square.setWidth</code> assigns <code>this.height = width</code>. The fix <code>Square</code> has no <code>setWidth</code>. <code>area()</code> uses the <code>side</code> from the constructor.</li><li><code>Square.area</code> returns <code>side * side</code>. A later call cannot change <code>height</code>, because there is no <code>setWidth</code>.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li>The fix <code>Rectangle</code> also has no <code>setWidth</code>. The bad <code>Rectangle</code> had one.</li><li><code>width</code> and <code>height</code> are constructor arguments and <code>final</code>. The bad fields could be assigned after <code>new Rectangle</code>.</li></ul></div>
+</div>
+</section>
+
+<section id="interface-segregation" class="level2">
+<h2>Interface Segregation</h2>
+<p>Clients should not implement methods they do not use.</p>
+<p class="smell"><strong>Interview smell:</strong> a fat <code>Machine</code> interface forces a printer to stub <code>scan</code> and <code>fax</code>.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>interface Machine {
+    void print();
+    void scan();
+    void fax();
+}
+class SimplePrinter implements Machine {
+    public void print() { /* ok */ }
+    public void scan() { throw new UnsupportedOperationException(); }
+    public void fax() { throw new UnsupportedOperationException(); }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>interface Printer { void print(); }
+interface Scanner { void scan(); }
+class SimplePrinter implements Printer {
+    public void print() { /* ok */ }
+}
+class Copier implements Printer, Scanner {
+    public void print() { /* ok */ }
+    public void scan() { /* ok */ }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li><code>SimplePrinter</code> implements <code>print()</code> only. It has no <code>scan</code> method that throws.</li><li>The bad <code>SimplePrinter.fax</code> throws <code>UnsupportedOperationException</code>. The fix <code>SimplePrinter</code> has no <code>fax</code> method.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li><code>Copier</code> lists <code>Printer</code> and <code>Scanner</code>. The old type listed one interface, <code>Machine</code>.</li><li><code>Copier</code> must implement <code>print</code> and <code>scan</code>. The bad <code>Machine</code> also required <code>fax</code> on <code>SimplePrinter</code>.</li></ul></div>
+</div>
+</section>
+
+<section id="dependency-inversion" class="level2">
+<h2>Dependency Inversion</h2>
+<p>A high-level policy depends on an abstraction it owns. It does not construct a concrete store or client.</p>
+<p class="smell"><strong>Interview smell:</strong> <code>new MySqlOrderStore()</code> inside the service, so the interview cannot swap a fake.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>class OrderService {
+    private final MySqlOrderStore store = new MySqlOrderStore();
+    void place(String id) { store.insert(id); }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>interface OrderStore { void insert(String id); }
+class OrderService {
+    private final OrderStore store;
+    OrderService(OrderStore store) { this.store = store; }
+    void place(String id) { store.insert(id); }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li><code>OrderService</code> takes an <code>OrderStore</code> in its constructor. The bad field is <code>new MySqlOrderStore()</code>.</li><li><code>place</code> calls <code>store.insert(id)</code>. The field type is <code>OrderStore</code>, not <code>MySqlOrderStore</code>.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li>The fix constructor is <code>OrderService(OrderStore store)</code>. The bad class has no constructor parameter.</li><li>The bad field constructs <code>MySqlOrderStore</code> itself. The fix <code>place</code> cannot run until a store is passed in.</li></ul></div>
+</div>
+</section>
+
+<section id="composition-over-inheritance" class="level2">
+<h2>Composition over Inheritance</h2>
+<p>Vary a behavior by plugging in a collaborator. Do not add a subclass per variant.</p>
+<p class="smell"><strong>Interview smell:</strong> <code>EmailNotifier</code> and <code>SmsNotifier</code> each exist only to implement <code>send</code>.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>abstract class Notifier { abstract void send(String text); }
+class EmailNotifier extends Notifier {
+    void send(String text) { /* smtp */ }
+}
+class SmsNotifier extends Notifier {
+    void send(String text) { /* sms */ }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>interface Channel { void deliver(String text); }
+class Notifier {
+    private final List&lt;Channel&gt; channels;
+    Notifier(List&lt;Channel&gt; channels) { this.channels = channels; }
+    void send(String text) {
+        for (Channel channel : channels) channel.deliver(text);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li><code>Notifier.send</code> loops <code>channels</code> and calls <code>deliver</code>. The bad version is two classes, <code>EmailNotifier.send</code> and <code>SmsNotifier.send</code>.</li><li>The list <code>channels</code> can hold more than one <code>Channel</code>. <code>EmailNotifier.send</code> and <code>SmsNotifier.send</code> are separate classes.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li>One email send is a <code>Notifier</code> plus a <code>Channel</code>. The bad version is the class <code>EmailNotifier</code>.</li><li><code>Notifier</code> requires a <code>List&lt;Channel&gt;</code> in its constructor. <code>EmailNotifier</code> has no constructor parameter.</li></ul></div>
+</div>
+<p class="note">Ownership mistakes, such as <code>Game extends Board</code>, are covered under <a href="#composition">Composition</a>.</p>
+</section>
+
+<section id="dry-kiss-yagni" class="level2">
+<h2>DRY, KISS, and YAGNI</h2>
+<p>One copy of a rule, the simplest structure that enforces it, and no framework for a requirement you do not have.</p>
+<p class="smell"><strong>Interview smell:</strong> the column check is pasted twice, and a rule engine exists for that single check.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>class Game {
+    void play(int column) {
+        if (column &lt; 0 || column &gt;= 7) return;
+        drop(column);
+    }
+    boolean canPlay(int column) {
+        return column &gt;= 0 &amp;&amp; column &lt; 7;
+    }
+}
+class RuleEngine {
+    boolean eval(String script) { return true; }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>class Game {
+    private static final int COLS = 7;
+    boolean playable(int column) {
+        return column &gt;= 0 &amp;&amp; column &lt; COLS;
+    }
+    void play(int column) {
+        if (!playable(column)) throw new IllegalArgumentException("column");
+        drop(column);
+    }
+    void drop(int column) { /* board */ }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li>The fix names the limit once, as <code>COLS</code>, and <code>playable</code> uses it. The bad <code>play</code> and <code>canPlay</code> each write the literal <code>7</code>.</li><li><code>play</code> calls <code>playable</code> before <code>drop</code>. The bad <code>play</code> repeats the <code>column &lt; 0</code> test that <code>canPlay</code> already has.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li>The bad file also has <code>RuleEngine.eval</code>, which returns <code>true</code> and is not called. The fix has no <code>RuleEngine</code>.</li><li>The fix <code>play</code> throws <code>IllegalArgumentException</code>. The bad <code>play</code> hits <code>return</code> and does not call <code>drop</code>.</li></ul></div>
+</div>
+</section>
+
+<p class="group-label">OOP</p>
+
+<section id="encapsulation" class="level2">
+<h2>Encapsulation</h2>
+<p>Keep the representation private. Callers use operations that preserve invariants.</p>
+<p class="smell"><strong>Interview smell:</strong> <code>board.cells[3][0] = Color.RED</code> writes the public array.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>class Board {
+    public Color[][] cells = new Color[6][7];
+}
+// caller
+board.cells[3][0] = Color.RED;</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>class Board {
+    private final Color[][] cells = new Color[6][7];
+    int drop(int column, Color color) {
+        for (int row = 0; row &lt; cells.length; row++) {
+            if (cells[row][column] == null) {
+                cells[row][column] = color;
+                return row;
+            }
+        }
+        throw new IllegalStateException("full");
+    }
+    Color cellAt(int row, int col) { return cells[row][col]; }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li><code>board.cells[3][0] = Color.RED</code> does not compile. A disc can only land through <code>drop</code>, in the lowest empty row.</li><li><code>drop</code> writes <code>cells[row][column]</code> only when that cell is <code>null</code>, starting at row <code>0</code>.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li><code>drop</code> does not check <code>column</code>. <code>cells[row][column]</code> throws when <code>column</code> is 7.</li><li><code>cellAt</code> returns <code>cells[row][col]</code>. A caller can read a cell. The assignment <code>cells[3][0] = Color.RED</code> is still not available.</li></ul></div>
+</div>
+</section>
+
+<section id="abstraction" class="level2">
+<h2>Abstraction</h2>
+<p>Use an interface when types share a contract and no fields. Use an abstract class only when subclasses share state.</p>
+<p class="smell"><strong>Interview smell:</strong> an abstract base forces a file path onto an HTTP exporter that has no file.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>abstract class Exporter {
+    String filePath;
+    abstract void export(String body);
+}
+class HttpExporter extends Exporter {
+    void export(String body) { /* POST, filePath unused */ }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>interface Exporter { void export(String body); }
+abstract class FileExporter implements Exporter {
+    protected final String filePath;
+    FileExporter(String filePath) { this.filePath = filePath; }
+}
+class HttpExporter implements Exporter {
+    public void export(String body) { /* POST */ }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li><code>HttpExporter</code> has no <code>filePath</code> field. The old abstract class forced one onto it.</li><li>The bad <code>HttpExporter.export</code> extends a class that declares <code>filePath</code>. The fix <code>export</code> takes only <code>body</code>.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li><code>FileExporter</code> stores <code>filePath</code>. <code>HttpExporter</code> implements <code>Exporter</code> and has no <code>filePath</code> field.</li><li><code>FileExporter</code>'s constructor requires a <code>filePath</code>. <code>HttpExporter</code> has no such constructor.</li></ul></div>
+</div>
+</section>
+
+<section id="inheritance" class="level2">
+<h2>Inheritance</h2>
+<p>Inherit to specialize a real is-a contract. Do not inherit to reuse a method or a collection.</p>
+<p class="smell"><strong>Interview smell:</strong> <code>ParkingLot extends ArrayList</code> and <code>park</code> returns <code>add(car)</code>.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>class ParkingLot extends ArrayList&lt;Car&gt; {
+    boolean park(Car car) { return add(car); }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>class ParkingLot {
+    private final List&lt;Car&gt; spots = new ArrayList&lt;&gt;();
+    boolean park(Car car) {
+        if (spots.size() == 10) return false;
+        return spots.add(car);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li>The fix <code>park</code> returns false when <code>spots.size() == 10</code>. The bad <code>park</code> returns <code>add(car)</code> with no size check.</li><li><code>spots</code> is <code>private</code>. The bad <code>ParkingLot</code> extends <code>ArrayList</code>, so <code>add</code> is a public method on the lot.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li>The fix <code>park</code> calls <code>spots.size()</code> and <code>spots.add</code>. The bad <code>park</code> calls <code>add</code> inherited from <code>ArrayList</code>.</li><li>The 11th <code>park</code> returns false because of <code>spots.size() == 10</code>. The bad <code>add</code> would still append that car.</li></ul></div>
+</div>
+</section>
+
+<section id="polymorphism" class="level2">
+<h2>Polymorphism</h2>
+<p>The caller asks the object to do the work. It does not branch on the concrete class.</p>
+<p class="smell"><strong>Interview smell:</strong> <code>instanceof King</code> and <code>instanceof Knight</code> in the game loop.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>class Rules {
+    boolean attacks(Piece piece, int toRow, int toCol) {
+        if (piece instanceof King) return distance(piece, toRow, toCol) &lt;= 1;
+        if (piece instanceof Knight) return knightJump(piece, toRow, toCol);
+        return false;
+    }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>interface Piece {
+    boolean attacks(int toRow, int toCol);
+}
+class King implements Piece {
+    private final int row; private final int col;
+    King(int row, int col) { this.row = row; this.col = col; }
+    public boolean attacks(int toRow, int toCol) {
+        int dr = Math.abs(toRow - row);
+        int dc = Math.abs(toCol - col);
+        return dr &lt;= 1 &amp;&amp; dc &lt;= 1 &amp;&amp; (dr + dc) &gt; 0;
+    }
+}
+class Rules {
+    boolean legal(Piece piece, int toRow, int toCol) {
+        return piece.attacks(toRow, toCol);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li>The bad <code>Rules.attacks</code> has <code>instanceof King</code>. The fix <code>Rules.legal</code> calls <code>piece.attacks</code> and has no <code>instanceof</code>.</li><li><code>King.attacks</code> uses <code>Math.abs(toRow - row)</code>. That math is not in <code>Rules.legal</code>.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li><code>King.attacks</code> compares <code>toRow</code> and <code>toCol</code> with its own <code>row</code> and <code>col</code>. <code>Rules.legal</code> does not look at any other piece.</li><li>The bad <code>Rules.attacks</code> also has <code>instanceof Knight</code>. The fix <code>Rules.legal</code> has no knight branch.</li></ul></div>
+</div>
+</section>
+
+<section id="composition" class="level2">
+<h2>Composition</h2>
+<p>A game has a board. It is not a board. Has-a keeps each type's invariant in that type.</p>
+<p class="smell"><strong>Interview smell:</strong> <code>class Game extends Board</code> so <code>play</code> can call <code>drop</code> as if the match were the grid.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>class Game extends Board {
+    void play(int column, Color color) { drop(column, color); }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>class Game {
+    private final Board board;
+    Game(Board board) { this.board = board; }
+    void play(int column, Color color) { board.drop(column, color); }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li>The fix <code>Game</code> has a <code>Board</code> field. The bad <code>Game</code> extends <code>Board</code>.</li><li>The fix constructor is <code>Game(Board board)</code>. The bad <code>Game</code> has no constructor and no <code>Board</code> field.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li><code>play</code> calls <code>board.drop</code>. The subclass version called <code>drop</code> directly.</li><li>A <code>Game</code> cannot be constructed without a <code>Board</code>. The bad class is constructed as a <code>Board</code> subclass.</li></ul></div>
+</div>
+</section>
+
+<p class="group-label">Design patterns</p>
+
+<section id="builder" class="level2">
+<h2>Builder</h2>
+<p>Build an object with several optional fields without a telescoping constructor.</p>
+<p class="smell"><strong>Interview smell:</strong> <code>new GameConfig(6, 7, 4, false, false, null)</code>.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>class GameConfig {
+    GameConfig(int rows, int cols, int win, boolean undo, boolean bot, String name) {}
+}
+new GameConfig(6, 7, 4, false, false, null);</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>class GameConfig {
+    final int rows; final int cols; final int winLength;
+    private GameConfig(int rows, int cols, int winLength) {
+        this.rows = rows; this.cols = cols; this.winLength = winLength;
+    }
+    static Builder builder() { return new Builder(); }
+    static class Builder {
+        private int rows = 6; private int cols = 7; private int winLength = 4;
+        Builder rows(int rows) { this.rows = rows; return this; }
+        Builder cols(int cols) { this.cols = cols; return this; }
+        Builder winLength(int winLength) { this.winLength = winLength; return this; }
+        GameConfig build() { return new GameConfig(rows, cols, winLength); }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li>The fix has methods named <code>rows</code>, <code>cols</code>, and <code>winLength</code>. The bad call is <code>new GameConfig(6, 7, 4, false, false, null)</code>, and those parameters have no names at the call.</li><li><code>rows</code>, <code>cols</code>, and <code>winLength</code> each return <code>this</code>. <code>build</code> calls <code>new GameConfig(rows, cols, winLength)</code>.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li>The bad constructor takes <code>undo</code>, <code>bot</code>, and <code>name</code> as well as the three ints. The fix <code>Builder</code> only has <code>rows</code>, <code>cols</code>, and <code>winLength</code>.</li><li>The builder fields start at <code>rows = 6</code>, <code>cols = 7</code>, and <code>winLength = 4</code>. The bad call must pass all six arguments.</li></ul></div>
+</div>
+</section>
+
+<section id="factory-method" class="level2">
+<h2>Factory Method</h2>
+<p>Hide the concrete class behind a method when construction depends on a kind, and callers should not switch on that kind.</p>
+<p class="smell"><strong>Interview smell:</strong> the driver contains <code>if (kind.equals("line")) new LineChecker()</code>.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>WinChecker checker;
+if (kind.equals("line")) checker = new LineChecker();
+else checker = new AnyDirectionChecker();</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>class WinCheckers {
+    static WinChecker create(String kind) {
+        if (kind.equals("line")) return new LineChecker();
+        return new AnyDirectionChecker();
+    }
+}
+WinChecker checker = WinCheckers.create(kind);</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li>The <code>kind.equals("line")</code> branch lives in <code>WinCheckers.create</code>. The call site is <code>WinCheckers.create(kind)</code>.</li><li>The bad snippet puts that <code>if</code> next to <code>WinChecker checker</code>. The fix call site is one line, <code>WinCheckers.create(kind)</code>.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li><code>create</code> still contains <code>if (kind.equals("line"))</code>. The bad snippet has that same <code>if</code> at the call site.</li><li>When <code>kind</code> is not <code>"line"</code>, <code>create</code> returns <code>new AnyDirectionChecker()</code>. The bad <code>else</code> branch does the same.</li></ul></div>
+</div>
+</section>
+
+<section id="singleton" class="level2">
+<h2>Singleton</h2>
+<p>One instance is a process-wide resource. A match, a board, or an order is not one of those.</p>
+<p class="smell"><strong>Interview smell:</strong> <code>getInstance</code> returns the one <code>INSTANCE</code>.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>class Game {
+    private static final Game INSTANCE = new Game();
+    static Game getInstance() { return INSTANCE; }
+    void play(int column) { /* mutates the only board */ }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>class Game {
+    private final Board board;
+    Game(Board board) { this.board = board; }
+    void play(int column) { board.drop(column, Color.RED); }
+}
+Game match = new Game(new Board(6, 7));</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li>The fix builds <code>new Game(new Board(6, 7))</code>. The bad <code>getInstance</code> returns the one <code>INSTANCE</code> created by <code>new Game()</code>.</li><li><code>new Game(new Board(6, 7))</code> passes a <code>Board</code>. <code>getInstance</code> takes no argument.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li>The bad <code>getInstance</code> returns <code>INSTANCE</code>. The fix caller writes <code>new Game(new Board(6, 7))</code>.</li><li><code>INSTANCE</code> is <code>new Game()</code> with no <code>Board</code>. The fix constructor is <code>Game(Board board)</code>.</li></ul></div>
+</div>
+</section>
+
+<section id="adapter" class="level2">
+<h2>Adapter</h2>
+<p>Wrap a type you do not control so the rest of the design keeps your interface.</p>
+<p class="smell"><strong>Interview smell:</strong> <code>Game.play</code> calls <code>guessRow</code> and then <code>vendor.placeDisc(column, row)</code>.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>class Game {
+    private final VendorBoard vendor;
+    void play(int column) {
+        int row = guessRow(column);
+        vendor.placeDisc(column, row);
+    }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>interface BoardPort { int drop(int column, Color color); }
+class VendorBoardAdapter implements BoardPort {
+    private final VendorBoard vendor;
+    VendorBoardAdapter(VendorBoard vendor) { this.vendor = vendor; }
+    public int drop(int column, Color color) {
+        return vendor.placeDisc(column, color.name());
+    }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li><code>VendorBoardAdapter.drop</code> takes <code>(column, color)</code> and calls <code>vendor.placeDisc(column, color.name())</code>. The bad <code>Game.play</code> calls <code>placeDisc(column, row)</code> after <code>guessRow</code>.</li><li><code>drop</code>'s second argument is <code>Color color</code>. The bad <code>placeDisc</code> receives the <code>row</code> from <code>guessRow</code>.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li><code>drop</code> still calls <code>placeDisc</code>. The adapter changes the method the caller sees, and the vendor method stays.</li><li>The fix type is <code>VendorBoardAdapter</code>. The bad type that calls <code>placeDisc</code> is <code>Game</code>.</li></ul></div>
+</div>
+</section>
+
+<section id="decorator" class="level2">
+<h2>Decorator</h2>
+<p>Add a concern by wrapping the same interface. Do not create a subclass for each combination.</p>
+<p class="smell"><strong>Interview smell:</strong> <code>LoggedGame extends Game</code> and prints inside <code>play</code>.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>class LoggedGame extends Game {
+    void play(int column) {
+        System.out.println(column);
+        super.play(column);
+    }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>interface Match { MoveResult play(int column); }
+class LoggingMatch implements Match {
+    private final Match next;
+    LoggingMatch(Match next) { this.next = next; }
+    public MoveResult play(int column) {
+        MoveResult result = next.play(column);
+        System.out.println(column + " -&gt; " + result);
+        return result;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li><code>LoggingMatch.play</code> prints <code>column</code>, then calls <code>next.play(column)</code>. The bad version prints inside <code>LoggedGame</code>, which extends <code>Game</code>.</li><li><code>LoggingMatch</code> stores <code>Match next</code> and returns the <code>MoveResult</code> from <code>next.play</code>.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li>The bad version is one class, <code>LoggedGame</code>. The fix adds <code>Match</code> and <code>LoggingMatch</code>.</li><li><code>LoggingMatch.play</code> prints <code>column + " -&gt; " + result</code>. <code>LoggedGame.play</code> prints <code>column</code> and then calls <code>super.play</code>.</li></ul></div>
+</div>
+</section>
+
+<section id="facade" class="level2">
+<h2>Facade</h2>
+<p>Offer one method for the operation the interviewer asked for. Keep the rules in the types behind it.</p>
+<p class="smell"><strong>Interview smell:</strong> <code>board.drop</code>, <code>winChecker.isWin</code>, and <code>board.isFull</code> are written at the call site.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>int row = board.drop(column, turn);
+if (winChecker.isWin(board, row, column, turn)) status = WIN;
+else if (board.isFull()) status = DRAW;
+else turn = other(turn);</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>class Game {
+    MoveResult play(int column) {
+        int row = board.drop(column, turn);
+        if (winChecker.isWin(board, row, column, turn)) status = WIN;
+        else if (board.isFull()) status = DRAW;
+        else turn = other(turn);
+        return MoveResult.of(status);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li><code>drop</code>, <code>isWin</code>, and <code>isFull</code> are inside <code>play</code>. The bad snippet is those same three calls written at the call site, where the <code>isFull</code> line can be skipped.</li><li>After those checks, <code>play</code> assigns <code>status</code> or calls <code>other(turn)</code>, then returns <code>MoveResult.of(status)</code>.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li>The fix <code>play</code> uses <code>board</code>, <code>winChecker</code>, <code>status</code>, and <code>turn</code>, and this class body does not declare them.</li><li>The bad snippet has no method named <code>play</code>. The three calls sit at the call site.</li></ul></div>
+</div>
+<p class="note">Connect Four uses <code>Game.play</code> as this facade and leaves the scan in <code>WinChecker</code>.</p>
+</section>
+
+<section id="strategy" class="level2">
+<h2>Strategy</h2>
+<p>Swap an algorithm without subclassing the owner. Game status is usually an enum. A bot's move choice is a strategy.</p>
+<p class="smell"><strong>Interview smell:</strong> <code>if (mode.equals("bot"))</code> inside <code>play</code> to pick a column, next to the rules.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>class Game {
+    int play(String mode) {
+        if (mode.equals("bot")) return 3;
+        return readColumn();
+    }
+    int readColumn() { return 0; }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>interface MoveStrategy { int chooseColumn(Board board, Color color); }
+class CenterBot implements MoveStrategy {
+    public int chooseColumn(Board board, Color color) { return board.cols() / 2; }
+}
+class Game {
+    private final MoveStrategy moves;
+    Game(MoveStrategy moves) { this.moves = moves; }
+    int play(Board board, Color color) {
+        return moves.chooseColumn(board, color);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li><code>play</code> returns <code>moves.chooseColumn(board, color)</code>. It has no <code>mode.equals("bot")</code>.</li><li><code>CenterBot.chooseColumn</code> returns <code>board.cols() / 2</code>. The bad bot branch returns <code>3</code>.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li>The bad <code>play</code> calls <code>readColumn()</code> directly. The fix <code>Game</code> stores a <code>MoveStrategy</code> field, and <code>play</code> calls <code>moves.chooseColumn</code>.</li><li>The fix constructor requires a <code>MoveStrategy</code>. The bad <code>play</code> takes a <code>String mode</code>.</li></ul></div>
+</div>
+</section>
+
+<section id="observer" class="level2">
+<h2>Observer</h2>
+<p>The game tells interested objects that a move happened. It does not construct every view.</p>
+<p class="smell"><strong>Interview smell:</strong> <code>play</code> calls <code>printer.print</code> and <code>scoreboard.record</code>, and the next view is another line in <code>Game</code>.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>class Game {
+    private final Printer printer;
+    private final Scoreboard scoreboard;
+    void play(int column) {
+        printer.print(column);
+        scoreboard.record(column);
+    }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>interface MoveListener { void onMove(int column, MoveResult result); }
+class Game {
+    private final List&lt;MoveListener&gt; listeners = new ArrayList&lt;&gt;();
+    void addListener(MoveListener listener) { listeners.add(listener); }
+    void notifyMove(int column, MoveResult result) {
+        for (MoveListener listener : listeners) listener.onMove(column, result);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li><code>notifyMove</code> loops <code>listeners</code> and calls <code>onMove</code>. The bad <code>play</code> calls <code>scoreboard.record(column)</code> by name.</li><li><code>addListener</code> adds to <code>listeners</code>. <code>notifyMove</code> is the method that walks that list.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li>The bad <code>play</code> calls <code>printer.print</code> and <code>scoreboard.record</code> directly. The fix adds <code>listeners</code>, <code>addListener</code>, and <code>notifyMove</code>.</li><li>The bad <code>play</code> takes only <code>column</code>. <code>notifyMove</code> also takes a <code>MoveResult</code>.</li></ul></div>
+</div>
+</section>
+
+<section id="state" class="level2">
+<h2>State</h2>
+<p>Use the State pattern when each status has different behavior. Use an enum when the status is a label and a guard.</p>
+<p class="smell"><strong>Interview smell:</strong> <code>WonState.onPlay</code> calls <code>game.reject()</code>.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>interface Status { void onPlay(Game game); }
+class WonState implements Status {
+    public void onPlay(Game game) { game.reject(); }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>enum GameStatus { IN_PROGRESS, WIN, DRAW }
+class Game {
+    private GameStatus status = GameStatus.IN_PROGRESS;
+    MoveResult play(int column) {
+        if (status != GameStatus.IN_PROGRESS) {
+            return MoveResult.failed(PlayFailure.GAME_OVER);
+        }
+        return MoveResult.inProgress();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li><code>play</code> returns <code>MoveResult.failed(PlayFailure.GAME_OVER)</code> when <code>status != GameStatus.IN_PROGRESS</code>. The bad <code>WonState.onPlay</code> calls <code>game.reject()</code>.</li><li>When <code>status</code> is <code>IN_PROGRESS</code>, <code>play</code> returns <code>MoveResult.inProgress()</code>.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li>The fix is an <code>enum GameStatus</code> and one <code>if</code> in <code>play</code>. The bad version is the interface <code>Status</code> and the class <code>WonState</code>.</li><li>The bad block shows only <code>WonState</code>. The fix enum lists <code>IN_PROGRESS</code>, <code>WIN</code>, and <code>DRAW</code>.</li></ul></div>
+</div>
+</section>
+</section>
+
+<section id="concurrency" class="level1">
+<h1>Concurrency</h1>
+<p class="lead">Use these only when the problem implies shared mutable state or background work. A single-threaded Connect Four match does not need a lock. Each card is the concept, the problem, a Java fix, and the trade-off.</p>
+
+<section id="race-condition" class="level2">
+<h2>Race on shared mutable state</h2>
+<p><strong>Concept.</strong> Two threads run a read-modify-write on the same fields. The interleaving loses an update.</p>
+<p><strong>Problem.</strong> Two calls to <code>play</code> both read an empty cell and both write it. One disc disappears, or the turn flips twice.</p>
+<p><strong>Solution.</strong> One lock around the whole move, not around each array write.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>class Game {
+    void play(int column, Color color) {
+        board.drop(column, color);
+        turn = other(turn);
+    }
+    Color other(Color current) {
+        return current == Color.RED ? Color.YELLOW : Color.RED;
+    }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>class Game {
+    synchronized void play(int column, Color color) {
+        board.drop(column, color);
+        turn = other(turn);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li><code>turn = other(turn)</code> is inside <code>synchronized play</code>. The second thread runs that line only after the first thread has left <code>play</code>.</li><li><code>other</code> returns <code>YELLOW</code> when <code>current</code> is <code>RED</code>, and <code>RED</code> otherwise. Both <code>board.drop</code> and that assignment are inside the synchronized method.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li>The shown <code>play</code> is the only method marked <code>synchronized</code>.</li><li>The bad <code>play</code> is not <code>synchronized</code>, so two calls can both reach <code>turn = other(turn)</code>.</li></ul></div>
+</div>
+</section>
+
+<section id="volatile-vs-atomic" class="level2">
+<h2>volatile and AtomicInteger</h2>
+<p><strong>Concept.</strong> <code>volatile</code> publishes a single write so other threads see it. It does not make a read-modify-write atomic. <code>AtomicInteger</code> does.</p>
+<p><strong>Problem.</strong> A stop flag written by one thread stays invisible, or <code>count++</code> on a volatile int loses increments.</p>
+<p><strong>Solution.</strong> <code>volatile</code> for the flag. <code>AtomicInteger</code> for the counter.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>class Scoreboard {
+    volatile int games;
+    void recordWin() { games++; }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>class Scoreboard {
+    private final AtomicInteger games = new AtomicInteger();
+    private volatile boolean closed;
+    void recordWin() { games.incrementAndGet(); }
+    void close() { closed = true; }
+    boolean isClosed() { return closed; }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li><code>recordWin</code> calls <code>games.incrementAndGet()</code>. The bad <code>recordWin</code> does <code>games++</code> on a <code>volatile int</code>.</li><li><code>closed</code> is <code>volatile</code>. <code>close</code> sets it to <code>true</code>, and <code>isClosed</code> returns <code>closed</code>.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li><code>close</code> writes <code>closed</code>. <code>recordWin</code> writes <code>games</code>. A reader can see <code>closed == true</code> while <code>games</code> still has the old count.</li><li><code>games++</code> reads and writes <code>games</code>. <code>incrementAndGet</code> is the call the fix uses instead.</li></ul></div>
+</div>
+</section>
+
+<section id="deadlock" class="level2">
+<h2>Deadlock and lock order</h2>
+<p><strong>Concept.</strong> Two threads each hold a lock the other needs. Neither proceeds.</p>
+<p><strong>Problem.</strong> <code>play</code> locks the board, then the log. The logger locks the log, then the board, to print the grid.</p>
+<p><strong>Solution.</strong> Both paths acquire locks in the same order. Prefer one lock when the critical section is the move.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>void play() {
+    synchronized (board) {
+        synchronized (log) { log.add("move"); }
+    }
+}
+void flush() {
+    synchronized (log) {
+        synchronized (board) { log.add(board.toString()); }
+    }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>void play() {
+    synchronized (board) {
+        synchronized (log) { log.add("move"); }
+    }
+}
+void flush() {
+    synchronized (board) {
+        synchronized (log) { log.add(board.toString()); }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li><code>play</code> and <code>flush</code> both lock <code>board</code>, then <code>log</code>. Neither waits while holding the lock the other needs.</li><li>The bad <code>flush</code> locks <code>log</code> and then <code>board</code>. The fix <code>flush</code> locks <code>board</code> and then <code>log</code>, the same order as <code>play</code>.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li><code>play</code> calls <code>log.add</code> while it holds <code>board</code>. <code>flush</code> also locks <code>board</code> before <code>log</code>.</li><li>Both methods still use two <code>synchronized</code> blocks. The fix does not remove the inner lock on <code>log</code>.</li></ul></div>
+</div>
+</section>
+
+<section id="concurrent-map" class="level2">
+<h2>HashMap and ConcurrentHashMap</h2>
+<p><strong>Concept.</strong> <code>HashMap</code> is not safe for concurrent writers. <code>ConcurrentHashMap</code> is safe for individual map operations.</p>
+<p><strong>Problem.</strong> A shared session or score cache resizes while another thread reads it. That can loop or lose entries. A check-then-act around <code>containsKey</code> is still a race even on the concurrent map.</p>
+<p><strong>Solution.</strong> Use <code>ConcurrentHashMap</code> and an atomic method such as <code>putIfAbsent</code> or <code>compute</code>.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>class SessionCache {
+    private final Map&lt;String, Session&gt; sessions = new HashMap&lt;&gt;();
+    Session getOrCreate(String id) {
+        if (!sessions.containsKey(id)) sessions.put(id, new Session(id));
+        return sessions.get(id);
+    }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>class SessionCache {
+    private final ConcurrentMap&lt;String, Session&gt; sessions = new ConcurrentHashMap&lt;&gt;();
+    Session getOrCreate(String id) {
+        return sessions.computeIfAbsent(id, Session::new);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li><code>getOrCreate</code> returns <code>computeIfAbsent(id, Session::new)</code>. The bad method calls <code>containsKey</code> and then <code>put</code> as two separate steps.</li><li>The fix map is a <code>ConcurrentHashMap</code>. The bad map is a <code>HashMap</code>.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li><code>Session::new</code> must be a constructor that takes the id string. The bad method writes <code>new Session(id)</code> in the method body.</li><li>Two threads can both pass <code>containsKey</code> before either <code>put</code>. <code>computeIfAbsent</code> is one call, so that gap is gone.</li></ul></div>
+</div>
+</section>
+
+<section id="blocking-queue" class="level2">
+<h2>BlockingQueue</h2>
+<p><strong>Concept.</strong> A bounded queue hands work from producers to consumers and blocks instead of dropping or spinning.</p>
+<p><strong>Problem.</strong> <code>log</code> calls <code>writeDisk</code> on the same thread that called <code>log</code>, and <code>lines</code> is an <code>ArrayList</code>.</p>
+<p><strong>Solution.</strong> <code>log</code> calls <code>lines.put</code> on an <code>ArrayBlockingQueue</code>. <code>drain</code> calls <code>take</code> and then <code>writeDisk</code>.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>class GameLogger {
+    private final List&lt;String&gt; lines = new ArrayList&lt;&gt;();
+    void log(String line) { lines.add(line); writeDisk(line); }
+    void writeDisk(String line) { /* slow */ }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>class GameLogger {
+    private final BlockingQueue&lt;String&gt; lines = new ArrayBlockingQueue&lt;&gt;(1000);
+    void log(String line) throws InterruptedException { lines.put(line); }
+    void drain() throws InterruptedException {
+        writeDisk(lines.take());
+    }
+    void writeDisk(String line) { /* slow, off the player thread */ }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li><code>log</code> calls <code>lines.put(line)</code> and returns. <code>writeDisk</code> runs in <code>drain</code>, after <code>lines.take()</code>.</li><li>The bad <code>log</code> calls <code>lines.add</code> and <code>writeDisk</code> in the same method. The fix <code>log</code> only calls <code>put</code>.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li>The queue is <code>new ArrayBlockingQueue&lt;&gt;(1000)</code>. The 1001st <code>log</code> call blocks inside <code>put</code>.</li><li><code>drain</code> calls <code>lines.take()</code>. <code>take</code> waits when the queue has no line.</li></ul></div>
+</div>
+</section>
+
+<section id="read-write-lock" class="level2">
+<h2>ReadWriteLock</h2>
+<p><strong>Concept.</strong> Many readers can hold the read lock together. A writer excludes everyone.</p>
+<p><strong>Problem.</strong> A spectator view locks the same way as <code>play</code>, so reads of a stable board queue behind each other.</p>
+<p><strong>Solution.</strong> Read lock for a snapshot of the board. Write lock for <code>play</code>.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>class Game {
+    synchronized String view() { return board.render(); }
+    synchronized MoveResult play(int column) { return MoveResult.inProgress(); }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>class Game {
+    private final ReadWriteLock lock = new ReentrantReadWriteLock();
+    String view() {
+        lock.readLock().lock();
+        try { return board.render(); }
+        finally { lock.readLock().unlock(); }
+    }
+    MoveResult play(int column) {
+        lock.writeLock().lock();
+        try { return MoveResult.inProgress(); }
+        finally { lock.writeLock().unlock(); }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li>Two <code>view()</code> calls run at the same time. Two <code>synchronized view()</code> calls do not.</li><li><code>view</code> locks <code>readLock</code> and unlocks it in <code>finally</code>. <code>play</code> locks <code>writeLock</code>.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li>If almost every call is <code>play</code>, <code>synchronized</code> is the shorter method and the reads were not the bottleneck.</li><li>The fix <code>view</code> and <code>play</code> are longer than the two <code>synchronized</code> methods in the bad class.</li></ul></div>
+</div>
+</section>
+
+<section id="immutability" class="level2">
+<h2>Immutable shared state</h2>
+<p><strong>Concept.</strong> An object that never changes after publication needs no lock to be read.</p>
+<p><strong>Problem.</strong> A listener keeps the <code>MoveResult</code> and a later setter changes the winner it already displayed.</p>
+<p><strong>Solution.</strong> Final fields, no setters, and a defensive copy if you must expose an array.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>class MoveResult {
+    GameStatus status;
+    Color winner;
+    void setWinner(Color winner) { this.winner = winner; }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>final class MoveResult {
+    private final GameStatus status;
+    private final Color winner;
+    MoveResult(GameStatus status, Color winner) {
+        this.status = status;
+        this.winner = winner;
+    }
+    GameStatus status() { return status; }
+    Color winner() { return winner; }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li>The fix class has no <code>setWinner</code>. The bad <code>setWinner</code> assigns <code>this.winner</code>.</li><li><code>winner()</code> returns <code>winner</code>. Nothing in the fix assigns <code>winner</code> after the constructor.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li>The fix fields <code>status</code> and <code>winner</code> are <code>final</code>. The bad fields are not <code>final</code>.</li><li>A different winner needs a new <code>MoveResult</code>. The bad class could call <code>setWinner</code> on the same object.</li></ul></div>
+</div>
+</section>
+
+<section id="executor-service" class="level2">
+<h2>ExecutorService</h2>
+<p><strong>Concept.</strong> Submit work to a pool. Do not start a raw thread per task.</p>
+<p><strong>Problem.</strong> Each logged move does <code>new Thread(...).start()</code>. Under a burst you create more threads than the machine can run, and nothing shuts them down.</p>
+<p><strong>Solution.</strong> One bounded pool owned by the logger or the app, shut down when the game ends.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>void logAsync(String line) {
+    new Thread(() -&gt; writeDisk(line)).start();
+}
+void writeDisk(String line) { /* I/O */ }</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>class GameLogger {
+    private final ExecutorService pool = Executors.newFixedThreadPool(1);
+    void logAsync(String line) { pool.submit(() -&gt; writeDisk(line)); }
+    void close() { pool.shutdown(); }
+    void writeDisk(String line) { /* I/O */ }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li><code>logAsync</code> calls <code>pool.submit</code>. The bad <code>logAsync</code> calls <code>new Thread</code> and <code>start</code>.</li><li>The pool is <code>Executors.newFixedThreadPool(1)</code>. Each <code>submit</code> uses that pool.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li>The fix has <code>close</code>, which calls <code>pool.shutdown()</code>. The bad snippet has no <code>shutdown</code>.</li><li>The bad <code>new Thread</code> is not stored, so there is no method in that snippet that stops it.</li></ul></div>
+</div>
+</section>
+
+<section id="lazy-initialization" class="level2">
+<h2>Lazy initialization</h2>
+<p><strong>Concept.</strong> Create an expensive shared object on first use, safely. A game is not that object. A process-wide logger might be.</p>
+<p><strong>Problem.</strong> A naive null check creates two loggers. Classic double-checked locking without <code>volatile</code> can publish a logger whose fields are still at defaults.</p>
+<p><strong>Solution.</strong> The static holder class. The JVM initializes it once, on first touch.</p>
+<div class="pair">
+<div class="example">
+<div class="example-label bad">Bad</div>
+<pre><code>class Log {
+    private static Log instance;
+    static Log get() {
+        if (instance == null) {
+            synchronized (Log.class) {
+                if (instance == null) instance = new Log();
+            }
+        }
+        return instance;
+    }
+}</code></pre>
+</div>
+<div class="example">
+<div class="example-label fix">Fix</div>
+<pre><code>class Log {
+    private Log() {}
+    private static class Holder {
+        static final Log INSTANCE = new Log();
+    }
+    static Log get() { return Holder.INSTANCE; }
+}</code></pre>
+</div>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">Pros</p><ul><li><code>get</code> returns <code>Holder.INSTANCE</code>. <code>new Log()</code> is the <code>static final</code> field, not an assignment inside <code>synchronized</code>.</li><li><code>Holder.INSTANCE</code> is <code>static final</code>, so that <code>new Log()</code> runs when <code>Holder</code> is first used.</li></ul></div>
+<div class="box"><p class="mini-title">Cons</p><ul><li><code>Log()</code> is private and <code>get</code> returns <code>Holder.INSTANCE</code>. A caller cannot pass a different <code>Log</code>.</li><li>Both <code>get</code> methods take no argument. The bad one assigns <code>instance = new Log()</code> inside <code>synchronized</code>.</li></ul></div>
+</div>
+</section>
+</section>
+
+<section id="case-studies" class="level1">
+<h1>Case Studies</h1>
+<p class="lead">One filled reference, then empty slots that use the same headings. Grid games later should follow Connect Four instead of growing a second board implementation.</p>
+
+<section id="connect-four" class="level2">
+<h2>Connect Four</h2>
+
+<h3>Problem</h3>
+<p>Two players take turns dropping a disc into a column of a 6×7 board. Gravity pulls the disc to the lowest empty row. A player wins by connecting four discs horizontally, vertically, or diagonally. The game draws when the board is full and nobody has four.</p>
+<p>Out of scope in the core code: AI, undo, network, and persistence.</p>
+
+<h3>Invariants</h3>
+<ul>
+<li>A disc occupies one cell.</li>
+<li>A drop lands in the lowest empty row of that column. Row 0 is the bottom.</li>
+<li>A column rejects a drop when it is full.</li>
+<li>No move is accepted after a win or a draw.</li>
+</ul>
+
+<h3>Classes and APIs</h3>
+<p><strong>Core method:</strong> <code>Game.play(column)</code> returns a <code>MoveResult</code> with the status and, on a win, the winner. Failures are <code>INVALID_COLUMN</code>, <code>COLUMN_FULL</code>, and <code>GAME_OVER</code>. They are not silent no-ops.</p>
+<ul>
+<li><code>Color</code> is the side. There is no <code>Player</code> class. A name is not part of the rules, and a class that only stores one would not earn its file.</li>
+<li><code>Board.drop(column, color)</code> owns the grid. It does not know whose turn it is, and it does not expose the array.</li>
+<li><code>WinChecker.isWin(board, lastRow, lastCol, piece)</code> walks four directions, at most K cells each. That is O(K) per direction. With K fixed at 4 it is constant. It is not O(1) for an arbitrary K. A full-board scan is acceptable on this tiny board if you are out of time.</li>
+<li><code>Game</code> owns the turn, the status, and the call order: reject if over, drop, win, draw, switch turn.</li>
+</ul>
+
+<h3>Design decisions</h3>
+<p><strong>Reference split, used in the code.</strong> <code>Game</code> is the orchestrator. <code>Board</code> answers "where does this disc land?" <code>WinChecker</code> answers "did this disc complete K in a row?" Pick this when you want the turn and the terminal state out of the grid, which is the usual interview split.</p>
+<p><strong>Second acceptable split.</strong> A richer <code>Board</code> validates the column, applies gravity, and returns the placed row or a drop failure. <code>Game</code> still owns the turn, the win, and the draw. Pick this when you want every grid invariant in one type and the match object to stay thin. Do not also put the turn inside <code>Board</code> unless the board is the whole product. Either split is fine. Mixing both, so that <code>main</code> drops and also checks wins, is the one to avoid.</p>
+<p><code>GameStatus</code> is an enum: <code>IN_PROGRESS</code>, <code>WIN</code>, <code>DRAW</code>. State classes would only restate that guard. A bot later is a <a href="#strategy">MoveStrategy</a>, not a status.</p>
+
+<h3>Implementation</h3>
+<p>One compilation unit for the cheat sheet. In the interview these are separate types. <code>ConnectFourDemo</code> is the only <code>public</code> class so the file can be <code>ConnectFourDemo.java</code>.</p>
+<pre><code>enum Color { RED, YELLOW }
+
+enum GameStatus { IN_PROGRESS, WIN, DRAW }
+
+enum PlayFailure { INVALID_COLUMN, COLUMN_FULL, GAME_OVER }
+
+final class MoveResult {
+    private final GameStatus status;
+    private final Color winner;
+    private final PlayFailure failure;
+
+    private MoveResult(GameStatus status, Color winner, PlayFailure failure) {
+        this.status = status;
+        this.winner = winner;
+        this.failure = failure;
+    }
+
+    static MoveResult inProgress() {
+        return new MoveResult(GameStatus.IN_PROGRESS, null, null);
+    }
+
+    static MoveResult win(Color winner) {
+        return new MoveResult(GameStatus.WIN, winner, null);
+    }
+
+    static MoveResult draw() {
+        return new MoveResult(GameStatus.DRAW, null, null);
+    }
+
+    static MoveResult failed(GameStatus status, PlayFailure failure) {
+        return new MoveResult(status, null, failure);
+    }
+
+    public String toString() {
+        if (failure != null) return "failed " + failure + " while " + status;
+        if (winner != null) return status + " " + winner;
+        return status.name();
+    }
+}
+
+final class Board {
+    private final int rows;
+    private final int cols;
+    private final Color[][] cells; // row 0 is the bottom
+
+    Board(int rows, int cols) {
+        if (rows &lt; 1 || cols &lt; 1) throw new IllegalArgumentException("size");
+        this.rows = rows;
+        this.cols = cols;
+        this.cells = new Color[rows][cols];
+    }
+
+    Drop drop(int column, Color color) {
+        if (column &lt; 0 || column &gt;= cols) return Drop.failed(PlayFailure.INVALID_COLUMN);
+        for (int row = 0; row &lt; rows; row++) {
+            if (cells[row][column] == null) {
+                cells[row][column] = color;
+                return Drop.placed(row);
+            }
+        }
+        return Drop.failed(PlayFailure.COLUMN_FULL);
+    }
+
+    Color cellAt(int row, int col) { return cells[row][col]; }
+    int rows() { return rows; }
+    int cols() { return cols; }
+
+    boolean isFull() {
+        for (int col = 0; col &lt; cols; col++) {
+            if (cells[rows - 1][col] == null) return false;
+        }
+        return true;
+    }
+
+    static final class Drop {
+        final Integer row;
+        final PlayFailure failure;
+
+        private Drop(Integer row, PlayFailure failure) {
+            this.row = row;
+            this.failure = failure;
+        }
+
+        static Drop placed(int row) { return new Drop(row, null); }
+        static Drop failed(PlayFailure failure) { return new Drop(null, failure); }
+        boolean ok() { return failure == null; }
+    }
+}
+
+final class WinChecker {
+    private final int winLength;
+
+    WinChecker(int winLength) {
+        if (winLength &lt; 2) throw new IllegalArgumentException("winLength");
+        this.winLength = winLength;
+    }
+
+    // Four directions from the last disc. Each direction is O(K), K = winLength.
+    boolean isWin(Board board, int lastRow, int lastCol, Color piece) {
+        int[][] directions = {{0, 1}, {1, 0}, {1, 1}, {1, -1}};
+        for (int[] direction : directions) {
+            int count = 1;
+            count += count(board, lastRow, lastCol, direction[0], direction[1], piece);
+            count += count(board, lastRow, lastCol, -direction[0], -direction[1], piece);
+            if (count &gt;= winLength) return true;
+        }
+        return false;
+    }
+
+    private int count(Board board, int row, int col, int dr, int dc, Color piece) {
+        int seen = 0;
+        for (int step = 1; step &lt; winLength; step++) {
+            int nextRow = row + dr * step;
+            int nextCol = col + dc * step;
+            if (nextRow &lt; 0 || nextCol &lt; 0 || nextRow &gt;= board.rows() || nextCol &gt;= board.cols()) break;
+            if (board.cellAt(nextRow, nextCol) != piece) break;
+            seen++;
+        }
+        return seen;
+    }
+}
+
+final class Game {
+    private final Board board;
+    private final WinChecker winChecker;
+    private GameStatus status = GameStatus.IN_PROGRESS;
+    private Color turn = Color.RED;
+    private Color winner;
+
+    Game(Board board, WinChecker winChecker) {
+        this.board = board;
+        this.winChecker = winChecker;
+    }
+
+    MoveResult play(int column) {
+        if (status != GameStatus.IN_PROGRESS) {
+            return MoveResult.failed(status, PlayFailure.GAME_OVER);
+        }
+        Board.Drop drop = board.drop(column, turn);
+        if (!drop.ok()) return MoveResult.failed(status, drop.failure);
+        if (winChecker.isWin(board, drop.row, column, turn)) {
+            status = GameStatus.WIN;
+            winner = turn;
+            return MoveResult.win(turn);
+        }
+        if (board.isFull()) {
+            status = GameStatus.DRAW;
+            return MoveResult.draw();
+        }
+        turn = turn == Color.RED ? Color.YELLOW : Color.RED;
+        return MoveResult.inProgress();
+    }
+
+    Color winner() { return winner; }
+}
+
+public class ConnectFourDemo {
+    public static void main(String[] args) {
+        Game game = new Game(new Board(6, 7), new WinChecker(4));
+        System.out.println(game.play(99));
+        for (int column : new int[] {0, 1, 0, 1, 0, 1, 0}) {
+            System.out.println(column + " -&gt; " + game.play(column));
+        }
+    }
+}</code></pre>
+
+<h3>Walkthrough</h3>
+<p><code>play(99)</code> returns <code>failed INVALID_COLUMN while IN_PROGRESS</code>. The turn stays red. Then columns <code>0, 1, 0, 1, 0, 1, 0</code> alternate red and yellow. Red's fourth disc in column 0 is the bottom four rows, so the last call returns <code>WIN RED</code>. A later <code>play</code> returns <code>GAME_OVER</code>.</p>
+
+<h3>Extension to mention</h3>
+<p>Rows, columns, and win length are already constructor arguments. If asked, say you would keep <code>new Board(rows, cols)</code> and <code>new WinChecker(k)</code> and you would not hardcode 6, 7, and 4 inside <code>Game</code>.</p>
+
+<h3>Follow-up questions</h3>
+<ul>
+<li>Why is the win check O(K) per direction, and when would you scan the whole board?</li>
+<li>What changes if <code>Board</code> owns column validation and <code>Game</code> only owns the turn?</li>
+<li>Why is there no <code>Player</code> type?</li>
+<li>What if two clients call <code>play</code>? Synchronize the method. Do not lock inside <code>Board</code> and again inside <code>Game</code> in opposite orders.</li>
+<li>How would undo work? A stack of placed cells, not a copy of the win checker.</li>
+</ul>
+
+<h3>Further extensions</h3>
+<ul>
+<li>Undo, listed only.</li>
+<li>A bot behind <a href="#strategy">MoveStrategy</a>, listed only. <code>play</code> still validates the chosen column.</li>
+</ul>
+</section>
+
+<p class="group-label">Not written yet</p>
+
+<section id="parking-lot" class="level2">
+<h2>Parking Lot</h2>
+<div class="stub">
+<dl>
+<dt>Problem and scope</dt><dd>Not written yet.</dd>
+<dt>Invariants</dt><dd>Not written yet.</dd>
+<dt>Core method</dt><dd>Not written yet.</dd>
+<dt>Decisions</dt><dd>Not written yet.</dd>
+<dt>Extension to mention</dt><dd>Not written yet.</dd>
+<dt>Follow-ups</dt><dd>Not written yet.</dd>
+</dl>
+</div>
+</section>
+
+<section id="elevator" class="level2">
+<h2>Elevator</h2>
+<div class="stub">
+<dl>
+<dt>Problem and scope</dt><dd>Not written yet.</dd>
+<dt>Invariants</dt><dd>Not written yet.</dd>
+<dt>Core method</dt><dd>Not written yet.</dd>
+<dt>Decisions</dt><dd>Not written yet.</dd>
+<dt>Extension to mention</dt><dd>Not written yet.</dd>
+<dt>Follow-ups</dt><dd>Not written yet.</dd>
+</dl>
+</div>
+</section>
+
+<section id="tic-tac-toe" class="level2">
+<h2>Tic-Tac-Toe</h2>
+<p class="note">Grid game. Reuse the Connect Four shape: a board that hides cells, a win check from the last mark, and a game that owns the turn. Do not start a second board design.</p>
+<div class="stub">
+<dl>
+<dt>Problem and scope</dt><dd>Not written yet.</dd>
+<dt>Invariants</dt><dd>Not written yet.</dd>
+<dt>Core method</dt><dd>Not written yet.</dd>
+<dt>Decisions</dt><dd>Not written yet.</dd>
+<dt>Extension to mention</dt><dd>Not written yet.</dd>
+<dt>Follow-ups</dt><dd>Not written yet.</dd>
+</dl>
+</div>
+</section>
+
+<section id="chess" class="level2">
+<h2>Chess</h2>
+<p class="note">Grid game with piece rules. Reuse the Connect Four split between board, move validation, and the match. Piece movement belongs on the piece or a rule object, not in a second copy of the grid.</p>
+<div class="stub">
+<dl>
+<dt>Problem and scope</dt><dd>Not written yet.</dd>
+<dt>Invariants</dt><dd>Not written yet.</dd>
+<dt>Core method</dt><dd>Not written yet.</dd>
+<dt>Decisions</dt><dd>Not written yet.</dd>
+<dt>Extension to mention</dt><dd>Not written yet.</dd>
+<dt>Follow-ups</dt><dd>Not written yet.</dd>
+</dl>
+</div>
+</section>
+
+<section id="lru-cache" class="level2">
+<h2>LRU Cache</h2>
+<div class="stub">
+<dl>
+<dt>Problem and scope</dt><dd>Not written yet.</dd>
+<dt>Invariants</dt><dd>Not written yet.</dd>
+<dt>Core method</dt><dd>Not written yet.</dd>
+<dt>Decisions</dt><dd>Not written yet.</dd>
+<dt>Extension to mention</dt><dd>Not written yet.</dd>
+<dt>Follow-ups</dt><dd>Not written yet.</dd>
+</dl>
+</div>
+</section>
+
+<section id="rate-limiter" class="level2">
+<h2>Rate Limiter</h2>
+<div class="stub">
+<dl>
+<dt>Problem and scope</dt><dd>Not written yet.</dd>
+<dt>Invariants</dt><dd>Not written yet.</dd>
+<dt>Core method</dt><dd>Not written yet.</dd>
+<dt>Decisions</dt><dd>Not written yet.</dd>
+<dt>Extension to mention</dt><dd>Not written yet.</dd>
+<dt>Follow-ups</dt><dd>Not written yet.</dd>
+</dl>
+</div>
+</section>
+
+<section id="splitwise" class="level2">
+<h2>Splitwise</h2>
+<div class="stub">
+<dl>
+<dt>Problem and scope</dt><dd>Not written yet.</dd>
+<dt>Invariants</dt><dd>Not written yet.</dd>
+<dt>Core method</dt><dd>Not written yet.</dd>
+<dt>Decisions</dt><dd>Not written yet.</dd>
+<dt>Extension to mention</dt><dd>Not written yet.</dd>
+<dt>Follow-ups</dt><dd>Not written yet.</dd>
+</dl>
+</div>
+</section>
+
+<section id="logger" class="level2">
+<h2>Logger</h2>
+<div class="stub">
+<dl>
+<dt>Problem and scope</dt><dd>Not written yet.</dd>
+<dt>Invariants</dt><dd>Not written yet.</dd>
+<dt>Core method</dt><dd>Not written yet.</dd>
+<dt>Decisions</dt><dd>Not written yet.</dd>
+<dt>Extension to mention</dt><dd>Not written yet.</dd>
+<dt>Follow-ups</dt><dd>Not written yet.</dd>
+</dl>
+</div>
+</section>
+
+<section id="vending-machine" class="level2">
+<h2>Vending Machine</h2>
+<div class="stub">
+<dl>
+<dt>Problem and scope</dt><dd>Not written yet.</dd>
+<dt>Invariants</dt><dd>Not written yet.</dd>
+<dt>Core method</dt><dd>Not written yet.</dd>
+<dt>Decisions</dt><dd>Not written yet.</dd>
+<dt>Extension to mention</dt><dd>Not written yet.</dd>
+<dt>Follow-ups</dt><dd>Not written yet.</dd>
+</dl>
+</div>
+</section>
+</section>
+
+
+<div class="footer">Java LLD interview reference · Press <kbd>/</kbd> to search · <a href="../">Back to portal</a></div>
+</article></main>
+</div>
+<script>
+(function () {
+  const content = document.getElementById('content');
+  const toc = document.getElementById('toc');
+  const search = document.getElementById('search');
+  const searchMeta = document.getElementById('searchMeta');
+  const progressBar = document.getElementById('progressBar');
+  const themeKey = 'lld-cheat-sheet-theme';
+  let headings = [];
+
+  window.toggleSidebar = function () {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('open');
+  };
+  window.closeSidebar = function () {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+  };
+  window.toggleTheme = function () {
+    const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next === 'light' ? 'light' : '');
+    localStorage.setItem(themeKey, next);
+  };
+
+  function initTheme() {
+    const saved = localStorage.getItem(themeKey);
+    if (saved === 'light' || (!saved && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  }
+
+  function initCodeBlocks() {
+    document.querySelectorAll('pre').forEach((pre) => {
+      const badge = document.createElement('span');
+      badge.className = 'lang-badge';
+      badge.textContent = 'Java';
+      pre.appendChild(badge);
+      const btn = document.createElement('button');
+      btn.className = 'copy';
+      btn.type = 'button';
+      btn.textContent = 'Copy';
+      btn.addEventListener('click', async () => {
+        const code = pre.querySelector('code');
+        const text = (code ? code.innerText : pre.innerText).trim();
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch {
+          const area = document.createElement('textarea');
+          area.value = text;
+          area.setAttribute('readonly', '');
+          area.style.position = 'fixed';
+          area.style.left = '-9999px';
+          document.body.appendChild(area);
+          area.select();
+          document.execCommand('copy');
+          area.remove();
+        }
+        btn.textContent = 'Copied';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 1000);
+      });
+      pre.appendChild(btn);
+    });
+  }
+
+  function buildToc() {
+    content.querySelectorAll('h1, h2, h3').forEach((heading, index) => {
+      if (!heading.id) heading.id = 'section-' + index;
+      const link = document.createElement('a');
+      link.href = '#' + heading.id;
+      link.dataset.target = heading.id;
+      link.textContent = heading.textContent;
+      link.className = heading.tagName.toLowerCase();
+      link.addEventListener('click', closeSidebar);
+      toc.appendChild(link);
+      headings.push({ heading, link });
+    });
+  }
+
+  function updateActiveHeading() {
+    const offset = window.innerWidth <= 900 ? 90 : 24;
+    let current = headings[0];
+    for (const item of headings) {
+      if (item.heading.getBoundingClientRect().top <= offset + 8) current = item;
+    }
+    headings.forEach((item) => item.link.classList.toggle('active', item === current));
+  }
+
+  function clearSearchMarks() {
+    content.querySelectorAll('mark.search-hit').forEach((mark) => {
+      mark.replaceWith(document.createTextNode(mark.textContent));
+    });
+  }
+
+  function hideOrphanLabels(query) {
+    content.querySelectorAll('.group-label').forEach((label) => {
+      let sib = label.nextElementSibling;
+      let any = false;
+      while (sib && !sib.classList.contains('group-label')) {
+        if (sib.classList.contains('level1')) break;
+        if (sib.matches('section.level2, section.level3') && !sib.classList.contains('hidden-by-search')) any = true;
+        sib = sib.nextElementSibling;
+      }
+      label.classList.toggle('hidden-by-search', Boolean(query) && !any);
+    });
+  }
+
+  function runSearch() {
+    const query = search.value.trim().toLowerCase();
+    clearSearchMarks();
+    const sections = [...content.querySelectorAll('section.level1, section.level2, section.level3')];
+    if (!query) {
+      sections.forEach((section) => section.classList.remove('hidden-by-search'));
+      hideOrphanLabels('');
+      searchMeta.textContent = '';
+      return;
+    }
+    let visible = 0;
+    sections.forEach((section) => {
+      const match = section.textContent.toLowerCase().includes(query);
+      const childMatch = [...section.querySelectorAll('section')].some((child) => child.textContent.toLowerCase().includes(query));
+      const show = match || childMatch;
+      section.classList.toggle('hidden-by-search', !show);
+      if (show && section.classList.contains('level3')) visible += 1;
+      if (show && section.classList.contains('level2') && !section.querySelector('section.level3')) visible += 1;
+    });
+    hideOrphanLabels(query);
+    searchMeta.textContent = visible ? visible + ' section(s) matched' : 'No matches';
+  }
+
+  search.addEventListener('input', runSearch);
+  window.addEventListener('scroll', () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    progressBar.style.width = max > 0 ? ((window.scrollY / max) * 100) + '%' : '0%';
+    updateActiveHeading();
+  }, { passive: true });
+  window.addEventListener('keydown', (event) => {
+    if (event.key === '/' && document.activeElement !== search) {
+      event.preventDefault();
+      search.focus();
+    }
+    if (event.key === 'Escape') {
+      search.value = '';
+      runSearch();
+      search.blur();
+      closeSidebar();
+    }
+  });
+
+  initTheme();
+  initCodeBlocks();
+  buildToc();
+  updateActiveHeading();
+})();
+</script>
+</body>
+</html>
