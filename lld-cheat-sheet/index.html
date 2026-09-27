@@ -265,6 +265,9 @@ class Pricer {
 <div class="box"><p class="mini-title">Pros</p><ul><li><code>Pricer.total</code> calls <code>rule.apply(amount)</code>. It has no <code>case "half"</code>.</li><li><code>HalfPrice.apply</code> returns <code>amount / 2</code>. That division is not inside <code>Pricer.total</code>.</li></ul></div>
 <div class="box"><p class="mini-title">Cons</p><ul><li>The fix adds <code>PriceRule</code>, <code>FullPrice</code>, and <code>HalfPrice</code>. The bad version is one method, <code>Pricer.total</code>.</li><li>Reading <code>Pricer.total</code> does not show the <code>"half"</code> case. That case is <code>HalfPrice.apply</code>.</li></ul></div>
 </div>
+<div class="pros-cons">
+<div class="box" style="grid-column:1 / -1"><p class="mini-title">Over-engineering</p><ul><li>A new type whose only line is <code>return amount / 2</code>. That line is already <code>HalfPrice.apply</code>.</li><li>A new type whose only line is <code>return rule.apply(amount)</code>. That call is already <code>Pricer.total</code>.</li></ul></div>
+</div>
 </section>
 
 <section id="liskov-substitution" class="level2">
@@ -301,6 +304,9 @@ class Square implements Shape {
 <div class="pros-cons">
 <div class="box"><p class="mini-title">Pros</p><ul><li>The bad <code>Square.setWidth</code> assigns <code>this.height = width</code>. The fix <code>Square</code> has no <code>setWidth</code>. <code>area()</code> uses the <code>side</code> from the constructor.</li><li><code>Square.area</code> returns <code>side * side</code>. A later call cannot change <code>height</code>, because there is no <code>setWidth</code>.</li></ul></div>
 <div class="box"><p class="mini-title">Cons</p><ul><li>The fix <code>Rectangle</code> also has no <code>setWidth</code>. The bad <code>Rectangle</code> had one.</li><li><code>width</code> and <code>height</code> are constructor arguments and <code>final</code>. The bad fields could be assigned after <code>new Rectangle</code>.</li></ul></div>
+</div>
+<div class="pros-cons">
+<div class="box" style="grid-column:1 / -1"><p class="mini-title">Over-engineering</p><ul><li>A new type whose only method returns <code>side * side</code>. That is already <code>Square.area</code>.</li><li>Putting <code>setWidth</code> on <code>Shape</code>. The fix <code>Square</code> has no <code>setWidth</code>. <code>area</code> uses the constructor <code>side</code>.</li></ul></div>
 </div>
 </section>
 
@@ -339,6 +345,9 @@ class Copier implements Printer, Scanner {
 <div class="box"><p class="mini-title">Pros</p><ul><li><code>SimplePrinter</code> implements <code>print()</code> only. It has no <code>scan</code> method that throws.</li><li>The bad <code>SimplePrinter.fax</code> throws <code>UnsupportedOperationException</code>. The fix <code>SimplePrinter</code> has no <code>fax</code> method.</li></ul></div>
 <div class="box"><p class="mini-title">Cons</p><ul><li><code>Copier</code> lists <code>Printer</code> and <code>Scanner</code>. The old type listed one interface, <code>Machine</code>.</li><li><code>Copier</code> must implement <code>print</code> and <code>scan</code>. The bad <code>Machine</code> also required <code>fax</code> on <code>SimplePrinter</code>.</li></ul></div>
 </div>
+<div class="pros-cons">
+<div class="box" style="grid-column:1 / -1"><p class="mini-title">Over-engineering</p><ul><li>An interface that only declares <code>fax</code>. No fix class has <code>fax</code>. The bad <code>SimplePrinter.fax</code> threw <code>UnsupportedOperationException</code>, and the fix removed it.</li><li>A second interface that only declares <code>print</code>. <code>Printer</code> already does, and <code>SimplePrinter</code> implements <code>print</code> only.</li></ul></div>
+</div>
 </section>
 
 <section id="dependency-inversion" class="level2">
@@ -366,6 +375,9 @@ class OrderService {
 <div class="pros-cons">
 <div class="box"><p class="mini-title">Pros</p><ul><li><code>OrderService</code> takes an <code>OrderStore</code> in its constructor. The bad field is <code>new MySqlOrderStore()</code>.</li><li><code>place</code> calls <code>store.insert(id)</code>. The field type is <code>OrderStore</code>, not <code>MySqlOrderStore</code>.</li></ul></div>
 <div class="box"><p class="mini-title">Cons</p><ul><li>The fix constructor is <code>OrderService(OrderStore store)</code>. The bad class has no constructor parameter.</li><li>The bad field constructs <code>MySqlOrderStore</code> itself. The fix <code>place</code> cannot run until a store is passed in.</li></ul></div>
+</div>
+<div class="pros-cons">
+<div class="box" style="grid-column:1 / -1"><p class="mini-title">Over-engineering</p><ul><li>A type whose only line is <code>new MySqlOrderStore()</code>. <code>OrderService(OrderStore store)</code> already receives the store.</li><li>An abstract class that only declares <code>insert</code>. <code>interface OrderStore</code> already declares <code>insert</code>, and it has no fields.</li></ul></div>
 </div>
 </section>
 
@@ -399,6 +411,9 @@ class Notifier {
 <div class="pros-cons">
 <div class="box"><p class="mini-title">Pros</p><ul><li><code>Notifier.send</code> loops <code>channels</code> and calls <code>deliver</code>. The bad version is two classes, <code>EmailNotifier.send</code> and <code>SmsNotifier.send</code>.</li><li>The list <code>channels</code> can hold more than one <code>Channel</code>. <code>EmailNotifier.send</code> and <code>SmsNotifier.send</code> are separate classes.</li></ul></div>
 <div class="box"><p class="mini-title">Cons</p><ul><li>One email send is a <code>Notifier</code> plus a <code>Channel</code>. The bad version is the class <code>EmailNotifier</code>.</li><li><code>Notifier</code> requires a <code>List&lt;Channel&gt;</code> in its constructor. <code>EmailNotifier</code> has no constructor parameter.</li></ul></div>
+</div>
+<div class="pros-cons">
+<div class="box" style="grid-column:1 / -1"><p class="mini-title">Over-engineering</p><ul><li>A type whose only loop is <code>for (Channel channel : channels) channel.deliver(text)</code>. That loop is already <code>Notifier.send</code>.</li><li>A subclass of <code>Notifier</code> per channel. <code>EmailNotifier</code> and <code>SmsNotifier</code> were that split. The list <code>channels</code> already holds more than one <code>Channel</code>.</li></ul></div>
 </div>
 <p class="note">Ownership mistakes, such as <code>Game extends Board</code>, are covered under <a href="#composition">Composition</a>.</p>
 </section>
@@ -442,6 +457,9 @@ class RuleEngine {
 <div class="box"><p class="mini-title">Pros</p><ul><li>The fix names the limit once, as <code>COLS</code>, and <code>playable</code> uses it. The bad <code>play</code> and <code>canPlay</code> each write the literal <code>7</code>.</li><li><code>play</code> calls <code>playable</code> before <code>drop</code>. The bad <code>play</code> repeats the <code>column &lt; 0</code> test that <code>canPlay</code> already has.</li></ul></div>
 <div class="box"><p class="mini-title">Cons</p><ul><li>The bad file also has <code>RuleEngine.eval</code>, which returns <code>true</code> and is not called. The fix has no <code>RuleEngine</code>.</li><li>The fix <code>play</code> throws <code>IllegalArgumentException</code>. The bad <code>play</code> hits <code>return</code> and does not call <code>drop</code>.</li></ul></div>
 </div>
+<div class="pros-cons">
+<div class="box" style="grid-column:1 / -1"><p class="mini-title">Over-engineering</p><ul><li><code>RuleEngine.eval</code> returns <code>true</code> and nothing calls it. The column rule is already <code>playable</code>.</li><li>A type whose only line is <code>column &gt;= 0 &amp;&amp; column &lt; COLS</code>. That expression is already <code>playable</code>.</li></ul></div>
+</div>
 </section>
 
 <p class="group-label">OOP</p>
@@ -480,6 +498,9 @@ board.cells[3][0] = Color.RED;</code></pre>
 <div class="box"><p class="mini-title">Pros</p><ul><li><code>board.cells[3][0] = Color.RED</code> does not compile. A disc can only land through <code>drop</code>, in the lowest empty row.</li><li><code>drop</code> writes <code>cells[row][column]</code> only when that cell is <code>null</code>, starting at row <code>0</code>.</li></ul></div>
 <div class="box"><p class="mini-title">Cons</p><ul><li><code>drop</code> does not check <code>column</code>. <code>cells[row][column]</code> throws when <code>column</code> is 7.</li><li><code>cellAt</code> returns <code>cells[row][col]</code>. A caller can read a cell. The assignment <code>cells[3][0] = Color.RED</code> is still not available.</li></ul></div>
 </div>
+<div class="pros-cons">
+<div class="box" style="grid-column:1 / -1"><p class="mini-title">Over-engineering</p><ul><li>A type whose only field is one <code>Color</code>. <code>drop</code> already assigns <code>cells[row][column]</code>, and <code>cellAt</code> already returns it.</li><li>A type whose only method is the <code>for</code> loop inside <code>drop</code>. That loop is how <code>drop</code> finds the <code>null</code> cell.</li></ul></div>
+</div>
 </section>
 
 <section id="abstraction" class="level2">
@@ -513,6 +534,9 @@ class HttpExporter implements Exporter {
 <div class="box"><p class="mini-title">Pros</p><ul><li><code>HttpExporter</code> has no <code>filePath</code> field. The old abstract class forced one onto it.</li><li>The bad <code>HttpExporter.export</code> extends a class that declares <code>filePath</code>. The fix <code>export</code> takes only <code>body</code>.</li></ul></div>
 <div class="box"><p class="mini-title">Cons</p><ul><li><code>FileExporter</code> stores <code>filePath</code>. <code>HttpExporter</code> implements <code>Exporter</code> and has no <code>filePath</code> field.</li><li><code>FileExporter</code>'s constructor requires a <code>filePath</code>. <code>HttpExporter</code> has no such constructor.</li></ul></div>
 </div>
+<div class="pros-cons">
+<div class="box" style="grid-column:1 / -1"><p class="mini-title">Over-engineering</p><ul><li>An abstract class that <code>HttpExporter</code> extends and that has no fields. <code>HttpExporter</code> already implements <code>Exporter</code>, and <code>export</code> takes only <code>body</code>.</li><li><code>FileExporter</code> exists because subclasses share <code>filePath</code>. A second base for <code>HttpExporter</code> has no field to share.</li></ul></div>
+</div>
 </section>
 
 <section id="inheritance" class="level2">
@@ -540,6 +564,9 @@ class HttpExporter implements Exporter {
 <div class="pros-cons">
 <div class="box"><p class="mini-title">Pros</p><ul><li>The fix <code>park</code> returns false when <code>spots.size() == 10</code>. The bad <code>park</code> returns <code>add(car)</code> with no size check.</li><li><code>spots</code> is <code>private</code>. The bad <code>ParkingLot</code> extends <code>ArrayList</code>, so <code>add</code> is a public method on the lot.</li></ul></div>
 <div class="box"><p class="mini-title">Cons</p><ul><li>The fix <code>park</code> calls <code>spots.size()</code> and <code>spots.add</code>. The bad <code>park</code> calls <code>add</code> inherited from <code>ArrayList</code>.</li><li>The 11th <code>park</code> returns false because of <code>spots.size() == 10</code>. The bad <code>add</code> would still append that car.</li></ul></div>
+</div>
+<div class="pros-cons">
+<div class="box" style="grid-column:1 / -1"><p class="mini-title">Over-engineering</p><ul><li>A subclass whose only change is the <code>10</code> in <code>spots.size() == 10</code>. That check is already inside <code>park</code>.</li><li>A type that only calls <code>spots.add</code>. <code>park</code> already calls <code>spots.add</code> after the size check.</li></ul></div>
 </div>
 </section>
 
@@ -583,6 +610,9 @@ class Rules {
 <div class="box"><p class="mini-title">Pros</p><ul><li>The bad <code>Rules.attacks</code> has <code>instanceof King</code>. The fix <code>Rules.legal</code> calls <code>piece.attacks</code> and has no <code>instanceof</code>.</li><li><code>King.attacks</code> uses <code>Math.abs(toRow - row)</code>. That math is not in <code>Rules.legal</code>.</li></ul></div>
 <div class="box"><p class="mini-title">Cons</p><ul><li><code>King.attacks</code> compares <code>toRow</code> and <code>toCol</code> with its own <code>row</code> and <code>col</code>. <code>Rules.legal</code> does not look at any other piece.</li><li>The bad <code>Rules.attacks</code> also has <code>instanceof Knight</code>. The fix <code>Rules.legal</code> has no knight branch.</li></ul></div>
 </div>
+<div class="pros-cons">
+<div class="box" style="grid-column:1 / -1"><p class="mini-title">Over-engineering</p><ul><li>A type whose only lines are <code>Math.abs(toRow - row)</code> and <code>Math.abs(toCol - col)</code>. Those lines are already <code>King.attacks</code>.</li><li><code>Rules.legal</code> already calls <code>piece.attacks</code>. A second rules object beside <code>King</code> repeats that method.</li></ul></div>
+</div>
 </section>
 
 <section id="composition" class="level2">
@@ -608,6 +638,9 @@ class Rules {
 <div class="pros-cons">
 <div class="box"><p class="mini-title">Pros</p><ul><li>The fix <code>Game</code> has a <code>Board</code> field. The bad <code>Game</code> extends <code>Board</code>.</li><li>The fix constructor is <code>Game(Board board)</code>. The bad <code>Game</code> has no constructor and no <code>Board</code> field.</li></ul></div>
 <div class="box"><p class="mini-title">Cons</p><ul><li><code>play</code> calls <code>board.drop</code>. The subclass version called <code>drop</code> directly.</li><li>A <code>Game</code> cannot be constructed without a <code>Board</code>. The bad class is constructed as a <code>Board</code> subclass.</li></ul></div>
+</div>
+<div class="pros-cons">
+<div class="box" style="grid-column:1 / -1"><p class="mini-title">Over-engineering</p><ul><li>A type whose only field is <code>Board</code> and whose only call is <code>board.drop</code>. That field and call are already <code>Game</code>.</li><li>A third type between <code>Game</code> and <code>Board</code>. <code>play</code> already calls <code>board.drop</code>. <code>Game extends Board</code> was the other mistake, not a missing layer.</li></ul></div>
 </div>
 </section>
 
@@ -647,6 +680,9 @@ new GameConfig(6, 7, 4, false, false, null);</code></pre>
 <div class="box"><p class="mini-title">Pros</p><ul><li>The fix has methods named <code>rows</code>, <code>cols</code>, and <code>winLength</code>. The bad call is <code>new GameConfig(6, 7, 4, false, false, null)</code>, and those parameters have no names at the call.</li><li><code>rows</code>, <code>cols</code>, and <code>winLength</code> each return <code>this</code>. <code>build</code> calls <code>new GameConfig(rows, cols, winLength)</code>.</li></ul></div>
 <div class="box"><p class="mini-title">Cons</p><ul><li>The bad constructor takes <code>undo</code>, <code>bot</code>, and <code>name</code> as well as the three ints. The fix <code>Builder</code> only has <code>rows</code>, <code>cols</code>, and <code>winLength</code>.</li><li>The builder fields start at <code>rows = 6</code>, <code>cols = 7</code>, and <code>winLength = 4</code>. The bad call must pass all six arguments.</li></ul></div>
 </div>
+<div class="pros-cons">
+<div class="box" style="grid-column:1 / -1"><p class="mini-title">Over-engineering</p><ul><li><code>Builder</code> when the caller always sets <code>rows</code>, <code>cols</code>, and <code>winLength</code>. Those methods only forward to <code>new GameConfig(rows, cols, winLength)</code>.</li><li>The call that needs a builder is <code>new GameConfig(6, 7, 4, false, false, null)</code>. Three required ints can stay the constructor <code>GameConfig(int rows, int cols, int winLength)</code>.</li></ul></div>
+</div>
 </section>
 
 <section id="factory-method" class="level2">
@@ -674,6 +710,9 @@ WinChecker checker = WinCheckers.create(kind);</code></pre>
 <div class="pros-cons">
 <div class="box"><p class="mini-title">Pros</p><ul><li>The <code>kind.equals("line")</code> branch lives in <code>WinCheckers.create</code>. The call site is <code>WinCheckers.create(kind)</code>.</li><li>The bad snippet puts that <code>if</code> next to <code>WinChecker checker</code>. The fix call site is one line, <code>WinCheckers.create(kind)</code>.</li></ul></div>
 <div class="box"><p class="mini-title">Cons</p><ul><li><code>create</code> still contains <code>if (kind.equals("line"))</code>. The bad snippet has that same <code>if</code> at the call site.</li><li>When <code>kind</code> is not <code>"line"</code>, <code>create</code> returns <code>new AnyDirectionChecker()</code>. The bad <code>else</code> branch does the same.</li></ul></div>
+</div>
+<div class="pros-cons">
+<div class="box" style="grid-column:1 / -1"><p class="mini-title">Over-engineering</p><ul><li>A type whose only line is <code>new LineChecker()</code>. <code>WinCheckers.create</code> already returns that when <code>kind.equals("line")</code>.</li><li>A second factory for <code>AnyDirectionChecker</code>. The other branch in <code>create</code> already returns <code>new AnyDirectionChecker()</code>.</li></ul></div>
 </div>
 </section>
 
@@ -703,6 +742,9 @@ Game match = new Game(new Board(6, 7));</code></pre>
 <div class="pros-cons">
 <div class="box"><p class="mini-title">Pros</p><ul><li>The fix builds <code>new Game(new Board(6, 7))</code>. The bad <code>getInstance</code> returns the one <code>INSTANCE</code> created by <code>new Game()</code>.</li><li><code>new Game(new Board(6, 7))</code> passes a <code>Board</code>. <code>getInstance</code> takes no argument.</li></ul></div>
 <div class="box"><p class="mini-title">Cons</p><ul><li>The bad <code>getInstance</code> returns <code>INSTANCE</code>. The fix caller writes <code>new Game(new Board(6, 7))</code>.</li><li><code>INSTANCE</code> is <code>new Game()</code> with no <code>Board</code>. The fix constructor is <code>Game(Board board)</code>.</li></ul></div>
+</div>
+<div class="pros-cons">
+<div class="box" style="grid-column:1 / -1"><p class="mini-title">Over-engineering</p><ul><li><code>getInstance</code> and <code>INSTANCE</code> for one match. The fix caller writes <code>new Game(new Board(6, 7))</code>, and that line can build a second game.</li><li>A type whose only line is <code>new Game(new Board(6, 7))</code>. The caller already writes that line.</li></ul></div>
 </div>
 </section>
 
@@ -736,6 +778,9 @@ class VendorBoardAdapter implements BoardPort {
 <div class="pros-cons">
 <div class="box"><p class="mini-title">Pros</p><ul><li><code>VendorBoardAdapter.drop</code> takes <code>(column, color)</code> and calls <code>vendor.placeDisc(column, color.name())</code>. The bad <code>Game.play</code> calls <code>placeDisc(column, row)</code> after <code>guessRow</code>.</li><li><code>drop</code>'s second argument is <code>Color color</code>. The bad <code>placeDisc</code> receives the <code>row</code> from <code>guessRow</code>.</li></ul></div>
 <div class="box"><p class="mini-title">Cons</p><ul><li><code>drop</code> still calls <code>placeDisc</code>. The adapter changes the method the caller sees, and the vendor method stays.</li><li>The fix type is <code>VendorBoardAdapter</code>. The bad type that calls <code>placeDisc</code> is <code>Game</code>.</li></ul></div>
+</div>
+<div class="pros-cons">
+<div class="box" style="grid-column:1 / -1"><p class="mini-title">Over-engineering</p><ul><li>A second wrapper whose only call is <code>vendor.placeDisc</code>. That call is already <code>VendorBoardAdapter.drop</code>.</li><li>A type whose only line is <code>color.name()</code>. <code>drop</code> already passes <code>color.name()</code> into <code>placeDisc</code>.</li></ul></div>
 </div>
 </section>
 
@@ -771,6 +816,9 @@ class LoggingMatch implements Match {
 <div class="box"><p class="mini-title">Pros</p><ul><li><code>LoggingMatch.play</code> prints <code>column</code>, then calls <code>next.play(column)</code>. The bad version prints inside <code>LoggedGame</code>, which extends <code>Game</code>.</li><li><code>LoggingMatch</code> stores <code>Match next</code> and returns the <code>MoveResult</code> from <code>next.play</code>.</li></ul></div>
 <div class="box"><p class="mini-title">Cons</p><ul><li>The bad version is one class, <code>LoggedGame</code>. The fix adds <code>Match</code> and <code>LoggingMatch</code>.</li><li><code>LoggingMatch.play</code> prints <code>column + " -&gt; " + result</code>. <code>LoggedGame.play</code> prints <code>column</code> and then calls <code>super.play</code>.</li></ul></div>
 </div>
+<div class="pros-cons">
+<div class="box" style="grid-column:1 / -1"><p class="mini-title">Over-engineering</p><ul><li>A subclass of <code>LoggingMatch</code> whose only added line is another <code>System.out.println</code>. <code>LoggingMatch.play</code> already prints <code>column + " -&gt; " + result</code>.</li><li>A wrapper that only calls <code>next.play</code> and prints nothing. <code>LoggingMatch</code> already stores <code>Match next</code> and returns <code>next.play</code>.</li></ul></div>
+</div>
 </section>
 
 <section id="facade" class="level2">
@@ -801,6 +849,9 @@ else turn = other(turn);</code></pre>
 <div class="pros-cons">
 <div class="box"><p class="mini-title">Pros</p><ul><li><code>drop</code>, <code>isWin</code>, and <code>isFull</code> are inside <code>play</code>. The bad snippet is those same three calls written at the call site, where the <code>isFull</code> line can be skipped.</li><li>After those checks, <code>play</code> assigns <code>status</code> or calls <code>other(turn)</code>, then returns <code>MoveResult.of(status)</code>.</li></ul></div>
 <div class="box"><p class="mini-title">Cons</p><ul><li>The fix <code>play</code> uses <code>board</code>, <code>winChecker</code>, <code>status</code>, and <code>turn</code>, and this class body does not declare them.</li><li>The bad snippet has no method named <code>play</code>. The three calls sit at the call site.</li></ul></div>
+</div>
+<div class="pros-cons">
+<div class="box" style="grid-column:1 / -1"><p class="mini-title">Over-engineering</p><ul><li>A type whose only line is <code>play(column)</code>. <code>drop</code>, <code>isWin</code>, and <code>isFull</code> are already inside <code>Game.play</code>.</li><li>A separate type for <code>isWin</code> and another for <code>isFull</code>. <code>play</code> already runs both before <code>MoveResult.of(status)</code>.</li></ul></div>
 </div>
 <p class="note">Connect Four uses <code>Game.play</code> as this facade and leaves the scan in <code>WinChecker</code>.</p>
 </section>
@@ -839,6 +890,9 @@ class Game {
 <div class="box"><p class="mini-title">Pros</p><ul><li><code>play</code> returns <code>moves.chooseColumn(board, color)</code>. It has no <code>mode.equals("bot")</code>.</li><li><code>CenterBot.chooseColumn</code> returns <code>board.cols() / 2</code>. The bad bot branch returns <code>3</code>.</li></ul></div>
 <div class="box"><p class="mini-title">Cons</p><ul><li>The bad <code>play</code> calls <code>readColumn()</code> directly. The fix <code>Game</code> stores a <code>MoveStrategy</code> field, and <code>play</code> calls <code>moves.chooseColumn</code>.</li><li>The fix constructor requires a <code>MoveStrategy</code>. The bad <code>play</code> takes a <code>String mode</code>.</li></ul></div>
 </div>
+<div class="pros-cons">
+<div class="box" style="grid-column:1 / -1"><p class="mini-title">Over-engineering</p><ul><li>One <code>CenterBot</code> when <code>chooseColumn</code> only returns <code>board.cols() / 2</code> and <code>play</code> only calls <code>moves.chooseColumn</code>. That division can live in <code>play</code> until a second <code>chooseColumn</code> exists.</li><li>The bad <code>play</code> returned <code>3</code> when <code>mode.equals("bot")</code>. A strategy class for that single return is an extra type around one number.</li></ul></div>
+</div>
 </section>
 
 <section id="observer" class="level2">
@@ -873,6 +927,9 @@ class Game {
 <div class="box"><p class="mini-title">Pros</p><ul><li><code>notifyMove</code> loops <code>listeners</code> and calls <code>onMove</code>. The bad <code>play</code> calls <code>scoreboard.record(column)</code> by name.</li><li><code>addListener</code> adds to <code>listeners</code>. <code>notifyMove</code> is the method that walks that list.</li></ul></div>
 <div class="box"><p class="mini-title">Cons</p><ul><li>The bad <code>play</code> calls <code>printer.print</code> and <code>scoreboard.record</code> directly. The fix adds <code>listeners</code>, <code>addListener</code>, and <code>notifyMove</code>.</li><li>The bad <code>play</code> takes only <code>column</code>. <code>notifyMove</code> also takes a <code>MoveResult</code>.</li></ul></div>
 </div>
+<div class="pros-cons">
+<div class="box" style="grid-column:1 / -1"><p class="mini-title">Over-engineering</p><ul><li>A type whose only lines are <code>listeners.add</code> and the <code>for</code> loop. Those lines are already <code>addListener</code> and <code>notifyMove</code>.</li><li>A separate listener type for <code>printer.print</code> and another for <code>scoreboard.record</code>. Both can be <code>MoveListener.onMove</code>.</li></ul></div>
+</div>
 </section>
 
 <section id="state" class="level2">
@@ -904,6 +961,9 @@ class Game {
 <div class="pros-cons">
 <div class="box"><p class="mini-title">Pros</p><ul><li><code>play</code> returns <code>MoveResult.failed(PlayFailure.GAME_OVER)</code> when <code>status != GameStatus.IN_PROGRESS</code>. The bad <code>WonState.onPlay</code> calls <code>game.reject()</code>.</li><li>When <code>status</code> is <code>IN_PROGRESS</code>, <code>play</code> returns <code>MoveResult.inProgress()</code>.</li></ul></div>
 <div class="box"><p class="mini-title">Cons</p><ul><li>The fix is an <code>enum GameStatus</code> and one <code>if</code> in <code>play</code>. The bad version is the interface <code>Status</code> and the class <code>WonState</code>.</li><li>The bad block shows only <code>WonState</code>. The fix enum lists <code>IN_PROGRESS</code>, <code>WIN</code>, and <code>DRAW</code>.</li></ul></div>
+</div>
+<div class="pros-cons">
+<div class="box" style="grid-column:1 / -1"><p class="mini-title">Over-engineering</p><ul><li><code>WonState.onPlay</code> only calls <code>game.reject()</code>. The fix <code>play</code> returns <code>MoveResult.failed(PlayFailure.GAME_OVER)</code> when <code>status != GameStatus.IN_PROGRESS</code>.</li><li>A class for <code>WIN</code> and a class for <code>DRAW</code>. The enum already lists <code>IN_PROGRESS</code>, <code>WIN</code>, and <code>DRAW</code>, and <code>play</code> has one <code>if</code>.</li></ul></div>
 </div>
 </section>
 </section>

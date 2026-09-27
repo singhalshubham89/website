@@ -1156,9 +1156,11 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb48-1"><a h
 class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> i <span class="op">=</span> lower_bound<span class="op">(</span>a<span class="op">.</span>begin<span class="op">(),</span> a<span class="op">.</span>end<span class="op">(),</span> target<span class="op">)</span> <span class="op">-</span> a<span class="op">.</span>begin<span class="op">();</span></span></code></pre></div>
 <div class="sourceCode" id="cb160"><pre
 class="sourceCode java"><code class="sourceCode java"><span id="cb160-1"><a href="#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> i <span class="op">=</span> <span class="bu">Arrays</span><span class="op">.</span><span class="fu">binarySearch</span><span class="op">(</span>a<span class="op">,</span> target<span class="op">);</span></span>
-<span id="cb160-2"><a href="#cb160-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>i <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> i <span class="op">=</span> <span class="op">-</span>i <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> <span class="co">// insertion point = lower bound</span></span></code></pre></div>
+<span id="cb160-2"><a href="#cb160-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>i <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span> i <span class="op">=</span> <span class="op">-</span>i <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb160-3"><a href="#cb160-3" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span> <span class="cf">while</span> <span class="op">(</span>i <span class="op">&gt;</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> a<span class="op">[</span>i <span class="op">-</span> <span class="dv">1</span><span class="op">]</span> <span class="op">==</span> target<span class="op">)</span> i<span class="op">--;</span> <span class="co">// leftmost match = lower bound</span></span></code></pre></div>
 <div class="sourceCode" id="cb50"><pre
 class="sourceCode python"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> bisect.bisect_left(a, target)</span></code></pre></div>
+<p>Prefer a custom binary-search loop in Java when you need exact lower/upper bound.</p>
 </section>
 <section id="upper-bound" class="level3">
 <h3>Upper bound</h3>
@@ -1171,7 +1173,6 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb161-1"><a href
 <span id="cb161-3"><a href="#cb161-3" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span> <span class="cf">while</span> <span class="op">(</span>i <span class="op">&lt;</span> a<span class="op">.</span>length <span class="op">&amp;&amp;</span> a<span class="op">[</span>i<span class="op">]</span> <span class="op">==</span> target<span class="op">)</span> i<span class="op">++;</span></span></code></pre></div>
 <div class="sourceCode" id="cb52"><pre
 class="sourceCode python"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> bisect.bisect_right(a, target)</span></code></pre></div>
-<p>Prefer a custom binary-search loop in Java when you need exact lower/upper bound.</p>
 <p><strong>Complexity:</strong> <code>O(log n)</code>.</p>
 <hr />
 </section>
