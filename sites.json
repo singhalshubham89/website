@@ -23,6 +23,17 @@
       ]
     },
     {
+      "slug": "hld-cheat-sheet",
+      "title": "System Design Cheat Sheet",
+      "description": "Interview reference for HLD: a 45-minute delivery clock, concepts, core technologies, and a worked URL shortener.",
+      "tags": [
+        "hld",
+        "system-design",
+        "interview",
+        "cheatsheet"
+      ]
+    },
+    {
       "slug": "resume",
       "title": "Resume",
       "description": "Shubham Singhal \u2014 Senior Software Engineer resume.",

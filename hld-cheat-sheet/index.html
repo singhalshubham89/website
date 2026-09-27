@@ -1,0 +1,976 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>System Design Cheat Sheet — HLD</title>
+<meta name="description" content="Interview reference for high level design: a 45-minute delivery clock, concepts, core technologies, and a worked URL shortener.">
+<meta name="theme-color" content="#0d1117">
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--panel2:#010409;--text:#e6edf3;--muted:#8b949e;--line:#30363d;--accent:#58a6ff;--code:#0d1117;--good:#3fb950;--warn:#d29922;--bad:#f85149;--heading:#f0f6fc;--heading-2:#c9d1d9;--heading-3:#b1bac4;--toc:#c9d1d9;--toc-muted:#8b949e;--code-inline-bg:rgba(110,118,129,.2);--code-inline-border:#30363d;--code-inline-text:#79c0ff;--chip-active-bg:rgba(56,139,253,.15);--chip-active-border:#388bfd;--chip-active-text:#58a6ff;--shadow:0 8px 24px rgba(1,4,9,.35);--scroll:72px}
+html[data-theme="light"]{--bg:#ffffff;--panel:#f6f8fa;--panel2:#f6f8fa;--text:#1f2328;--muted:#656d76;--line:#d0d7de;--accent:#0969da;--code:#f6f8fa;--good:#1a7f37;--warn:#9a6700;--bad:#cf222e;--heading:#1f2328;--heading-2:#24292f;--heading-3:#424a53;--toc:#24292f;--toc-muted:#656d76;--code-inline-bg:rgba(175,184,193,.2);--code-inline-border:#d0d7de;--code-inline-text:#0550ae;--chip-active-bg:#ddf4ff;--chip-active-border:#0969da;--chip-active-text:#0969da;--shadow:0 8px 24px rgba(31,35,40,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.62}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:30;background:transparent}
+.progress>span{display:block;height:100%;width:0;background:linear-gradient(90deg,#58a6ff,#3fb950)}
+.shell{display:grid;grid-template-columns:300px minmax(0,1fr);min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;overflow:auto;padding:20px 16px 28px;border-right:1px solid var(--line);background:var(--panel2)}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);margin-bottom:14px}
+.back:hover{color:var(--accent);text-decoration:none}
+.brand{font-size:17px;font-weight:800;margin-bottom:4px;line-height:1.25}
+.sub{font-size:12px;color:var(--muted);margin-bottom:14px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn,.chip{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer}
+a.chip{text-decoration:none;display:inline-block}
+.btn:hover,.chip:hover{border-color:var(--accent);text-decoration:none}
+.search-wrap{position:relative;margin-bottom:10px}
+.search{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--text);outline:none}
+.search:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(88,166,255,.2)}
+.search-hint{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--muted);pointer-events:none}
+.search-meta{font-size:11px;color:var(--muted);margin:-4px 0 12px;min-height:16px}
+#toc a{display:block;padding:6px 8px;border-radius:7px;color:var(--toc);font-size:12.5px;line-height:1.35;border-left:2px solid transparent}
+#toc a:hover{background:var(--panel);text-decoration:none}
+#toc a.active{background:var(--panel);border-left-color:var(--accent);color:var(--heading)}
+#toc a.h1{font-weight:700;margin-top:8px;color:var(--heading)}
+#toc a.h2{padding-left:14px;font-size:12px;color:var(--toc-muted)}
+#toc a.h3{padding-left:22px;font-size:11.5px;color:var(--muted)}
+.main{min-width:0;padding:42px clamp(20px,4vw,62px) 80px}
+.content{max-width:1100px;margin:0 auto}
+h1,h2,h3{scroll-margin-top:var(--scroll);line-height:1.25}
+h1{font-size:clamp(28px,3.5vw,40px);letter-spacing:-.03em;margin:0 0 12px;font-weight:800;color:var(--heading)}
+section.level1>h1{font-size:clamp(26px,3vw,34px)}
+section.level1:not(:first-of-type)>h1{margin-top:8px}
+h2{font-size:20px;margin:28px 0 10px;color:var(--heading-2);font-weight:700}
+h3{font-size:16px;margin:22px 0 8px;font-weight:650;color:var(--heading-3)}
+p,li{color:var(--text)}
+.lead{color:var(--muted);margin-top:0}
+blockquote{margin:16px 0;padding:12px 16px;border-left:4px solid var(--accent);background:var(--panel);border-radius:0 10px 10px 0}
+blockquote p{margin:0}
+.group-label{margin:36px 0 4px;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.smell{margin:8px 0 12px;padding:8px 12px;border-radius:8px;background:rgba(210,153,34,.12);color:var(--warn);font-size:14px}
+.pair,.pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0 8px}
+.pros-cons .box{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:12px 14px}
+.mini-title{margin:0 0 8px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--heading)}
+.pros-cons ul{margin:0;padding-left:18px}
+.note,.serves{font-size:14px;color:var(--muted)}
+.table-wrap{overflow-x:auto;margin:18px 0 26px;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:640px;background:var(--panel)}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--panel2);font-size:13px;color:var(--heading)}
+td{font-size:13.5px}tr:last-child td{border-bottom:0}
+code{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;background:var(--code-inline-bg);border:1px solid var(--code-inline-border);padding:.12em .36em;border-radius:6px;color:var(--code-inline-text);font-size:.92em}
+.diagram{margin:12px 0 16px;border:1px solid var(--line);border-radius:12px;background:var(--panel);overflow-x:auto}
+.diagram svg{width:100%;height:auto;display:block;min-width:640px}
+.diagram svg text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;fill:var(--text)}
+.d-box{fill:var(--bg);stroke:var(--line);stroke-width:1.5}
+.d-hot{fill:color-mix(in srgb,var(--accent) 14%,var(--bg));stroke:var(--accent);stroke-width:1.5}
+.d-good{fill:color-mix(in srgb,var(--good) 16%,var(--bg));stroke:var(--good);stroke-width:1.5}
+.d-warn{fill:color-mix(in srgb,var(--warn) 16%,var(--bg));stroke:var(--warn);stroke-width:1.5}
+.d-line{stroke:var(--muted);stroke-width:1.6;fill:none}
+.d-title{font-size:12px;font-weight:700;fill:var(--muted)}
+.d-label{font-size:13px;font-weight:650}
+.d-small{font-size:11px;fill:var(--muted)}
+.hidden-by-search{display:none!important}
+.footer{margin-top:70px;border-top:1px solid var(--line);padding-top:22px;color:var(--muted);font-size:13px}
+.topbar{display:none}
+.overlay{display:none}
+kbd{font-family:inherit;font-size:11px;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 5px;background:var(--panel)}
+@media(max-width:900px){
+.shell{display:block}
+.sidebar{position:fixed;z-index:25;left:-320px;width:300px;transition:left .2s;box-shadow:var(--shadow)}
+.sidebar.open{left:0}
+.overlay.open{display:block;position:fixed;inset:0;background:rgba(1,4,9,.65);z-index:24}
+.main{padding-top:72px}
+.topbar{display:flex;position:fixed;top:0;left:0;right:0;z-index:15;height:54px;align-items:center;justify-content:space-between;padding:0 15px;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.menu{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:8px;padding:7px 10px}
+.pair,.pros-cons{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){.motion{display:none}}
+@media print{
+.sidebar,.topbar,.progress,.overlay,.toolbar,.search-wrap,.search-meta,.motion{display:none!important}
+.shell{display:block}.main{padding:0}.content{max-width:none}
+body{background:white;color:#000}p,li{color:#111}
+.pair,.pros-cons{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+<div class="topbar"><strong>HLD Cheat Sheet</strong><div><button class="btn" type="button" onclick="toggleTheme()">Theme</button> <button class="menu" type="button" onclick="toggleSidebar()">☰ Contents</button></div></div>
+<div class="shell">
+<aside class="sidebar" id="sidebar">
+<a class="back" href="../">← All sites</a>
+<div class="brand">System Design Cheat Sheet</div>
+<div class="sub">HLD · Interviews · 45 minutes</div>
+<div class="toolbar">
+<button class="btn" type="button" onclick="toggleTheme()">Light / Dark</button>
+<button class="btn" type="button" onclick="window.print()">Print</button>
+</div>
+<div class="search-wrap">
+<input id="search" class="search" type="search" placeholder="Search concepts, Kafka, Redis…" autocomplete="off" aria-label="Search cheat sheet">
+<span class="search-hint">/</span>
+</div>
+<div class="search-meta" id="searchMeta"></div>
+<div class="toolbar" aria-label="Section jumps">
+<a class="chip" href="#delivery-framework">Framework</a>
+<a class="chip" href="#concepts">Concepts</a>
+<a class="chip" href="#technologies">Technologies</a>
+<a class="chip" href="#case-studies">Case studies</a>
+<a class="chip" href="#quick-sheet">Quick sheet</a>
+</div>
+<nav id="toc" aria-label="Table of contents"></nav>
+</aside>
+<main class="main"><article class="content" id="content">
+
+<section id="delivery-framework" class="level1">
+<h1>Delivery Framework</h1>
+<p class="lead">How to spend a 45-minute high level design interview. The first 37 minutes are fixed. The last 8 minutes flex: answer an extensibility question if the interviewer asks one, otherwise summarize what you drew.</p>
+
+<section id="forty-five-minute-clock" class="level2">
+<h2>45-minute clock</h2>
+<p>Talk and draw. Do not design a REST catalog, and do not open with a tool name. Scale is one or two round numbers inside the first five minutes, not its own phase.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Phase</th><th>Clock</th><th>What you do</th></tr></thead>
+<tbody>
+<tr><td>Clarify</td><td>0–5</td><td>Users, the happy path, functional needs, and what is out of scope. One or two round numbers: reads per second, and how much you store.</td></tr>
+<tr><td>Core entities and API</td><td>5–12</td><td>The nouns the system stores, who owns each, and the few entry points that read or write them. One line per entry point. Stop before request bodies and status codes.</td></tr>
+<tr><td>HLD</td><td>12–27</td><td>The picture. Name each service, the one job it owns, and how it connects to the next: a call, a queue, or a store. Mark the read path and the write path.</td></tr>
+<tr><td>Deep dive</td><td>27–37</td><td>One or two services the interviewer cares about, usually the data store or the hot path. State the tradeoff out loud.</td></tr>
+<tr><td>Close</td><td>37–45</td><td>If they ask how it grows, answer that extension and do not build it. If they do not, summarize the picture, name one failure, and stop.</td></tr>
+</tbody>
+</table></div>
+</section>
+
+<section id="worked-timing-url-shortener" class="level2">
+<h2>Worked timing: URL shortener</h2>
+<p>Same phases, filled in for a link shortener. A news feed or a chat app would name different nouns. They would not start with a redirect.</p>
+<ul>
+<li><strong>Clarify.</strong> Create a short link, redirect, custom alias optional, no analytics in v1. Writes are rare, redirects dominate, storage is small.</li>
+<li><strong>Core entities and API.</strong> A link is <code>(code, long_url)</code>. Entry points: create a link, open a short code.</li>
+<li><strong>HLD.</strong> A stateless link service owns both entry points. The write path stores the row in SQL. The read path checks the cache, then SQL, then redirects.</li>
+<li><strong>Deep dive.</strong> How the code is chosen, cache-aside on redirect, and what happens when the code is missing.</li>
+<li><strong>Close.</strong> If asked, name analytics later via a queue and do not design it. Otherwise summarize the picture and one failure: a duplicate create, or a hot link.</li>
+</ul>
+<p>The full walkthrough is in <a href="#url-shortener">URL shortener</a>.</p>
+</section>
+
+<section id="done-checklist-and-traps" class="level2">
+<h2>Done checklist and traps</h2>
+<p>Stop when these are true:</p>
+<ul>
+<li>Users, the happy path, and out-of-scope items are written down.</li>
+<li>One or two scale numbers are written down.</li>
+<li>Entities and the entry points exist before the picture.</li>
+<li>The picture names each service, its one job, the read path, and the write path.</li>
+<li>One deep dive states a tradeoff.</li>
+<li>Close either answers one extension or summarizes the picture and one failure.</li>
+</ul>
+<p>Traps that cost the round:</p>
+<ul>
+<li>Jumping to Kafka before requirements.</li>
+<li>Designing endpoints before the entities exist.</li>
+<li>Drawing the HLD before the read path and the write path are named.</li>
+</ul>
+</section>
+</section>
+
+<section id="concepts" class="level1">
+<h1>Concepts</h1>
+<p class="lead">The ideas behind the picture. Each card is one sentence, a diagram, when to use it, when to skip it, and the phrase that should make you reach for it.</p>
+
+<p class="group-label">Start here</p>
+
+<section id="numbers" class="level2">
+<h2>Numbers</h2>
+<p>Round hard. A daily count is not a per-second count, and a user count is not a request count. Clarify uses this card. There is no separate estimate phase.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 168" role="img" aria-label="Latency grows from memory, to SSD, to the same datacenter, to another region">
+<text class="d-title" x="16" y="24">LATENCY · each step is much slower than the one before it</text>
+<rect class="d-good" x="16" y="48" width="70" height="88" rx="8"/>
+<rect class="d-hot" x="110" y="72" width="120" height="64" rx="8"/>
+<rect class="d-warn" x="254" y="88" width="180" height="48" rx="8"/>
+<rect class="d-box" x="458" y="100" width="200" height="36" rx="8"/>
+<text class="d-label" x="51" y="88" text-anchor="middle">Memory</text>
+<text class="d-small" x="51" y="108" text-anchor="middle">~100 ns</text>
+<text class="d-label" x="170" y="100" text-anchor="middle">SSD</text>
+<text class="d-small" x="170" y="118" text-anchor="middle">~100 μs</text>
+<text class="d-label" x="344" y="110" text-anchor="middle">Same datacenter</text>
+<text class="d-small" x="344" y="126" text-anchor="middle">~0.5 ms</text>
+<text class="d-label" x="558" y="123" text-anchor="middle">Other region ~100 ms</text>
+</svg>
+</div>
+<div class="table-wrap"><table>
+<thead><tr><th>What you hear</th><th>What you write</th></tr></thead>
+<tbody>
+<tr><td>1 million requests a day</td><td>About 12 per second. Peak is often 2–5× the average, unless the product is a ticket drop or a live event.</td></tr>
+<tr><td>100 million users</td><td>Not 100 million requests per second. Use daily active users × actions per day ÷ 86,400, then apply the peak factor.</td></tr>
+<tr><td>A read that must join five tables on the hot path</td><td>That read will not stay fast. Store the answer the way it is read, or cache it.</td></tr>
+</tbody>
+</table></div>
+<p class="smell"><strong>Pattern:</strong> The interviewer gives users, posts, or videos per day and waits for you to turn that into requests per second and storage.</p>
+</section>
+
+<p class="group-label">How a request moves</p>
+
+<section id="networking" class="level2">
+<h2>Networking</h2>
+<p>A request is a path, not a single hop. DNS finds the address, a CDN can answer for public content, a load balancer picks a machine, and any app server can handle it because the servers do not keep the user in memory.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 120" role="img" aria-label="A request moves from the browser through DNS, a CDN, and a load balancer to any app server">
+<text class="d-title" x="16" y="22">REQUEST PATH · the dot is one request</text>
+<rect class="d-box" x="16" y="48" width="100" height="52" rx="8"/><text class="d-label" x="66" y="79" text-anchor="middle">Browser</text>
+<rect class="d-box" x="148" y="48" width="90" height="52" rx="8"/><text class="d-label" x="193" y="79" text-anchor="middle">DNS</text>
+<rect class="d-box" x="270" y="48" width="90" height="52" rx="8"/><text class="d-label" x="315" y="79" text-anchor="middle">CDN</text>
+<rect class="d-hot" x="392" y="48" width="110" height="52" rx="8"/><text class="d-label" x="447" y="79" text-anchor="middle">Balancer</text>
+<rect class="d-good" x="534" y="40" width="130" height="28" rx="6"/><text class="d-small" x="599" y="59" text-anchor="middle">App server</text>
+<rect class="d-good" x="534" y="74" width="130" height="28" rx="6"/><text class="d-small" x="599" y="93" text-anchor="middle">App server</text>
+<path class="d-line" d="M116 74 H148 M238 74 H270 M360 74 H392 M502 62 H534 M502 86 H534"/>
+<circle class="motion" r="5" fill="#58a6ff"><animateMotion dur="3.6s" repeatCount="indefinite" path="M66 74 H447 H599"/></circle>
+</svg>
+</div>
+<p class="note">Static and public files can stop at the CDN. A user-specific request continues to an app server.</p>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">When to use</p><ul><li>Every design starts here, even if you then skip the CDN.</li><li>Say the app servers are stateless so the balancer can send the next request anywhere.</li></ul></div>
+<div class="box"><p class="mini-title">When not to use</p><ul><li>Do not draw DNS, TLS, and a service mesh before the product is clear.</li><li>Do not keep session data only in one app server’s memory.</li></ul></div>
+</div>
+<p class="smell"><strong>Pattern:</strong> “Users open the app from anywhere” or “any server should be able to handle the next request.”</p>
+</section>
+
+<section id="api-design" class="level2">
+<h2>API design</h2>
+<p>Name the contract in a few lines: who calls it, whether it reads or writes, and what comes back. That is enough for HLD. Request bodies and status codes belong in a low level design round.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 128" role="img" aria-label="Two entry points: a write that creates a link, and a read that opens a short code">
+<text class="d-title" x="16" y="22">ENTRY POINTS · one line each, then stop</text>
+<rect class="d-warn" x="24" y="48" width="280" height="64" rx="8"/>
+<text class="d-label" x="164" y="76" text-anchor="middle">Create a link</text>
+<text class="d-small" x="164" y="96" text-anchor="middle">write · returns the short code</text>
+<rect class="d-good" x="360" y="48" width="280" height="64" rx="8"/>
+<text class="d-label" x="500" y="76" text-anchor="middle">Open a short code</text>
+<text class="d-small" x="500" y="96" text-anchor="middle">read · redirects to the long URL</text>
+</svg>
+</div>
+<p class="note">A retried write needs an idempotency key so the second try does not create a second row.</p>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">When to use</p><ul><li>After the nouns exist. Each entry point reads or writes one of them.</li><li>Say which writes are safe to retry, and how a list is paged (a cursor, not “return everything”).</li></ul></div>
+<div class="box"><p class="mini-title">When not to use</p><ul><li>Do not list ten endpoints before you know the entities.</li><li>Do not spend the HLD phase on JSON fields.</li></ul></div>
+</div>
+<p class="smell"><strong>Pattern:</strong> “What can the client do?” after you have named the things the system stores.</p>
+</section>
+
+<p class="group-label">Data</p>
+
+<section id="data-modeling" class="level2">
+<h2>Data modeling</h2>
+<p>Write the nouns, who owns each, and the one query that must be fast. Keep a single source of truth. Copy a field only when one read would otherwise join many tables on the hot path.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 168" role="img" aria-label="A link row owned by the link service, read by code">
+<text class="d-title" x="16" y="22">OWN THE NOUN · store it the way the hot query reads it</text>
+<rect class="d-hot" x="16" y="48" width="200" height="88" rx="8"/>
+<text class="d-label" x="116" y="74" text-anchor="middle">Link</text>
+<text class="d-small" x="116" y="96" text-anchor="middle">code · long_url</text>
+<text class="d-small" x="116" y="114" text-anchor="middle">owned by Link service</text>
+<rect class="d-good" x="280" y="48" width="180" height="88" rx="8"/>
+<text class="d-label" x="370" y="84" text-anchor="middle">Read by code</text>
+<text class="d-small" x="370" y="106" text-anchor="middle">the hot query</text>
+<rect class="d-box" x="500" y="48" width="160" height="88" rx="8"/>
+<text class="d-label" x="580" y="84" text-anchor="middle">User, later</text>
+<text class="d-small" x="580" y="106" text-anchor="middle">not in v1</text>
+<path class="d-line" d="M216 92 H280 M460 92 H500"/>
+</svg>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">When to use</p><ul><li>Normalize when many callers update the same fact and it must stay consistent.</li><li>Duplicate a field when the hot read cannot afford the join.</li></ul></div>
+<div class="box"><p class="mini-title">When not to use</p><ul><li>Do not invent tables for features you put out of scope.</li><li>Do not pick PostgreSQL or DynamoDB before you know the query.</li></ul></div>
+</div>
+<p class="smell"><strong>Pattern:</strong> “We look this up by id all day” or “this screen must not join five tables.”</p>
+</section>
+
+<section id="caching" class="level2">
+<h2>Caching</h2>
+<p>The hot read checks memory before the database. Cache-aside is the default: on a miss, the app reads the database and fills the cache. Say out loud when a slightly old value is acceptable.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 164" role="img" aria-label="A cache hit returns from memory. A cache miss continues to the database and then fills the cache.">
+<text class="d-title" x="16" y="22">CACHE-ASIDE · hit stays in memory, miss fills the cache</text>
+<rect class="d-box" x="16" y="64" width="110" height="48" rx="8"/><text class="d-label" x="71" y="93" text-anchor="middle">App</text>
+<rect class="d-good" x="220" y="44" width="140" height="44" rx="8"/><text class="d-label" x="290" y="71" text-anchor="middle">Cache hit</text>
+<rect class="d-warn" x="220" y="108" width="140" height="44" rx="8"/><text class="d-label" x="290" y="135" text-anchor="middle">Cache miss</text>
+<rect class="d-box" x="460" y="108" width="160" height="44" rx="8"/><text class="d-label" x="540" y="135" text-anchor="middle">Database</text>
+<path class="d-line" d="M126 78 H220"/>
+<path class="d-line" d="M126 100 H220"/>
+<path class="d-line" d="M360 130 H460"/>
+<circle class="motion" r="5" fill="#3fb950"><animateMotion dur="2.2s" repeatCount="indefinite" path="M71 78 H290"/></circle>
+<circle class="motion" r="5" fill="#d29922"><animateMotion dur="3.4s" repeatCount="indefinite" path="M71 100 H290 H540"/></circle>
+</svg>
+</div>
+<p class="note">The app owns the fill. The database is still the source of truth.</p>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">When to use</p><ul><li>A small set of keys is read far more often than it changes.</li><li>The screen can tolerate a value that is seconds old, or you delete the cache entry on write.</li></ul></div>
+<div class="box"><p class="mini-title">When not to use</p><ul><li>Do not cache the only copy of data you cannot lose.</li><li>Do not cache a query that is different for every user and never repeats.</li></ul></div>
+</div>
+<p class="smell"><strong>Pattern:</strong> “Redirects are 100× the writes” or “this page is read constantly and changes rarely.” The usual tool is <a href="#redis">Redis</a>.</p>
+</section>
+
+<section id="sharding" class="level2">
+<h2>Sharding</h2>
+<p>Split the data so one machine does not hold all of it. The split key comes from how you look the data up. Say which key would get too hot and what you would do about it.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 180" role="img" aria-label="Keys move from one router to different shards. One shard is hot.">
+<text class="d-title" x="16" y="22">SPLIT BY THE LOOKUP KEY · one shard can still get too hot</text>
+<rect class="d-box" x="16" y="70" width="120" height="48" rx="8"/><text class="d-label" x="76" y="99" text-anchor="middle">Router</text>
+<rect class="d-good" x="250" y="36" width="150" height="40" rx="8"/><text class="d-label" x="325" y="61" text-anchor="middle">Shard A</text>
+<rect class="d-warn" x="250" y="88" width="150" height="40" rx="8"/><text class="d-label" x="325" y="113" text-anchor="middle">Shard B · hot</text>
+<rect class="d-good" x="250" y="140" width="150" height="28" rx="8"/><text class="d-small" x="325" y="159" text-anchor="middle">Shard C</text>
+<rect class="d-box" x="460" y="70" width="190" height="48" rx="8"/><text class="d-small" x="555" y="99" text-anchor="middle">Key = how you look it up</text>
+<path class="d-line" d="M136 94 C 190 94 210 56 250 56"/>
+<path class="d-line" d="M136 94 H250"/>
+<path class="d-line" d="M136 94 C 190 94 210 140 250 150"/>
+<circle class="motion" r="5" fill="#58a6ff"><animateMotion dur="2.6s" repeatCount="indefinite" path="M76 94 C 190 94 210 56 325 56"/></circle>
+<circle class="motion" r="5" fill="#d29922"><animateMotion dur="2.6s" repeatCount="indefinite" path="M76 94 H325"/></circle>
+</svg>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">When to use</p><ul><li>One database cannot hold the rows or the writes, and queries include the split key.</li><li>On DynamoDB the partition key is this split.</li></ul></div>
+<div class="box"><p class="mini-title">When not to use</p><ul><li>Do not shard on day one if one machine still has headroom.</li><li>Do not split on a key you do not have in the query. You would scan every shard.</li></ul></div>
+</div>
+<p class="smell"><strong>Pattern:</strong> “Billions of rows” or “one user is huge.” Name the hot key before you name the shard count.</p>
+</section>
+
+<section id="replication" class="level2">
+<h2>Replication</h2>
+<p>Keep a copy so reads scale and a dead machine does not take the data with it. Leader-follower is the picture: writes go to the leader, reads can go to a follower, and a follower can be a moment behind.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 160" role="img" aria-label="Writes go to the leader. The leader copies them to followers, which can lag.">
+<text class="d-title" x="16" y="22">LEADER-FOLLOWER · followers can be a moment behind</text>
+<rect class="d-hot" x="40" y="56" width="150" height="56" rx="8"/>
+<text class="d-label" x="115" y="80" text-anchor="middle">Leader</text>
+<text class="d-small" x="115" y="98" text-anchor="middle">takes writes</text>
+<rect class="d-good" x="300" y="40" width="150" height="44" rx="8"/><text class="d-label" x="375" y="67" text-anchor="middle">Follower</text>
+<rect class="d-good" x="300" y="100" width="150" height="44" rx="8"/><text class="d-label" x="375" y="127" text-anchor="middle">Follower</text>
+<rect class="d-box" x="510" y="64" width="140" height="48" rx="8"/><text class="d-small" x="580" y="93" text-anchor="middle">Reads, if lag is ok</text>
+<path class="d-line" d="M190 74 H300 M190 100 H300 M450 62 H510 M450 122 H510"/>
+<circle class="motion" r="5" fill="#58a6ff"><animateMotion dur="2.8s" repeatCount="indefinite" path="M115 84 H375"/></circle>
+</svg>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">When to use</p><ul><li>You need to survive one machine dying, or you have more reads than one machine can serve.</li><li>Send a read to the leader when the user must see their own write immediately.</li></ul></div>
+<div class="box"><p class="mini-title">When not to use</p><ul><li>A follower does not add write capacity. All writes still hit the leader.</li><li>Do not promise a follower read is up to date.</li></ul></div>
+</div>
+<p class="smell"><strong>Pattern:</strong> “What if that database dies?” or “reads are heavy, writes are not.”</p>
+</section>
+
+<section id="consistency" class="level2">
+<h2>Consistency</h2>
+<p>When the network splits, you choose staying correct or staying up. You do not get both until the split heals. Strong means a read sees the latest write. Eventual means a read can be a few seconds late and then catches up.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 160" role="img" aria-label="During a partition, one side can stay correct and refuse writes, or both sides can stay up and diverge">
+<text class="d-title" x="16" y="22">DURING A PARTITION · pick correct or pick up</text>
+<rect class="d-good" x="24" y="48" width="280" height="80" rx="8"/>
+<text class="d-label" x="164" y="78" text-anchor="middle">Stay correct</text>
+<text class="d-small" x="164" y="100" text-anchor="middle">Refuse the write you cannot confirm</text>
+<rect class="d-warn" x="360" y="48" width="290" height="80" rx="8"/>
+<text class="d-label" x="505" y="78" text-anchor="middle">Stay up</text>
+<text class="d-small" x="505" y="100" text-anchor="middle">Accept both sides, repair later</text>
+</svg>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">When to use</p><ul><li>Strong when money, inventory, or a unique name must not be double-spent.</li><li>Eventual when a feed, a counter, or a search index can be a few seconds late.</li></ul></div>
+<div class="box"><p class="mini-title">When not to use</p><ul><li>Do not say “we need strong consistency” for every box.</li><li>Do not use an eventual store as the only record of a payment.</li></ul></div>
+</div>
+<p class="smell"><strong>Pattern:</strong> “Can two people buy the last seat?” or “Can the feed be a few seconds old?”</p>
+</section>
+
+<section id="object-storage" class="level2">
+<h2>Object storage</h2>
+<p>Files and video are blobs. You store the bytes in object storage and the row that points at them in the database. User rows do not go in the blob store.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 150" role="img" aria-label="The app stores a file in object storage and saves only the key in the database">
+<text class="d-title" x="16" y="22">BYTES IN THE BLOB STORE · THE KEY IN THE DATABASE</text>
+<rect class="d-box" x="16" y="52" width="120" height="52" rx="8"/><text class="d-label" x="76" y="83" text-anchor="middle">App</text>
+<rect class="d-hot" x="220" y="44" width="180" height="68" rx="8"/>
+<text class="d-label" x="310" y="74" text-anchor="middle">Object storage</text>
+<text class="d-small" x="310" y="94" text-anchor="middle">image, video, file</text>
+<rect class="d-good" x="470" y="44" width="180" height="68" rx="8"/>
+<text class="d-label" x="560" y="74" text-anchor="middle">Database</text>
+<text class="d-small" x="560" y="94" text-anchor="middle">user, and the file key</text>
+<path class="d-line" d="M136 70 H220 M400 78 H470"/>
+</svg>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">When to use</p><ul><li>The thing is large, mostly written once, and fetched by a key.</li><li>Put a CDN in front when the same file is public and popular.</li></ul></div>
+<div class="box"><p class="mini-title">When not to use</p><ul><li>Do not store rows you need to query, join, or update in place.</li><li>Do not send video bytes through the app server if the client can upload to the store directly.</li></ul></div>
+</div>
+<p class="smell"><strong>Pattern:</strong> “Users upload a photo or a video.” The usual tool is <a href="#s3">S3</a>.</p>
+</section>
+
+<p class="group-label">Between services</p>
+
+<section id="async-messaging" class="level2">
+<h2>Async messaging</h2>
+<p>Do the slow or the fan-out work off the request. A queue is for one worker group that does the job. A log is for many services that each need their own copy and can read at their own speed.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 180" role="img" aria-label="A queue has one consumer group. A log has many independent readers.">
+<text class="d-title" x="16" y="22">QUEUE · one group does the job. LOG · each group gets a copy</text>
+<rect class="d-box" x="16" y="48" width="100" height="40" rx="8"/><text class="d-small" x="66" y="73" text-anchor="middle">Producer</text>
+<rect class="d-warn" x="150" y="44" width="120" height="48" rx="8"/><text class="d-label" x="210" y="73" text-anchor="middle">Queue</text>
+<rect class="d-good" x="310" y="48" width="140" height="40" rx="8"/><text class="d-small" x="380" y="73" text-anchor="middle">One worker group</text>
+<rect class="d-box" x="16" y="112" width="100" height="40" rx="8"/><text class="d-small" x="66" y="137" text-anchor="middle">Producer</text>
+<rect class="d-hot" x="150" y="108" width="120" height="48" rx="8"/><text class="d-label" x="210" y="137" text-anchor="middle">Log</text>
+<rect class="d-good" x="310" y="108" width="100" height="36" rx="8"/><text class="d-small" x="360" y="131" text-anchor="middle">Search</text>
+<rect class="d-good" x="424" y="108" width="100" height="36" rx="8"/><text class="d-small" x="474" y="131" text-anchor="middle">Analytics</text>
+<rect class="d-good" x="538" y="108" width="120" height="36" rx="8"/><text class="d-small" x="598" y="131" text-anchor="middle">Notifications</text>
+<path class="d-line" d="M116 68 H150 M270 68 H310 M116 132 H150 M270 128 H310 M410 126 H424 M524 126 H538"/>
+</svg>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">When to use</p><ul><li>The user does not need the result before the response returns.</li><li>A log when several teams each react to the same event. The event stays after it is read.</li></ul></div>
+<div class="box"><p class="mini-title">When not to use</p><ul><li>Do not put a queue on a path that must answer now, such as a login check.</li><li>A queue is not a workflow. A long process with timers and retries is a different idea. See <a href="#temporal">Temporal</a>.</li></ul></div>
+</div>
+<p class="smell"><strong>Pattern:</strong> “Send the email later,” “update search and analytics from the same write,” or “don’t make the user wait.” The usual log is <a href="#kafka">Kafka</a>.</p>
+</section>
+
+<section id="rate-limiting" class="level2">
+<h2>Rate limiting and idempotency</h2>
+<p>Rate limiting slows a client down so one caller cannot take the whole service. Idempotency makes a retried write safe: the second try with the same key returns the first result and does not create a second row.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 160" role="img" aria-label="A gate lets some requests through and rejects the rest. A retried write with the same key hits the same row.">
+<text class="d-title" x="16" y="22">SLOW THE CLIENT · MAKE THE RETRY SAFE</text>
+<rect class="d-box" x="16" y="52" width="100" height="44" rx="8"/><text class="d-label" x="66" y="79" text-anchor="middle">Client</text>
+<rect class="d-warn" x="160" y="48" width="130" height="52" rx="8"/>
+<text class="d-label" x="225" y="70" text-anchor="middle">Limit</text>
+<text class="d-small" x="225" y="88" text-anchor="middle">allow or reject</text>
+<rect class="d-good" x="340" y="52" width="110" height="44" rx="8"/><text class="d-label" x="395" y="79" text-anchor="middle">App</text>
+<rect class="d-hot" x="490" y="44" width="170" height="68" rx="8"/>
+<text class="d-label" x="575" y="72" text-anchor="middle">Same key</text>
+<text class="d-small" x="575" y="92" text-anchor="middle">same row, not a new one</text>
+<path class="d-line" d="M116 74 H160 M290 74 H340 M450 74 H490"/>
+</svg>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">When to use</p><ul><li>A public write, a login, or anything a script can call in a loop.</li><li>Any create the client might send twice because the network timed out.</li></ul></div>
+<div class="box"><p class="mini-title">When not to use</p><ul><li>A limit does not replace capacity planning. It only protects the service.</li><li>Do not make a read idempotent as a special case. Reads are already safe to retry.</li></ul></div>
+</div>
+<p class="smell"><strong>Pattern:</strong> “What if they click twice?” or “what if one client sends thousands of requests?” A counter for the limit often lives in <a href="#redis">Redis</a>.</p>
+</section>
+
+<p class="group-label">Delivery and growth</p>
+
+<section id="realtime" class="level2">
+<h2>Realtime</h2>
+<p>Polling asks on a timer. A socket stays open so the server can push when something happens. Pick polling when a short delay is fine. Pick a socket when the screen must change as the event happens.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 160" role="img" aria-label="Polling is repeated questions. A socket is one open connection that receives pushes.">
+<text class="d-title" x="16" y="22">POLL WHEN A DELAY IS FINE · PUSH WHEN THE SCREEN MUST MOVE NOW</text>
+<rect class="d-box" x="24" y="48" width="300" height="80" rx="8"/>
+<text class="d-label" x="174" y="78" text-anchor="middle">Polling</text>
+<text class="d-small" x="174" y="100" text-anchor="middle">client asks, waits, asks again</text>
+<rect class="d-hot" x="360" y="48" width="290" height="80" rx="8"/>
+<text class="d-label" x="505" y="78" text-anchor="middle">Socket</text>
+<text class="d-small" x="505" y="100" text-anchor="middle">server pushes on one connection</text>
+</svg>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">When to use</p><ul><li>Polling for a status page, a job result, or a feed that can be a few seconds old.</li><li>A socket for chat, a live cursor, a game, or a trading price.</li></ul></div>
+<div class="box"><p class="mini-title">When not to use</p><ul><li>Do not hold a socket per user when they only check once a minute.</li><li>A socket is stateful. The balancer must stick the connection, or a pub/sub layer must fan the message out.</li></ul></div>
+</div>
+<p class="smell"><strong>Pattern:</strong> “The other person should see the message immediately” versus “refreshing every few seconds is fine.”</p>
+</section>
+
+<section id="scaling" class="level2">
+<h2>Scaling</h2>
+<p>A bigger machine helps until that machine is full. More machines help when the work can be split and no single piece of state has to live on one box.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 160" role="img" aria-label="Vertical scaling makes one machine bigger. Horizontal scaling adds more machines.">
+<text class="d-title" x="16" y="22">BIGGER BOX FIRST ONLY WHEN ONE BOX IS ACTUALLY FULL</text>
+<rect class="d-box" x="40" y="70" width="70" height="50" rx="8"/>
+<rect class="d-hot" x="130" y="48" width="90" height="72" rx="8"/>
+<text class="d-small" x="115" y="140" text-anchor="middle">Vertical</text>
+<rect class="d-good" x="340" y="64" width="70" height="56" rx="8"/>
+<rect class="d-good" x="424" y="64" width="70" height="56" rx="8"/>
+<rect class="d-good" x="508" y="64" width="70" height="56" rx="8"/>
+<text class="d-small" x="459" y="140" text-anchor="middle">Horizontal · same job, more machines</text>
+</svg>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">When to use</p><ul><li>Vertical when one database is the bottleneck and it still has a larger size to move to.</li><li>Horizontal when app servers are stateless, or the data is already sharded.</li></ul></div>
+<div class="box"><p class="mini-title">When not to use</p><ul><li>Do not add ten app servers in front of one database and call the system scaled.</li><li>Do not shard before you have measured that one machine is not enough.</li></ul></div>
+</div>
+<p class="smell"><strong>Pattern:</strong> “Traffic doubled” or “we cannot buy a bigger database.” Ask which box is full before you add boxes.</p>
+</section>
+</section>
+
+<section id="technologies" class="level1">
+<h1>Technologies</h1>
+<p class="lead">The tools to say out loud, each tied to a concept. A cousin product gets one sentence on the matching card. You rarely need Kafka, Flink, and Zookeeper in the same answer. Name the one whose job you actually need.</p>
+
+<section id="postgresql" class="level2">
+<h2>PostgreSQL</h2>
+<p class="serves">Serves <a href="#data-modeling">data modeling</a>. Source of truth for rows you query in more than one way, with transactions.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 150" role="img" aria-label="PostgreSQL stores related rows and can answer more than one kind of query">
+<text class="d-title" x="16" y="22">ROWS, CONSTRAINTS, AND MORE THAN ONE QUERY SHAPE</text>
+<rect class="d-hot" x="24" y="48" width="200" height="72" rx="8"/>
+<text class="d-label" x="124" y="78" text-anchor="middle">links</text>
+<text class="d-small" x="124" y="98" text-anchor="middle">code is unique</text>
+<rect class="d-box" x="260" y="48" width="180" height="72" rx="8"/>
+<text class="d-label" x="350" y="78" text-anchor="middle">users</text>
+<text class="d-small" x="350" y="98" text-anchor="middle">optional owner</text>
+<rect class="d-good" x="480" y="48" width="170" height="72" rx="8"/>
+<text class="d-label" x="565" y="78" text-anchor="middle">One transaction</text>
+<text class="d-small" x="565" y="98" text-anchor="middle">both rows or neither</text>
+</svg>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">When to use</p><ul><li>The queries are not all “get by this one key,” and a write must be all-or-nothing.</li><li>The data fits one primary, plus followers for read scale. See <a href="#replication">replication</a>.</li></ul></div>
+<div class="box"><p class="mini-title">When not to use</p><ul><li>A single known-key lookup at a write rate one machine cannot take. Look at <a href="#dynamodb">DynamoDB</a>.</li><li>Full-text search across millions of documents. Look at <a href="#elasticsearch">Elasticsearch</a>.</li></ul></div>
+</div>
+<p class="smell"><strong>Pattern:</strong> “We need a unique code, a foreign key, and a transaction.”</p>
+</section>
+
+<section id="dynamodb" class="level2">
+<h2>DynamoDB</h2>
+<p class="serves">Serves <a href="#data-modeling">data modeling</a> and <a href="#sharding">sharding</a>. One known key lookup at huge scale. The partition key is the shard key.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 150" role="img" aria-label="A partition key sends each item to one partition. A hot key lands on one partition.">
+<text class="d-title" x="16" y="22">GET BY THE PARTITION KEY · THAT KEY IS THE SHARD</text>
+<rect class="d-box" x="16" y="56" width="140" height="48" rx="8"/><text class="d-label" x="86" y="85" text-anchor="middle">user#42</text>
+<rect class="d-good" x="230" y="40" width="160" height="40" rx="8"/><text class="d-small" x="310" y="65" text-anchor="middle">Partition A</text>
+<rect class="d-warn" x="230" y="92" width="160" height="40" rx="8"/><text class="d-small" x="310" y="117" text-anchor="middle">Partition B · hot key</text>
+<rect class="d-box" x="450" y="56" width="200" height="48" rx="8"/><text class="d-small" x="550" y="85" text-anchor="middle">No joins across items</text>
+<path class="d-line" d="M156 80 H230"/>
+</svg>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">When to use</p><ul><li>You know the access pattern up front: get item, or query one partition.</li><li>You need that lookup to keep working as the table grows, without running the database yourself.</li></ul></div>
+<div class="box"><p class="mini-title">When not to use</p><ul><li>Ad-hoc filters, joins, and “sort the whole table.”</li><li>A key that almost all traffic hits. That partition becomes the ceiling.</li></ul></div>
+</div>
+<p class="smell"><strong>Pattern:</strong> “Look up by user id at huge scale.” Cassandra is the wide-column cousin you run yourself. Same rule: query by the partition key. It does not get its own card.</p>
+</section>
+
+<section id="redis" class="level2">
+<h2>Redis</h2>
+<p class="serves">Serves <a href="#caching">caching</a>. Hot keys, counters, and short-lived locks. Not the place you store the only copy of a user’s data.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 150" role="img" aria-label="Redis sits in front of the database for hot keys, counters, and locks that expire">
+<text class="d-title" x="16" y="22">MEMORY, WITH A TTL · THE DATABASE STILL OWNS THE ROW</text>
+<rect class="d-good" x="24" y="48" width="180" height="70" rx="8"/>
+<text class="d-label" x="114" y="78" text-anchor="middle">Redis</text>
+<text class="d-small" x="114" y="98" text-anchor="middle">key, counter, lock</text>
+<rect class="d-box" x="260" y="48" width="180" height="70" rx="8"/>
+<text class="d-label" x="350" y="88" text-anchor="middle">Database</text>
+<rect class="d-warn" x="490" y="48" width="160" height="70" rx="8"/>
+<text class="d-label" x="570" y="78" text-anchor="middle">Expires</text>
+<text class="d-small" x="570" y="98" text-anchor="middle">lock and cache TTL</text>
+</svg>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">When to use</p><ul><li>The same keys are read constantly, or you need an atomic counter for a <a href="#rate-limiting">rate limit</a>.</li><li>A lock that must disappear if the owner crashes. Give it a short TTL.</li></ul></div>
+<div class="box"><p class="mini-title">When not to use</p><ul><li>The only copy of orders, users, or money.</li><li>A dataset bigger than memory, or a query you would write in SQL.</li></ul></div>
+</div>
+<p class="smell"><strong>Pattern:</strong> “This read is hot” or “count requests per user per minute.”</p>
+</section>
+
+<section id="elasticsearch" class="level2">
+<h2>Elasticsearch</h2>
+<p class="serves">Serves <a href="#data-modeling">data modeling</a> for search. Find words and filters fast. The database remains the source of truth. Rebuild the index from it.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 128" role="img" aria-label="Writes land in the database, then a copy is indexed so search can find words">
+<text class="d-title" x="16" y="22">SEARCH INDEX · REBUILD IT FROM THE DATABASE</text>
+<rect class="d-good" x="16" y="52" width="150" height="56" rx="8"/><text class="d-label" x="91" y="85" text-anchor="middle">Database</text>
+<rect class="d-hot" x="230" y="44" width="190" height="72" rx="8"/>
+<text class="d-label" x="325" y="74" text-anchor="middle">Elasticsearch</text>
+<text class="d-small" x="325" y="94" text-anchor="middle">words and filters</text>
+<rect class="d-box" x="480" y="52" width="170" height="56" rx="8"/><text class="d-label" x="565" y="85" text-anchor="middle">Search box</text>
+<path class="d-line" d="M166 80 H230 M420 80 H480"/>
+</svg>
+</div>
+<p class="note">A write updates the database first. The index can be a few seconds behind.</p>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">When to use</p><ul><li>Full text, typo-tolerant search, or filters and facets across a large catalog.</li><li>You can replay the database, or a <a href="#kafka">Kafka</a> log, to rebuild the index.</li></ul></div>
+<div class="box"><p class="mini-title">When not to use</p><ul><li>As the only store of a record the business cannot lose.</li><li>A simple “get by primary key.” That is the database, or Redis.</li></ul></div>
+</div>
+<p class="smell"><strong>Pattern:</strong> “Search products by name, filter by price, show facets.”</p>
+</section>
+
+<section id="kafka" class="level2">
+<h2>Kafka</h2>
+<p class="serves">Serves <a href="#async-messaging">async messaging</a>. A durable log many services can read at their own speed. The event stays after it is read.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 170" role="img" aria-label="Producers append to a log split into partitions. Two consumer groups each read the full log.">
+<text class="d-title" x="16" y="22">APPEND TO THE LOG · EACH GROUP KEEPS ITS OWN PLACE</text>
+<rect class="d-box" x="16" y="64" width="110" height="44" rx="8"/><text class="d-label" x="71" y="91" text-anchor="middle">Producer</text>
+<rect class="d-hot" x="170" y="44" width="70" height="28" rx="6"/><text class="d-small" x="205" y="63" text-anchor="middle">P0</text>
+<rect class="d-hot" x="170" y="78" width="70" height="28" rx="6"/><text class="d-small" x="205" y="97" text-anchor="middle">P1</text>
+<rect class="d-hot" x="170" y="112" width="70" height="28" rx="6"/><text class="d-small" x="205" y="131" text-anchor="middle">P2</text>
+<rect class="d-good" x="300" y="48" width="160" height="40" rx="8"/><text class="d-small" x="380" y="73" text-anchor="middle">Group: search</text>
+<rect class="d-good" x="300" y="104" width="160" height="40" rx="8"/><text class="d-small" x="380" y="129" text-anchor="middle">Group: analytics</text>
+<rect class="d-box" x="500" y="64" width="160" height="48" rx="8"/><text class="d-small" x="580" y="93" text-anchor="middle">Event stays on disk</text>
+<path class="d-line" d="M126 86 H170 M240 62 H300 M240 118 H300"/>
+</svg>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">When to use</p><ul><li>Several services must each react to the same fact, and they must not slow the writer.</li><li>You may replay history. Order is per partition, so put related events on the same key.</li></ul></div>
+<div class="box"><p class="mini-title">When not to use</p><ul><li>One worker and a simple job. A queue is enough.</li><li>A request that must finish before you respond. And do not add Zookeeper just because you added Kafka.</li></ul></div>
+</div>
+<p class="smell"><strong>Pattern:</strong> “When a link is clicked, analytics, search, and notifications all need the event, on their own schedule.”</p>
+</section>
+
+<section id="flink" class="level2">
+<h2>Flink</h2>
+<p class="serves">Serves <a href="#async-messaging">async messaging</a>, the compute step. Stateful processing over a log: windows and aggregates. <a href="#kafka">Kafka</a> stores the stream. Flink calculates on it.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 150" role="img" aria-label="Kafka stores events. Flink groups them into a window and writes an aggregate.">
+<text class="d-title" x="16" y="22">KAFKA STORES THE STREAM · FLINK COMPUTES ON IT</text>
+<rect class="d-hot" x="16" y="52" width="150" height="56" rx="8"/><text class="d-label" x="91" y="85" text-anchor="middle">Kafka</text>
+<rect class="d-good" x="220" y="44" width="200" height="72" rx="8"/>
+<text class="d-label" x="320" y="74" text-anchor="middle">Flink</text>
+<text class="d-small" x="320" y="94" text-anchor="middle">count clicks per minute</text>
+<rect class="d-box" x="470" y="52" width="180" height="56" rx="8"/><text class="d-label" x="560" y="85" text-anchor="middle">Aggregate store</text>
+<path class="d-line" d="M166 80 H220 M420 80 H470"/>
+</svg>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">When to use</p><ul><li>You must count, join, or window a stream continuously, and the state has to survive a crash.</li><li>The input is already a log, usually Kafka.</li></ul></div>
+<div class="box"><p class="mini-title">When not to use</p><ul><li>A nightly report. A scheduled query is simpler.</li><li>A single consumer that sends one email per event. That is a worker, not Flink.</li></ul></div>
+</div>
+<p class="smell"><strong>Pattern:</strong> “Rolling count of clicks per link for the last five minutes, and it must not reset when a machine dies.”</p>
+</section>
+
+<section id="temporal" class="level2">
+<h2>Temporal</h2>
+<p class="serves">Serves durable workflows: a long process with retries, timers, and steps that must finish even if a server dies. Neighbor idea: <a href="#async-messaging">async messaging</a>. Temporal is not a replacement for Kafka.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 160" role="img" aria-label="A workflow runs steps in order, waits on a timer, and resumes after a crash">
+<text class="d-title" x="16" y="22">THE PROCESS REMEMBERS WHERE IT WAS</text>
+<rect class="d-good" x="16" y="56" width="120" height="48" rx="8"/><text class="d-small" x="76" y="85" text-anchor="middle">Charge</text>
+<rect class="d-warn" x="180" y="56" width="140" height="48" rx="8"/><text class="d-small" x="250" y="85" text-anchor="middle">Wait 1 day</text>
+<rect class="d-good" x="364" y="56" width="120" height="48" rx="8"/><text class="d-small" x="424" y="85" text-anchor="middle">Send email</text>
+<rect class="d-hot" x="520" y="48" width="140" height="64" rx="8"/>
+<text class="d-label" x="590" y="76" text-anchor="middle">Crash</text>
+<text class="d-small" x="590" y="96" text-anchor="middle">resume the step</text>
+<path class="d-line" d="M136 80 H180 M320 80 H364 M484 80 H520"/>
+</svg>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">When to use</p><ul><li>A business process has several steps, some of which wait, and each step must not run twice by accident.</li><li>The process can last minutes or days, longer than one request.</li></ul></div>
+<div class="box"><p class="mini-title">When not to use</p><ul><li>Fan-out to many independent consumers. That is Kafka.</li><li>A single database transaction that finishes in milliseconds.</li></ul></div>
+</div>
+<p class="smell"><strong>Pattern:</strong> “Take the payment, wait until the item ships, then email, and do not lose your place if we deploy.”</p>
+</section>
+
+<section id="zookeeper" class="level2">
+<h2>Zookeeper</h2>
+<p class="serves">Serves coordination: who is the leader, and shared config. Kafka moves data. Zookeeper decides who is in charge. etcd is the usual modern stand-in. You do not add Zookeeper because you added Kafka.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 160" role="img" aria-label="Zookeeper marks one node as leader. The other nodes are followers.">
+<text class="d-title" x="16" y="22">SMALL METADATA · WHO IS IN CHARGE</text>
+<rect class="d-hot" x="220" y="40" width="220" height="52" rx="8"/>
+<text class="d-label" x="330" y="71" text-anchor="middle">Zookeeper / etcd</text>
+<rect class="d-good" x="40" y="112" width="140" height="36" rx="8"/><text class="d-small" x="110" y="135" text-anchor="middle">Leader</text>
+<rect class="d-box" x="260" y="112" width="140" height="36" rx="8"/><text class="d-small" x="330" y="135" text-anchor="middle">Follower</text>
+<rect class="d-box" x="480" y="112" width="140" height="36" rx="8"/><text class="d-small" x="550" y="135" text-anchor="middle">Follower</text>
+<path class="d-line" d="M330 92 V112 M150 112 V100 H330 M550 112 V100 H330"/>
+</svg>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">When to use</p><ul><li>A cluster must agree on one leader, a membership list, or a small piece of config.</li><li>The data is tiny and is read more than it is written.</li></ul></div>
+<div class="box"><p class="mini-title">When not to use</p><ul><li>As a database for user rows, or as a queue for events.</li><li>As a required companion to a new Kafka design. Say the coordination problem on its own.</li></ul></div>
+</div>
+<p class="smell"><strong>Pattern:</strong> “Only one node should run this job” or “everyone must see the same config.”</p>
+</section>
+
+<section id="s3" class="level2">
+<h2>S3</h2>
+<p class="serves">Serves <a href="#object-storage">object storage</a>. Images, video, and big files. Not user rows.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 150" role="img" aria-label="The client uploads a file to S3. The app stores the object key in the database.">
+<text class="d-title" x="16" y="22">PUT THE FILE · SAVE THE KEY</text>
+<rect class="d-box" x="16" y="52" width="120" height="52" rx="8"/><text class="d-label" x="76" y="83" text-anchor="middle">Client</text>
+<rect class="d-hot" x="200" y="44" width="180" height="68" rx="8"/>
+<text class="d-label" x="290" y="74" text-anchor="middle">S3</text>
+<text class="d-small" x="290" y="94" text-anchor="middle">bucket / object key</text>
+<rect class="d-good" x="440" y="44" width="210" height="68" rx="8"/>
+<text class="d-label" x="545" y="74" text-anchor="middle">Database</text>
+<text class="d-small" x="545" y="94" text-anchor="middle">stores the key, not the bytes</text>
+<path class="d-line" d="M136 78 H200 M380 78 H440"/>
+</svg>
+</div>
+<div class="pros-cons">
+<div class="box"><p class="mini-title">When to use</p><ul><li>A file is large, written once, and downloaded by key.</li><li>You want the client to upload directly, so the bytes do not pass through the app.</li></ul></div>
+<div class="box"><p class="mini-title">When not to use</p><ul><li>Records you update field by field, or query with SQL.</li><li>A tiny config value many services must watch. That is coordination, not a blob.</li></ul></div>
+</div>
+<p class="smell"><strong>Pattern:</strong> “Store the video” or “the image is 4 MB and we only need it by id.”</p>
+</section>
+</section>
+
+<section id="case-studies" class="level1">
+<h1>Case Studies</h1>
+<p class="lead">One filled study, then an empty template with the same headings. Add the next study by copying the template into a new section. The sidebar picks up the new title on its own.</p>
+<ul>
+<li><a href="#url-shortener">URL shortener</a> — worked example of the <a href="#forty-five-minute-clock">45-minute clock</a>.</li>
+<li><a href="#case-study-template">Case study template</a> — empty headings to copy.</li>
+</ul>
+
+<section id="url-shortener" class="level2">
+<h2>URL shortener</h2>
+
+<h3>Problem</h3>
+<p>A person pastes a long URL and gets back a short code. Anyone who opens that code is sent to the long URL. A custom code is optional. Analytics, accounts, and link expiry are out of scope for v1.</p>
+
+<h3>Clarify</h3>
+<ul>
+<li>Users: someone who creates a link, and anyone who opens it. No login in v1.</li>
+<li>Happy path: create returns a code. Opening the code redirects.</li>
+<li>Out of scope: click charts, user accounts, expiry, and a preview image.</li>
+<li>Scale, rounded: writes are rare, redirects dominate. Storage is one small row per link, so it stays small next to the read traffic. Say “reads are about 100× writes” and move on.</li>
+</ul>
+
+<h3>Core entities and API</h3>
+<p>One noun: a link, <code>(code, long_url)</code>. The link service owns it.</p>
+<ul>
+<li><strong>Create a link.</strong> Write. In: the long URL, and an optional custom code. Out: the code.</li>
+<li><strong>Open a short code.</strong> Read. In: the code. Out: a redirect to the long URL, or not found.</li>
+</ul>
+<p>Creating the same long URL twice may return two codes. Say that, so dedupe is a choice and not an accident. A custom code must be unique.</p>
+
+<h3>HLD</h3>
+<p>One stateless service owns both entry points. Any machine can take the next request. The write path inserts the row in <a href="#postgresql">PostgreSQL</a>. The read path checks <a href="#redis">Redis</a>, then PostgreSQL, then redirects.</p>
+<div class="diagram">
+<svg viewBox="0 0 680 210" role="img" aria-label="Browser to load balancer to link service. Writes go to PostgreSQL. Reads check Redis, then PostgreSQL, then redirect.">
+<text class="d-title" x="16" y="22">READ PATH IS THE HOT PATH · WRITE PATH IS THE THIN ONE</text>
+<rect class="d-box" x="16" y="48" width="110" height="44" rx="8"/><text class="d-label" x="71" y="75" text-anchor="middle">Browser</text>
+<rect class="d-box" x="160" y="48" width="130" height="44" rx="8"/><text class="d-label" x="225" y="75" text-anchor="middle">Balancer</text>
+<rect class="d-hot" x="330" y="40" width="160" height="60" rx="8"/>
+<text class="d-label" x="410" y="66" text-anchor="middle">Link service</text>
+<text class="d-small" x="410" y="86" text-anchor="middle">stateless</text>
+<rect class="d-good" x="160" y="140" width="160" height="52" rx="8"/>
+<text class="d-label" x="240" y="162" text-anchor="middle">Redis</text>
+<text class="d-small" x="240" y="180" text-anchor="middle">code → long URL</text>
+<rect class="d-good" x="400" y="140" width="200" height="52" rx="8"/>
+<text class="d-label" x="500" y="162" text-anchor="middle">PostgreSQL</text>
+<text class="d-small" x="500" y="180" text-anchor="middle">code, long_url</text>
+<path class="d-line" d="M126 70 H160 M290 70 H330"/>
+<path class="d-line" d="M380 100 V140 H320"/>
+<path class="d-line" d="M450 100 V140 H500"/>
+<circle class="motion" r="5" fill="#3fb950"><animateMotion dur="3.2s" repeatCount="indefinite" path="M71 70 H410 V166 H240"/></circle>
+</svg>
+</div>
+<p class="note">Green dot: open a code. Create skips Redis and inserts the row.</p>
+<ul>
+<li><strong>Write.</strong> Validate the URL, choose a code, insert. Unique constraint on <code>code</code> rejects a custom alias that is taken.</li>
+<li><strong>Read.</strong> Cache, then database, then redirect. The app servers store nothing locally.</li>
+</ul>
+
+<h3>Deep dive</h3>
+<p><strong>How the code is chosen.</strong> A random 7-character code from a URL-safe alphabet, with a retry if the unique constraint fails, is enough at this size. A counter from one allocator avoids the retry. Say which one you pick. Do not build both.</p>
+<p><strong>Cache-aside on redirect.</strong> Key is the code. Value is the long URL. On a hit, redirect. On a miss, read <a href="#postgresql">PostgreSQL</a>, fill <a href="#redis">Redis</a>, redirect. Links rarely change, so a long TTL is fine. Do not cache “missing” for long, or a typo sticks.</p>
+<p><strong>Missing code.</strong> Return not found. Do not redirect to a default page that hides a bad link.</p>
+<p><strong>Tradeoff.</strong> PostgreSQL is the source of truth because the code must be unique and the row is tiny. Redis exists only because the read is hot. If Redis is empty, redirects get slower and the database must survive that spike. That is acceptable. Losing Redis must not lose links.</p>
+
+<h3>Close</h3>
+<p>Summarize: one service, one SQL row, cache on the read path.</p>
+<p><strong>One failure.</strong> A hot link is fine while Redis holds it. If Redis restarts, that one code hits PostgreSQL until the cache fills again. A second failure to mention if asked: two creates of the same long URL produce two codes, unless you decided to dedupe.</p>
+<p><strong>If they ask how it grows.</strong> Click analytics is a write on the read path, so do not count it in PostgreSQL during the redirect. Publish a click event to <a href="#kafka">Kafka</a> and let a consumer count it. Name that. Do not design the pipeline unless they ask you to stay there. <a href="#flink">Flink</a> is the follow-up only if they want a rolling count.</p>
+</section>
+
+<p class="group-label">Add the next one</p>
+
+<section id="case-study-template" class="level2">
+<h2>Case study template</h2>
+<p>Copy this section, give it a new id and title, and fill the same headings. Leave a study empty rather than inventing a second design in the template.</p>
+
+<h3>Problem</h3>
+<p>Not written yet. One paragraph: who uses it, and the happy path.</p>
+
+<h3>Clarify</h3>
+<ul>
+<li>Not written yet. Users, happy path, out of scope, and one or two round numbers.</li>
+</ul>
+
+<h3>Core entities and API</h3>
+<ul>
+<li>Not written yet. The nouns, who owns each, and one line per entry point.</li>
+</ul>
+
+<h3>HLD</h3>
+<p>Not written yet. Each service, its one job, the read path, and the write path. Add a diagram.</p>
+
+<h3>Deep dive</h3>
+<p>Not written yet. One or two services, the tradeoff, and links to the concept or technology cards instead of re-teaching them.</p>
+
+<h3>Close</h3>
+<p>Not written yet. A one-paragraph summary, one failure, and one extension you will not build unless asked.</p>
+</section>
+</section>
+
+<section id="quick-sheet" class="level1">
+<h1>Quick sheet</h1>
+<p class="lead">Last five minutes. The cards above are the explanation. These rows are only the reminder.</p>
+
+<section id="concept-quick-sheet" class="level2">
+<h2>Concepts</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Concept</th><th>Pros</th><th>Cons</th><th>Pattern to identify</th></tr></thead>
+<tbody>
+<tr><td><a href="#numbers">Numbers</a></td><td>Turns users and daily counts into requests per second.</td><td>Fake precision. Round and move on.</td><td>“100 million users” is not 100 million requests per second.</td></tr>
+<tr><td><a href="#networking">Networking</a></td><td>Any server can take the next request. Public files can stop at the CDN.</td><td>Easy to draw boxes you will not talk about.</td><td>“Users open it from anywhere.”</td></tr>
+<tr><td><a href="#api-design">API design</a></td><td>Makes the read path and the write path obvious.</td><td>A long endpoint list eats the drawing time.</td><td>“What can the client do?” after the nouns exist.</td></tr>
+<tr><td><a href="#data-modeling">Data modeling</a></td><td>The hot query decides the store.</td><td>Extra tables for out-of-scope features.</td><td>“We look this up by id all day.”</td></tr>
+<tr><td><a href="#caching">Caching</a></td><td>Hot reads skip the database.</td><td>Stale values, and a stampede when the cache dies.</td><td>Reads dwarf writes, and a slightly old value is fine.</td></tr>
+<tr><td><a href="#sharding">Sharding</a></td><td>Data and writes spread across machines.</td><td>A hot key still lands on one shard. Cross-shard queries get hard.</td><td>“Billions of rows” or “one user is huge.”</td></tr>
+<tr><td><a href="#replication">Replication</a></td><td>Survives a dead machine. Scales reads.</td><td>Followers lag. Writes still hit the leader.</td><td>“What if that database dies?”</td></tr>
+<tr><td><a href="#consistency">Consistency</a></td><td>You can say what a read is allowed to miss.</td><td>Strong and always-up conflict during a partition.</td><td>“Can two people buy the last seat?”</td></tr>
+<tr><td><a href="#object-storage">Object storage</a></td><td>Cheap, durable bytes addressed by key.</td><td>No row queries, no in-place field updates.</td><td>“Users upload a photo or a video.”</td></tr>
+<tr><td><a href="#async-messaging">Async messaging</a></td><td>The request stays fast. Many consumers can each keep their own place.</td><td>The user does not see the work finish. Ops get harder.</td><td>“Don’t make the user wait” or “several teams need the same event.”</td></tr>
+<tr><td><a href="#rate-limiting">Rate limiting and idempotency</a></td><td>One client cannot melt the service. A retry does not double-write.</td><td>A limit is not extra capacity.</td><td>“What if they click twice?”</td></tr>
+<tr><td><a href="#realtime">Realtime</a></td><td>A socket updates the screen as the event happens.</td><td>Open connections are state the balancer must respect.</td><td>“The other person should see it immediately.”</td></tr>
+<tr><td><a href="#scaling">Scaling</a></td><td>More machines when the work splits.</td><td>More app servers do not help a full database.</td><td>“Which box is actually full?”</td></tr>
+</tbody>
+</table></div>
+</section>
+
+<section id="technology-quick-sheet" class="level2">
+<h2>Technologies</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Technology</th><th>Pros</th><th>Cons</th><th>Pattern to identify</th></tr></thead>
+<tbody>
+<tr><td><a href="#postgresql">PostgreSQL</a></td><td>Transactions, uniqueness, queries you did not fully predict.</td><td>One primary still takes the writes.</td><td>“Unique code and a transaction.”</td></tr>
+<tr><td><a href="#dynamodb">DynamoDB</a></td><td>Known-key lookups at huge scale. Partition key is the shard key.</td><td>No joins. A hot key caps the table. Cassandra is the self-hosted cousin.</td><td>“Get by user id, and it must keep growing.”</td></tr>
+<tr><td><a href="#redis">Redis</a></td><td>Very fast hot keys, counters, and locks with a TTL.</td><td>Memory-sized. Not the only copy of business data.</td><td>“This read is hot” or “count per minute.”</td></tr>
+<tr><td><a href="#elasticsearch">Elasticsearch</a></td><td>Words, typos, filters, and facets.</td><td>Not the source of truth. The index lags and must be rebuildable.</td><td>“Search by name and filter by price.”</td></tr>
+<tr><td><a href="#kafka">Kafka</a></td><td>A durable log. Many groups read at their own speed. Replay is possible.</td><td>Heavy for one simple job. Order is only per partition.</td><td>“Search, analytics, and mail all need this event.”</td></tr>
+<tr><td><a href="#flink">Flink</a></td><td>Windows and aggregates that survive a crash.</td><td>Too much for one email per event or a nightly report.</td><td>“Rolling count over the last five minutes.”</td></tr>
+<tr><td><a href="#temporal">Temporal</a></td><td>A long process remembers its step, retries, and timers.</td><td>Not a bus for many consumers. Not a millisecond transaction.</td><td>“Wait until it ships, then email, and do not lose your place.”</td></tr>
+<tr><td><a href="#zookeeper">Zookeeper</a></td><td>Leader election and small shared config. etcd is the usual stand-in.</td><td>Not a database and not a queue. Not required just because you use Kafka.</td><td>“Only one node should run this job.”</td></tr>
+<tr><td><a href="#s3">S3</a></td><td>Durable large files, fetched by key. Clients can upload directly.</td><td>Not for rows you query or update in place.</td><td>“Store the video. Keep the key in the database.”</td></tr>
+</tbody>
+</table></div>
+</section>
+</section>
+
+<div class="footer">HLD interview reference · Press <kbd>/</kbd> to search · <a href="../lld-cheat-sheet/">LLD cheat sheet</a> · <a href="../">Back to portal</a></div>
+</article></main>
+</div>
+<script>
+(function () {
+  const content = document.getElementById('content');
+  const toc = document.getElementById('toc');
+  const search = document.getElementById('search');
+  const searchMeta = document.getElementById('searchMeta');
+  const progressBar = document.getElementById('progressBar');
+  const themeKey = 'hld-cheat-sheet-theme';
+  let headings = [];
+
+  window.toggleSidebar = function () {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('open');
+  };
+  window.closeSidebar = function () {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+  };
+  window.toggleTheme = function () {
+    const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next === 'light' ? 'light' : '');
+    localStorage.setItem(themeKey, next);
+  };
+
+  function initTheme() {
+    const saved = localStorage.getItem(themeKey);
+    if (saved === 'light' || (!saved && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  }
+
+  function buildToc() {
+    content.querySelectorAll('h1, h2, h3').forEach((heading, index) => {
+      if (!heading.id) heading.id = 'section-' + index;
+      const link = document.createElement('a');
+      link.href = '#' + heading.id;
+      link.dataset.target = heading.id;
+      link.textContent = heading.textContent;
+      link.className = heading.tagName.toLowerCase();
+      link.addEventListener('click', closeSidebar);
+      toc.appendChild(link);
+      headings.push({ heading, link });
+    });
+  }
+
+  function updateActiveHeading() {
+    const offset = window.innerWidth <= 900 ? 90 : 24;
+    let current = headings[0];
+    for (const item of headings) {
+      if (item.heading.getBoundingClientRect().top <= offset + 8) current = item;
+    }
+    headings.forEach((item) => item.link.classList.toggle('active', item === current));
+  }
+
+  function clearSearchMarks() {
+    content.querySelectorAll('mark.search-hit').forEach((mark) => {
+      mark.replaceWith(document.createTextNode(mark.textContent));
+    });
+  }
+
+  function hideOrphanLabels(query) {
+    content.querySelectorAll('.group-label').forEach((label) => {
+      let sib = label.nextElementSibling;
+      let any = false;
+      while (sib && !sib.classList.contains('group-label')) {
+        if (sib.classList.contains('level1')) break;
+        if (sib.matches('section.level2, section.level3') && !sib.classList.contains('hidden-by-search')) any = true;
+        sib = sib.nextElementSibling;
+      }
+      label.classList.toggle('hidden-by-search', Boolean(query) && !any);
+    });
+  }
+
+  function runSearch() {
+    const query = search.value.trim().toLowerCase();
+    clearSearchMarks();
+    const sections = [...content.querySelectorAll('section.level1, section.level2, section.level3')];
+    if (!query) {
+      sections.forEach((section) => section.classList.remove('hidden-by-search'));
+      hideOrphanLabels('');
+      searchMeta.textContent = '';
+      return;
+    }
+    let visible = 0;
+    sections.forEach((section) => {
+      const match = section.textContent.toLowerCase().includes(query);
+      const childMatch = [...section.querySelectorAll('section')].some((child) => child.textContent.toLowerCase().includes(query));
+      const show = match || childMatch;
+      section.classList.toggle('hidden-by-search', !show);
+      if (show && section.classList.contains('level3')) visible += 1;
+      if (show && section.classList.contains('level2') && !section.querySelector('section.level3')) visible += 1;
+    });
+    hideOrphanLabels(query);
+    searchMeta.textContent = visible ? visible + ' section(s) matched' : 'No matches';
+  }
+
+  search.addEventListener('input', runSearch);
+  window.addEventListener('scroll', () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    progressBar.style.width = max > 0 ? ((window.scrollY / max) * 100) + '%' : '0%';
+    updateActiveHeading();
+  }, { passive: true });
+  window.addEventListener('keydown', (event) => {
+    if (event.key === '/' && document.activeElement !== search) {
+      event.preventDefault();
+      search.focus();
+    }
+    if (event.key === 'Escape') {
+      search.value = '';
+      runSearch();
+      search.blur();
+      closeSidebar();
+    }
+  });
+
+  initTheme();
+  buildToc();
+  updateActiveHeading();
+})();
+</script>
+</body>
+</html>
