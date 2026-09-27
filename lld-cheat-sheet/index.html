@@ -383,8 +383,8 @@ class OrderService {
 
 <section id="composition-over-inheritance" class="level2">
 <h2>Composition over Inheritance</h2>
-<p>Vary a behavior by plugging in a collaborator. Do not add a subclass per variant.</p>
-<p class="smell"><strong>Interview smell:</strong> <code>EmailNotifier</code> and <code>SmsNotifier</code> each exist only to implement <code>send</code>.</p>
+<p>Vary a behavior by plugging in a collaborator. A subclass per channel is fine until one <code>send</code> must use two channels.</p>
+<p class="smell"><strong>Interview smell:</strong> email and SMS together is a third subclass, <code>EmailAndSmsNotifier</code>, whose <code>send</code> copies both bodies.</p>
 <div class="pair">
 <div class="example">
 <div class="example-label bad">Bad</div>
@@ -394,6 +394,9 @@ class EmailNotifier extends Notifier {
 }
 class SmsNotifier extends Notifier {
     void send(String text) { /* sms */ }
+}
+class EmailAndSmsNotifier extends Notifier {
+    void send(String text) { /* smtp and sms, both copied */ }
 }</code></pre>
 </div>
 <div class="example">
@@ -409,7 +412,7 @@ class Notifier {
 </div>
 </div>
 <div class="pros-cons">
-<div class="box"><p class="mini-title">Pros</p><ul><li><code>Notifier.send</code> loops <code>channels</code> and calls <code>deliver</code>. The bad version is two classes, <code>EmailNotifier.send</code> and <code>SmsNotifier.send</code>.</li><li>The list <code>channels</code> can hold more than one <code>Channel</code>. <code>EmailNotifier.send</code> and <code>SmsNotifier.send</code> are separate classes.</li></ul></div>
+<div class="box"><p class="mini-title">Pros</p><ul><li><code>Notifier.send</code> loops <code>channels</code> and calls <code>deliver</code> on each. <code>EmailAndSmsNotifier.send</code> has to repeat the smtp body and the sms body.</li><li>The list <code>channels</code> can hold more than one <code>Channel</code>. <code>EmailNotifier.send</code> and <code>SmsNotifier.send</code> are separate classes.</li></ul></div>
 <div class="box"><p class="mini-title">Cons</p><ul><li>One email send is a <code>Notifier</code> plus a <code>Channel</code>. The bad version is the class <code>EmailNotifier</code>.</li><li><code>Notifier</code> requires a <code>List&lt;Channel&gt;</code> in its constructor. <code>EmailNotifier</code> has no constructor parameter.</li></ul></div>
 </div>
 <div class="pros-cons">
