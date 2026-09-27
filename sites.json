@@ -12,6 +12,17 @@
       ]
     },
     {
+      "slug": "lld-cheat-sheet",
+      "title": "Low Level Design Cheat Sheet",
+      "description": "Java interview reference for LLD: 45-minute delivery, principles, patterns, concurrency, and case studies.",
+      "tags": [
+        "lld",
+        "java",
+        "interview",
+        "cheatsheet"
+      ]
+    },
+    {
       "slug": "resume",
       "title": "Resume",
       "description": "Shubham Singhal \u2014 Senior Software Engineer resume.",
