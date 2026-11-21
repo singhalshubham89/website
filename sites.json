@@ -34,6 +34,19 @@
       ]
     },
     {
+      "slug": "system-design-revision-hub",
+      "title": "System Design Revision Hub",
+      "description": "Full static hub: HLD, LLD, distributed systems, Java concurrency, patterns, case studies, decision matrix, and interview prep.",
+      "tags": [
+        "system-design",
+        "hld",
+        "lld",
+        "java",
+        "concurrency",
+        "interview"
+      ]
+    },
+    {
       "slug": "resume",
       "title": "Resume",
       "description": "Shubham Singhal \u2014 Senior Software Engineer resume.",

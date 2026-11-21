@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>System Design Interview Revision Hub</title>
+  <meta name="description" content="HLD, LLD, Java concurrency, distributed systems, patterns, case studies, and interview prep — static offline revision hub.">
+  <meta name="theme-color" content="#0d1117">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+  <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+  <div class="overlay" id="overlay"></div>
+  <div class="topbar" id="topbar">
+    <strong>Revision Hub</strong>
+    <div>
+      <button class="btn" type="button" id="themeBtnMobile">Theme</button>
+      <button class="btn menu" type="button" id="menuBtn">☰</button>
+    </div>
+  </div>
+  <div class="shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="back" href="../">← All sites</a>
+      <div class="brand">System Design Revision Hub</div>
+      <div class="sub">HLD · LLD · Java · Concurrency · Offline</div>
+      <div class="toolbar">
+        <button class="btn" type="button" id="themeBtn">Light / Dark</button>
+        <button class="btn" type="button" id="printBtn">Print</button>
+        <button class="btn" type="button" id="bookmarkBtn">★ Bookmark</button>
+      </div>
+      <input id="globalSearch" class="search" type="search" placeholder="Search all topics…" autocomplete="off" aria-label="Global search">
+      <div class="search-meta" id="searchMeta"></div>
+      <nav id="nav" aria-label="Main sections"></nav>
+      <div id="topicList" aria-label="Topics in section"></div>
+    </aside>
+    <main class="main">
+      <article class="content" id="mainContent"></article>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js"></script>
+  <script src="data/hld.js"></script>
+  <script src="data/lld.js"></script>
+  <script src="data/concurrency.js"></script>
+  <script src="data/design-patterns.js"></script>
+  <script src="data/java-examples.js"></script>
+  <script src="data/case-studies.js"></script>
+  <script src="data/interview-questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
