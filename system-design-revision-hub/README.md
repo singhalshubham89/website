@@ -11,6 +11,8 @@ Static, offline-friendly revision site for **HLD**, **LLD**, **distributed syste
 
 No frameworks, no backend, no build step required to **use** the site.
 
+Content depth uses honest **`status`**: `complete` (curated code/diagrams), `partial` (template prose). Regenerate after editing `generate_data.py`.
+
 ## Quick start
 
 ### Option A — local HTTP server (recommended)

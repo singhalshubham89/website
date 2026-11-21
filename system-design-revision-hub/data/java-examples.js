@@ -37,10 +37,10 @@ window.HUB_TOPICS.push(...[
     "id": "parking-lot",
     "title": "Parking Lot",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
     "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
-    "code": "import java.util.*;\nimport java.util.concurrent.*;\nimport java.util.concurrent.atomic.AtomicInteger;\n\nenum VehicleType { MOTORCYCLE, CAR, TRUCK }\n\nfinal class ParkingSpot {\n    final int id;\n    final VehicleType type;\n    volatile String plate;\n    ParkingSpot(int id, VehicleType type) { this.id = id; this.type = type; }\n    boolean occupy(String plate) {\n        synchronized (this) {\n            if (this.plate != null) return false;\n            this.plate = plate;\n            return true;\n        }\n    }\n    synchronized void release() { this.plate = null; }\n}\n\nfinal class ParkingLot {\n    private final ConcurrentHashMap<VehicleType, List<ParkingSpot>> spots = new ConcurrentHashMap<>();\n    private final AtomicInteger occupied = new AtomicInteger();\n\n    ParkingLot(Map<VehicleType, Integer> capacity) {\n        capacity.forEach((type, n) -> {\n            List<ParkingSpot> list = new ArrayList<>();\n            for (int i = 0; i < n; i++) list.add(new ParkingSpot(i, type));\n            spots.put(type, list);\n        });\n    }\n\n    Optional<Integer> park(VehicleType type, String plate) {\n        List<ParkingSpot> list = spots.get(type);\n        if (list == null) return Optional.empty();\n        for (ParkingSpot s : list) {\n            if (s.occupy(plate)) {\n                occupied.incrementAndGet();\n                return Optional.of(s.id);\n            }\n        }\n        return Optional.empty();\n    }\n\n    void leave(VehicleType type, int spotId) {\n        ParkingSpot s = spots.get(type).get(spotId);\n        s.release();\n        occupied.decrementAndGet();\n    }\n}"
+    "code": "import java.util.*;\nimport java.util.concurrent.*;\nimport java.util.concurrent.atomic.AtomicInteger;\n\nenum VehicleType { MOTORCYCLE, CAR, TRUCK }\n\nfinal class ParkingSpot {\n    final int id;\n    final VehicleType type;\n    volatile String plate;\n    ParkingSpot(int id, VehicleType type) { this.id = id; this.type = type; }\n    boolean occupy(String plate) {\n        synchronized (this) {\n            if (this.plate != null) return false;\n            this.plate = plate;\n            return true;\n        }\n    }\n    synchronized void release() { this.plate = null; }\n}\n\nfinal class ParkingLot {\n    private final ConcurrentHashMap<VehicleType, List<ParkingSpot>> spots = new ConcurrentHashMap<>();\n    private final AtomicInteger occupied = new AtomicInteger();\n\n    ParkingLot(Map<VehicleType, Integer> capacity) {\n        capacity.forEach((type, n) -> {\n            List<ParkingSpot> list = new ArrayList<>();\n            for (int i = 0; i < n; i++) list.add(new ParkingSpot(i, type));\n            spots.put(type, list);\n        });\n    }\n\n    Optional<Integer> park(VehicleType type, String plate) {\n        List<ParkingSpot> list = spots.get(type);\n        if (list == null) return Optional.empty();\n        for (ParkingSpot s : list) {\n            if (s.occupy(plate)) {\n                occupied.incrementAndGet();\n                return Optional.of(s.id);\n            }\n        }\n        return Optional.empty();\n    }\n\n    void leave(VehicleType type, int spotId) {\n        ParkingSpot s = spots.get(type).get(spotId);\n        s.release();\n        occupied.decrementAndGet();\n    }\n}",
+    "status": "complete"
   },
   {
     "definition": "Building with multiple cars, floors, and a scheduler that batches requests while respecting direction and capacity.",
@@ -78,9 +78,9 @@ window.HUB_TOPICS.push(...[
     "id": "elevator-system",
     "title": "Elevator System",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
-    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository"
+    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
+    "status": "partial"
   },
   {
     "definition": "Show, seat map, and concurrent reservation before payment with hold timeout.",
@@ -118,9 +118,9 @@ window.HUB_TOPICS.push(...[
     "id": "movie-ticket-booking",
     "title": "Movie Ticket Booking",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
-    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository"
+    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
+    "status": "partial"
   },
   {
     "definition": "Catalog, members, lending rules, fines, and copies of physical books.",
@@ -158,9 +158,9 @@ window.HUB_TOPICS.push(...[
     "id": "library-management",
     "title": "Library Management",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
-    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository"
+    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
+    "status": "partial"
   },
   {
     "definition": "PIN auth, account debit/credit, cash dispenser with denomination inventory, and idempotent session.",
@@ -198,9 +198,9 @@ window.HUB_TOPICS.push(...[
     "id": "atm",
     "title": "ATM",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
-    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository"
+    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
+    "status": "partial"
   },
   {
     "definition": "Restaurant menu, cart, order lifecycle, rider assignment, and ETA tracking.",
@@ -238,9 +238,9 @@ window.HUB_TOPICS.push(...[
     "id": "food-delivery",
     "title": "Food Delivery",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
-    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository"
+    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
+    "status": "partial"
   },
   {
     "definition": "Groups, expenses, splits (equal/exact/percent), and simplified balances.",
@@ -278,9 +278,9 @@ window.HUB_TOPICS.push(...[
     "id": "splitwise",
     "title": "Splitwise",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
-    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository"
+    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
+    "status": "partial"
   },
   {
     "definition": "Board, pieces with legal move rules, turn order, check/checkmate detection.",
@@ -318,9 +318,9 @@ window.HUB_TOPICS.push(...[
     "id": "chess",
     "title": "Chess",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
-    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository"
+    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
+    "status": "partial"
   },
   {
     "definition": "Levels, appenders (console/file), formatters, async drain to avoid blocking callers.",
@@ -358,9 +358,9 @@ window.HUB_TOPICS.push(...[
     "id": "logging-framework",
     "title": "Logging Framework",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
-    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository"
+    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
+    "status": "partial"
   },
   {
     "definition": "Multi-channel delivery (email/SMS/push) with templates, preferences, and retry.",
@@ -398,9 +398,9 @@ window.HUB_TOPICS.push(...[
     "id": "notification-service",
     "title": "Notification Service",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
-    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository"
+    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
+    "status": "partial"
   },
   {
     "definition": "Idempotent charge/capture/refund against PSP with webhook reconciliation.",
@@ -438,9 +438,9 @@ window.HUB_TOPICS.push(...[
     "id": "payment-gateway",
     "title": "Payment Gateway",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
-    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository"
+    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
+    "status": "partial"
   },
   {
     "definition": "Bounded key-value store with TTL and LRU eviction under concurrent access.",
@@ -480,10 +480,10 @@ window.HUB_TOPICS.push(...[
     "id": "in-memory-cache",
     "title": "In-memory Cache",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
     "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
-    "code": "import java.util.*;\nimport java.util.concurrent.*;\n\nfinal class TtlLruCache<K, V> {\n    private final int maxSize;\n    private final long ttlMillis;\n    private final ConcurrentHashMap<K, Entry> map = new ConcurrentHashMap<>();\n    private final ConcurrentLinkedDeque<K> order = new ConcurrentLinkedDeque<>();\n\n    record Entry(V value, long expiresAt) {}\n\n    TtlLruCache(int maxSize, long ttlMillis) {\n        this.maxSize = maxSize;\n        this.ttlMillis = ttlMillis;\n    }\n\n    V get(K key) {\n        Entry e = map.get(key);\n        if (e == null || e.expiresAt < System.currentTimeMillis()) {\n            map.remove(key);\n            return null;\n        }\n        touch(key);\n        return e.value;\n    }\n\n    void put(K key, V value) {\n        map.put(key, new Entry(value, System.currentTimeMillis() + ttlMillis));\n        touch(key);\n        evictIfNeeded();\n    }\n\n    private void touch(K key) {\n        order.remove(key);\n        order.addLast(key);\n    }\n\n    private void evictIfNeeded() {\n        while (map.size() > maxSize) {\n            K oldest = order.pollFirst();\n            if (oldest != null) map.remove(oldest);\n        }\n    }\n}"
+    "code": "import java.util.*;\nimport java.util.concurrent.*;\n\nfinal class TtlLruCache<K, V> {\n    private final int maxSize;\n    private final long ttlMillis;\n    private final ConcurrentHashMap<K, Entry> map = new ConcurrentHashMap<>();\n    private final ConcurrentLinkedDeque<K> order = new ConcurrentLinkedDeque<>();\n\n    record Entry(V value, long expiresAt) {}\n\n    TtlLruCache(int maxSize, long ttlMillis) {\n        this.maxSize = maxSize;\n        this.ttlMillis = ttlMillis;\n    }\n\n    V get(K key) {\n        Entry e = map.get(key);\n        if (e == null || e.expiresAt < System.currentTimeMillis()) {\n            map.remove(key);\n            return null;\n        }\n        touch(key);\n        return e.value;\n    }\n\n    void put(K key, V value) {\n        map.put(key, new Entry(value, System.currentTimeMillis() + ttlMillis));\n        touch(key);\n        evictIfNeeded();\n    }\n\n    private void touch(K key) {\n        order.remove(key);\n        order.addLast(key);\n    }\n\n    private void evictIfNeeded() {\n        while (map.size() > maxSize) {\n            K oldest = order.pollFirst();\n            if (oldest != null) map.remove(oldest);\n        }\n    }\n}",
+    "status": "complete"
   },
   {
     "definition": "Slots, inventory, coin/bill acceptor, change return, and vend state machine.",
@@ -521,9 +521,9 @@ window.HUB_TOPICS.push(...[
     "id": "vending-machine",
     "title": "Vending Machine",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
-    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository"
+    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
+    "status": "partial"
   },
   {
     "definition": "Rooms, calendars, conflict detection, and recurring meetings.",
@@ -561,9 +561,9 @@ window.HUB_TOPICS.push(...[
     "id": "meeting-room-scheduler",
     "title": "Meeting Room Scheduler",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
-    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository"
+    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
+    "status": "partial"
   },
   {
     "definition": "Priority queue of runnable tasks with fixed thread pool and delayed execution.",
@@ -601,9 +601,9 @@ window.HUB_TOPICS.push(...[
     "id": "task-scheduler",
     "title": "Task Scheduler",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
-    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository"
+    "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
+    "status": "partial"
   },
   {
     "definition": "Thread-safe in-memory cache: concurrency-focused variant of the LLD problem with shared mutable state.",
@@ -643,11 +643,11 @@ window.HUB_TOPICS.push(...[
     "id": "thread-safe-in-memory-cache",
     "title": "Thread-safe in-memory cache",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
     "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
     "code": "import java.util.*;\nimport java.util.concurrent.*;\n\nfinal class TtlLruCache<K, V> {\n    private final int maxSize;\n    private final long ttlMillis;\n    private final ConcurrentHashMap<K, Entry> map = new ConcurrentHashMap<>();\n    private final ConcurrentLinkedDeque<K> order = new ConcurrentLinkedDeque<>();\n\n    record Entry(V value, long expiresAt) {}\n\n    TtlLruCache(int maxSize, long ttlMillis) {\n        this.maxSize = maxSize;\n        this.ttlMillis = ttlMillis;\n    }\n\n    V get(K key) {\n        Entry e = map.get(key);\n        if (e == null || e.expiresAt < System.currentTimeMillis()) {\n            map.remove(key);\n            return null;\n        }\n        touch(key);\n        return e.value;\n    }\n\n    void put(K key, V value) {\n        map.put(key, new Entry(value, System.currentTimeMillis() + ttlMillis));\n        touch(key);\n        evictIfNeeded();\n    }\n\n    private void touch(K key) {\n        order.remove(key);\n        order.addLast(key);\n    }\n\n    private void evictIfNeeded() {\n        while (map.size() > maxSize) {\n            K oldest = order.pollFirst();\n            if (oldest != null) map.remove(oldest);\n        }\n    }\n}",
-    "threadSafety": "Use java.util.concurrent primitives; document lock ordering and idempotency."
+    "threadSafety": "Use java.util.concurrent primitives; document lock ordering and idempotency.",
+    "status": "complete"
   },
   {
     "definition": "Rate limiter: concurrency-focused variant of the LLD problem with shared mutable state.",
@@ -685,11 +685,11 @@ window.HUB_TOPICS.push(...[
     "id": "rate-limiter",
     "title": "Rate limiter",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
     "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
     "code": "import java.util.concurrent.atomic.AtomicLong;\n\n/** Token bucket rate limiter (single JVM). */\nfinal class TokenBucketLimiter {\n    private final long capacity;\n    private final double refillPerNanos;\n    private final AtomicLong tokens;\n    private volatile long lastRefillNanos;\n\n    TokenBucketLimiter(long capacity, double permitsPerSecond) {\n        this.capacity = capacity;\n        this.refillPerNanos = permitsPerSecond / 1_000_000_000.0;\n        this.tokens = new AtomicLong(capacity);\n        this.lastRefillNanos = System.nanoTime();\n    }\n\n    synchronized boolean tryAcquire() {\n        refill();\n        long current = tokens.get();\n        if (current <= 0) return false;\n        return tokens.compareAndSet(current, current - 1);\n    }\n\n    private void refill() {\n        long now = System.nanoTime();\n        long elapsed = now - lastRefillNanos;\n        long add = (long) (elapsed * refillPerNanos);\n        if (add > 0) {\n            tokens.updateAndGet(t -> Math.min(capacity, t + add));\n            lastRefillNanos = now;\n        }\n    }\n}",
-    "threadSafety": "Use java.util.concurrent primitives; document lock ordering and idempotency."
+    "threadSafety": "Use java.util.concurrent primitives; document lock ordering and idempotency.",
+    "status": "complete"
   },
   {
     "definition": "Producer-consumer system: concurrency-focused variant of the LLD problem with shared mutable state.",
@@ -727,10 +727,11 @@ window.HUB_TOPICS.push(...[
     "id": "producer-consumer-system",
     "title": "Producer-consumer system",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
     "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
-    "threadSafety": "Use java.util.concurrent primitives; document lock ordering and idempotency."
+    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n    void produce(int n) throws InterruptedException { q.put(n); }\n    int consume() throws InterruptedException { return q.take(); }\n}",
+    "threadSafety": "Use java.util.concurrent primitives; document lock ordering and idempotency.",
+    "status": "complete"
   },
   {
     "definition": "Thread-safe logging framework: concurrency-focused variant of the LLD problem with shared mutable state.",
@@ -768,10 +769,11 @@ window.HUB_TOPICS.push(...[
     "id": "thread-safe-logging-framework",
     "title": "Thread-safe logging framework",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
     "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
-    "threadSafety": "Use java.util.concurrent primitives; document lock ordering and idempotency."
+    "code": "import java.util.concurrent.*;\nclass AsyncLogger {\n    private final BlockingQueue<String> q = new LinkedBlockingQueue<>(10_000);\n    AsyncLogger() {\n        Thread.ofVirtual().start(() -> {\n            try { while (true) System.out.println(q.take()); }\n            catch (InterruptedException e) { Thread.currentThread().interrupt(); }\n        });\n    }\n    void log(String line) throws InterruptedException { q.put(line); }\n}",
+    "threadSafety": "Use java.util.concurrent primitives; document lock ordering and idempotency.",
+    "status": "complete"
   },
   {
     "definition": "Concurrent elevator system: concurrency-focused variant of the LLD problem with shared mutable state.",
@@ -809,10 +811,10 @@ window.HUB_TOPICS.push(...[
     "id": "concurrent-elevator-system",
     "title": "Concurrent elevator system",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
     "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
-    "threadSafety": "Use java.util.concurrent primitives; document lock ordering and idempotency."
+    "threadSafety": "Use java.util.concurrent primitives; document lock ordering and idempotency.",
+    "status": "partial"
   },
   {
     "definition": "Concurrent parking lot: concurrency-focused variant of the LLD problem with shared mutable state.",
@@ -850,11 +852,11 @@ window.HUB_TOPICS.push(...[
     "id": "concurrent-parking-lot",
     "title": "Concurrent parking lot",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
     "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
     "code": "import java.util.*;\nimport java.util.concurrent.*;\nimport java.util.concurrent.atomic.AtomicInteger;\n\nenum VehicleType { MOTORCYCLE, CAR, TRUCK }\n\nfinal class ParkingSpot {\n    final int id;\n    final VehicleType type;\n    volatile String plate;\n    ParkingSpot(int id, VehicleType type) { this.id = id; this.type = type; }\n    boolean occupy(String plate) {\n        synchronized (this) {\n            if (this.plate != null) return false;\n            this.plate = plate;\n            return true;\n        }\n    }\n    synchronized void release() { this.plate = null; }\n}\n\nfinal class ParkingLot {\n    private final ConcurrentHashMap<VehicleType, List<ParkingSpot>> spots = new ConcurrentHashMap<>();\n    private final AtomicInteger occupied = new AtomicInteger();\n\n    ParkingLot(Map<VehicleType, Integer> capacity) {\n        capacity.forEach((type, n) -> {\n            List<ParkingSpot> list = new ArrayList<>();\n            for (int i = 0; i < n; i++) list.add(new ParkingSpot(i, type));\n            spots.put(type, list);\n        });\n    }\n\n    Optional<Integer> park(VehicleType type, String plate) {\n        List<ParkingSpot> list = spots.get(type);\n        if (list == null) return Optional.empty();\n        for (ParkingSpot s : list) {\n            if (s.occupy(plate)) {\n                occupied.incrementAndGet();\n                return Optional.of(s.id);\n            }\n        }\n        return Optional.empty();\n    }\n\n    void leave(VehicleType type, int spotId) {\n        ParkingSpot s = spots.get(type).get(spotId);\n        s.release();\n        occupied.decrementAndGet();\n    }\n}",
-    "threadSafety": "Use java.util.concurrent primitives; document lock ordering and idempotency."
+    "threadSafety": "Use java.util.concurrent primitives; document lock ordering and idempotency.",
+    "status": "complete"
   },
   {
     "definition": "Ticket booking concurrency: concurrency-focused variant of the LLD problem with shared mutable state.",
@@ -892,10 +894,10 @@ window.HUB_TOPICS.push(...[
     "id": "ticket-booking-concurrency",
     "title": "Ticket booking concurrency",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
     "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
-    "threadSafety": "Use java.util.concurrent primitives; document lock ordering and idempotency."
+    "threadSafety": "Use java.util.concurrent primitives; document lock ordering and idempotency.",
+    "status": "partial"
   },
   {
     "definition": "Concurrent task scheduler: concurrency-focused variant of the LLD problem with shared mutable state.",
@@ -933,10 +935,10 @@ window.HUB_TOPICS.push(...[
     "id": "concurrent-task-scheduler",
     "title": "Concurrent task scheduler",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
     "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
-    "threadSafety": "Use java.util.concurrent primitives; document lock ordering and idempotency."
+    "threadSafety": "Use java.util.concurrent primitives; document lock ordering and idempotency.",
+    "status": "partial"
   },
   {
     "definition": "Concurrent payment processing: concurrency-focused variant of the LLD problem with shared mutable state.",
@@ -974,10 +976,10 @@ window.HUB_TOPICS.push(...[
     "id": "concurrent-payment-processing",
     "title": "Concurrent payment processing",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
     "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
-    "threadSafety": "Use java.util.concurrent primitives; document lock ordering and idempotency."
+    "threadSafety": "Use java.util.concurrent primitives; document lock ordering and idempotency.",
+    "status": "partial"
   },
   {
     "definition": "Dining philosophers exercise: concurrency-focused variant of the LLD problem with shared mutable state.",
@@ -1015,9 +1017,10 @@ window.HUB_TOPICS.push(...[
     "id": "dining-philosophers-exercise",
     "title": "Dining philosophers exercise",
     "section": "java-library",
-    "status": "complete",
     "exercise": true,
     "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
-    "threadSafety": "Use java.util.concurrent primitives; document lock ordering and idempotency."
+    "code": "import java.util.concurrent.Semaphore;\nSemaphore forks = new Semaphore(4); // allow N-1 philosophers to eat\nvoid eat() throws InterruptedException {\n    forks.acquire();\n    try { /* pick forks, chew */ } finally { forks.release(); }\n}",
+    "threadSafety": "Use java.util.concurrent primitives; document lock ordering and idempotency.",
+    "status": "complete"
   }
 ]);

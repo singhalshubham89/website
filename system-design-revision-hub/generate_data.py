@@ -109,6 +109,28 @@ def enrich_base(title: str, section: str, kind: str = "concept") -> dict:
     }
 
 
+FOUNDATIONAL_MARKER = "is a foundational"
+
+
+def compute_status(merged: dict) -> str:
+    """Honest depth tracking per review — not everything with a page is complete."""
+    if merged.get("code"):
+        return "complete"
+    if merged.get("section") == "case-studies" and merged.get("extra"):
+        return "complete"
+    if merged.get("solid") and merged.get("id") in SOLID_CODE:
+        return "complete"
+    if merged.get("section") == "patterns" and merged.get("id") in PATTERN_CODE:
+        return "complete"
+    if merged.get("id") in HLD_OVERRIDES and HLD_OVERRIDES[merged["id"]].get("definition"):
+        return "complete"
+    if merged.get("id") == "rapid-fire-50":
+        return "complete"
+    if FOUNDATIONAL_MARKER in merged.get("definition", ""):
+        return "partial"
+    return "partial"
+
+
 def topic(
     tid: str,
     title: str,
@@ -121,14 +143,7 @@ def topic(
     **extra,
 ) -> dict:
     base = enrich_base(title, section)
-    base.update(
-        {
-            "id": tid,
-            "title": title,
-            "section": section,
-            "status": "complete",
-        }
-    )
+    base.update({"id": tid, "title": title, "section": section})
     if distributed:
         base["distributed"] = True
     if solid:
@@ -138,6 +153,7 @@ def topic(
     if overrides:
         base.update(overrides)
     base.update(extra)
+    base["status"] = compute_status(base)
     return base
 
 
@@ -422,6 +438,56 @@ SOLID_CODE = {
         }
         """
     ).strip(),
+    "ocp": textwrap.dedent(
+        """
+        // Bad: edit switch for each new discount type
+        int price(Order o, String type) {
+            return switch (type) {
+                case "VIP" -> (int)(o.subtotal() * 0.9);
+                case "STAFF" -> (int)(o.subtotal() * 0.8);
+                default -> o.subtotal();
+            };
+        }
+        // Better: new discount = new class
+        interface Discount { int apply(int subtotal); }
+        class VipDiscount implements Discount { public int apply(int s) { return (int)(s * 0.9); } }
+        """
+    ).strip(),
+    "lsp": textwrap.dedent(
+        """
+        // Bad: Square cannot honor Rectangle setWidth contract
+        class Rectangle { void setWidth(int w); void setHeight(int h); int area(); }
+        class Square extends Rectangle {
+            void setWidth(int w) { super.setWidth(w); super.setHeight(w); }
+        }
+        // Better: compose or separate type hierarchy
+        interface Shape { int area(); }
+        """
+    ).strip(),
+    "isp": textwrap.dedent(
+        """
+        // Bad: fat interface forces no-op methods
+        interface Worker { void work(); void eat(); void sleep(); }
+        class Robot implements Worker { public void eat() { throw new UnsupportedOperationException(); } }
+        // Better: Role interfaces
+        interface Workable { void work(); }
+        class Robot implements Workable { public void work() { /* ... */ } }
+        """
+    ).strip(),
+    "dip": textwrap.dedent(
+        """
+        // Bad: high-level module news concrete DB
+        class ReportService {
+            private final MySqlReportDao dao = new MySqlReportDao();
+        }
+        // Better: depend on abstraction
+        interface ReportDao { List<Row> fetch(); }
+        class ReportService {
+            private final ReportDao dao;
+            ReportService(ReportDao dao) { this.dao = dao; }
+        }
+        """
+    ).strip(),
 }
 
 
@@ -431,14 +497,13 @@ def build_lld_topics() -> list[dict]:
         out.append(topic(slug(title), title, "lld"))
     for title, tid in SOLID:
         ov = {
-            "solid": True,
             "definition": f"{title} reduces change amplification by constraining how modules depend on each other.",
             "mechanism": "Apply at boundaries: one reason to change per class, extend via new types not edits, honor contracts, small interfaces, depend on abstractions.",
         }
         if tid in SOLID_CODE:
             ov["code"] = SOLID_CODE[tid]
-            ov["mermaid"] = "classDiagram\n  class Abstraction\n  class Implementation\n  Abstraction <|.. Implementation"
-        out.append(topic(tid, title, "lld", overrides=ov))
+        ov["mermaid"] = f"classDiagram\n  class {tid.upper()}Example\n  note for {tid.upper()}Example : {title}"
+        out.append(topic(tid, title, "lld", overrides=ov, solid=True))
     return out
 
 
@@ -536,20 +601,101 @@ CONC_SAMPLE = textwrap.dedent(
     import java.util.concurrent.*;
 
     public class ProducerConsumer {
-        public static void main(String[] args) throws InterruptedException {
-            BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);
-            ExecutorService pool = Executors.newFixedThreadPool(4);
-            pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });
-            pool.submit(() -> { while (true) System.out.println(q.take()); });
-            pool.shutdown();
-        }
+        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);
+        void produce(int n) throws InterruptedException { q.put(n); }
+        int consume() throws InterruptedException { return q.take(); }
     }
     """
 ).strip()
 
+CONC_CODE_BY_SLUG: dict[str, str] = {
+    "volatile-keyword": textwrap.dedent(
+        """
+        class Status {
+            volatile boolean running = true; // publish visibility to readers
+            void stop() { running = false; }
+        }
+        """
+    ).strip(),
+    "atomicinteger-and-atomic-classes": textwrap.dedent(
+        """
+        import java.util.concurrent.atomic.AtomicInteger;
+        class Counter {
+            private final AtomicInteger n = new AtomicInteger();
+            void inc() { n.incrementAndGet(); }
+            int get() { return n.get(); }
+        }
+        """
+    ).strip(),
+    "synchronized-methods-and-blocks": textwrap.dedent(
+        """
+        class Account {
+            private int balance;
+            synchronized void credit(int amount) { balance += amount; }
+            synchronized int getBalance() { return balance; }
+        }
+        """
+    ).strip(),
+    "executorservice": textwrap.dedent(
+        """
+        import java.util.concurrent.*;
+        ExecutorService pool = Executors.newFixedThreadPool(4);
+        Future<Integer> f = pool.submit(() -> 42);
+        pool.shutdown();
+        """
+    ).strip(),
+    "completablefuture": textwrap.dedent(
+        """
+        CompletableFuture.supplyAsync(() -> fetchUser())
+            .thenApply(u -> enrich(u))
+            .thenAccept(System.out::println);
+        """
+    ).strip(),
+    "platform-threads-vs-virtual-threads": textwrap.dedent(
+        """
+        // Java 21+: cheap blocking I/O
+        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+            executor.submit(() -> httpCall());
+        }
+        """
+    ).strip(),
+    "hashmap-vs-hashtable": textwrap.dedent(
+        """
+        // Prefer CHM over Hashtable for concurrent reads/writes
+        var map = new java.util.concurrent.ConcurrentHashMap<String, Integer>();
+        map.merge("hits", 1, Integer::sum);
+        """
+    ).strip(),
+    "producer-consumer-problem": CONC_SAMPLE,
+    "deadlock": textwrap.dedent(
+        """
+        // Bad: lock order A then B vs B then A → cycle
+        // Fix: always acquire in global order (min id first)
+        synchronized (lockLow) { synchronized (lockHigh) { work(); } }
+        """
+    ).strip(),
+    "dining-philosophers": textwrap.dedent(
+        """
+        import java.util.concurrent.Semaphore;
+        Semaphore forks = new Semaphore(4); // allow N-1 philosophers to eat
+        void eat() throws InterruptedException {
+            forks.acquire();
+            try { /* pick forks, chew */ } finally { forks.release(); }
+        }
+        """
+    ).strip(),
+}
 
-def conc_extra(title: str) -> dict:
-    return {
+CONC_MERMAID_BY_SLUG: dict[str, str] = {
+    "deadlock": "flowchart LR\n  T1[Thread A holds L1] --> W1[waits L2]\n  T2[Thread B holds L2] --> W2[waits L1]",
+    "producer-consumer-problem": "flowchart LR\n  P[Producer] --> Q[BlockingQueue]\n  Q --> C[Consumer]",
+    "thread-lifecycle": "stateDiagram-v2\n  [*] --> New\n  New --> Runnable\n  Runnable --> Running\n  Running --> Terminated",
+    "executorservice": "flowchart TB\n  Submit --> Q[Queue]\n  Q --> W1[Worker]\n  Q --> W2[Worker]",
+}
+
+
+def conc_overrides(title: str, tid: str) -> dict:
+    ov = {
         "threadSafety": f"Document shared mutable state for {title.lower()}; prefer confinement, immutability, or j.u.c. primitives.",
         "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
         "mistakes": [
@@ -557,8 +703,12 @@ def conc_extra(title: str) -> dict:
             "Sharing non-thread-safe collections across threads",
             "Ignoring happens-before when using double-checked locking",
         ],
-        "code": CONC_SAMPLE,
     }
+    if tid in CONC_CODE_BY_SLUG:
+        ov["code"] = CONC_CODE_BY_SLUG[tid]
+    if tid in CONC_MERMAID_BY_SLUG:
+        ov["mermaid"] = CONC_MERMAID_BY_SLUG[tid]
+    return ov
 
 
 def build_concurrency_topics() -> list[dict]:
@@ -572,19 +722,7 @@ def build_concurrency_topics() -> list[dict]:
     out = []
     for title in titles:
         tid = slug(title)
-        ov = conc_extra(title)
-        if "deadlock" in tid:
-            ov["mermaid"] = "flowchart LR\n  T1[Thread A holds L1] --> W1[waits L2]\n  T2[Thread B holds L2] --> W2[waits L1]"
-            ov["code"] = textwrap.dedent(
-                """
-                // Fix: global lock ordering
-                synchronized(lockA) {
-                    synchronized(lockB) { /* work */ }
-                }
-                """
-            ).strip()
-        if "producer-consumer" in tid:
-            ov["mermaid"] = "flowchart LR\n  P[Producer] --> Q[BlockingQueue]\n  Q --> C[Consumer]"
+        ov = conc_overrides(title, tid)
         out.append(topic(tid, title, "concurrency", overrides=ov))
     return out
 
@@ -619,35 +757,57 @@ GOF = [
     ("Visitor", "behavioral"),
 ]
 
-PATTERN_SNIPPET = textwrap.dedent(
-    """
-    // Strategy example
-    interface PricingStrategy { int price(Order o); }
-    class DiscountStrategy implements PricingStrategy {
-        public int price(Order o) { return (int)(o.subtotal() * 0.9); }
-    }
-    class Checkout {
-        private final PricingStrategy strategy;
-        Checkout(PricingStrategy strategy) { this.strategy = strategy; }
-        int total(Order o) { return strategy.price(o); }
-    }
-    """
-).strip()
+PATTERN_CODE: dict[str, str] = {
+    "singleton": "class Config { private static final Config I = new Config(); static Config get() { return I; } }",
+    "factory-method": "abstract class Dialog { abstract Button create(); void render() { create().paint(); } }",
+    "abstract-factory": "interface UIFactory { Button button(); Checkbox box(); }",
+    "builder": "class HttpRequest { String url; int timeout; static class Builder { HttpRequest build() { return new HttpRequest(); } } }",
+    "prototype": "interface CloneableShape extends Cloneable { CloneableShape clone(); }",
+    "adapter": "class LegacyPrinter { void print(String s) {} } class PrinterAdapter implements ModernPrinter { LegacyPrinter l; public void print(Pdf p) { l.print(p.text()); } }",
+    "bridge": "interface Renderer { void drawCircle(double r); } class VectorRenderer implements Renderer { /* ... */ }",
+    "composite": "interface FileNode { long size(); } class FileLeaf implements FileNode { long size() { return bytes; } }",
+    "decorator": "interface Coffee { int cost(); } class MilkDecorator implements Coffee { Coffee inner; public int cost() { return inner.cost() + 2; } }",
+    "facade": "class TravelFacade { void bookTrip() { flight.book(); hotel.reserve(); } }",
+    "flyweight": "class GlyphFactory { Map<String, Glyph> pool = new HashMap<>(); }",
+    "proxy": "interface Image { void display(); } class ImageProxy implements Image { RealImage real; public void display() { if (real == null) real = new RealImage(); real.display(); } }",
+    "chain-of-responsibility": "abstract class Handler { Handler next; void handle(Request r) { if (next != null) next.handle(r); } }",
+    "command": "interface Command { void execute(); void undo(); } class PasteCommand implements Command { /* ... */ }",
+    "interpreter": "interface Expr { int eval(); } record Num(int v) implements Expr { public int eval() { return v; } }",
+    "iterator": "interface<T> Iterator<T> { boolean hasNext(); T next(); }",
+    "mediator": "class ChatRoom { void send(String msg, User from) { /* notify others */ } }",
+    "memento": "record EditorMemento(String text) {} class Editor { EditorMemento save() { return new EditorMemento(body); } void restore(EditorMemento m) { body = m.text(); } }",
+    "observer": "interface Listener { void onEvent(E e); } class EventBus { List<Listener> ls; void publish(E e) { ls.forEach(l -> l.onEvent(e)); } }",
+    "state": "interface State { void handle(Context ctx); } class Idle implements State { public void handle(Context c) { c.set(new Running()); } }",
+    "strategy": "interface PricingStrategy { int price(Order o); } class Checkout { PricingStrategy s; int total(Order o) { return s.price(o); } }",
+    "template-method": "abstract class DataMiner { final void mine() { open(); extract(); close(); } abstract void extract(); }",
+    "visitor": "interface Visitor { void visit(Circle c); } interface Shape { void accept(Visitor v); }",
+}
+
+PATTERN_MERMAID: dict[str, str] = {
+    "singleton": "classDiagram\n  class Singleton\n  Singleton : -instance\n  Singleton : +getInstance()",
+    "observer": "classDiagram\n  Subject --> Observer\n  Observer : +update()",
+    "decorator": "classDiagram\n  Component <|.. Decorator\n  Decorator --> Component",
+    "strategy": "classDiagram\n  Context --> Strategy\n  Strategy <|.. ConcreteStrategy",
+    "state": "stateDiagram-v2\n  [*] --> Idle\n  Idle --> Active: event",
+}
 
 
 def build_pattern_topics() -> list[dict]:
     out = []
     for title, kind in GOF:
+        pid = slug(title)
         ov = {
             "definition": f"The {title} pattern addresses a recurring object-oriented design problem in the {kind} category.",
             "mechanism": "Clients depend on abstractions; concrete collaborators are composed or delegated to limit ripple effects when requirements change.",
-            "code": PATTERN_SNIPPET if title == "Strategy" else None,
-            "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy",
             "tags": ["patterns", kind],
         }
-        if ov["code"] is None:
-            del ov["code"]
-        out.append(topic(slug(title), title, "patterns", overrides=ov))
+        if pid in PATTERN_CODE:
+            ov["code"] = PATTERN_CODE[pid]
+        if pid in PATTERN_MERMAID:
+            ov["mermaid"] = PATTERN_MERMAID[pid]
+        else:
+            ov["mermaid"] = f"classDiagram\n  class {title.replace(' ', '')}Context\n  class {title.replace(' ', '')}Role"
+        out.append(topic(pid, title, "patterns", overrides=ov))
     for title in ["Dependency Injection pattern", "Repository pattern", "Unit of Work pattern"]:
         out.append(topic(slug(title), title.replace(" pattern", ""), "patterns"))
     return out
@@ -908,12 +1068,32 @@ def java_overrides(title: str, tid: str, exercise: bool) -> dict:
         "mechanism": mechanism,
         "mermaid": "classDiagram\n  class Controller\n  class Service\n  class Repository\n  Controller --> Service\n  Service --> Repository",
     }
-    if tid == "parking-lot" or tid == "concurrent-parking-lot":
+    if tid in ("parking-lot", "concurrent-parking-lot"):
         ov["code"] = PARKING_LOT
-    if tid == "rate-limiter":
+    elif tid == "rate-limiter":
         ov["code"] = RATE_LIMITER
-    if tid in ("in-memory-cache", "thread-safe-in-memory-cache"):
+    elif tid in ("in-memory-cache", "thread-safe-in-memory-cache"):
         ov["code"] = TTL_CACHE
+    elif tid == "producer-consumer-system":
+        ov["code"] = CONC_SAMPLE
+    elif tid == "dining-philosophers-exercise":
+        ov["code"] = CONC_CODE_BY_SLUG.get("dining-philosophers", "")
+    elif tid == "thread-safe-logging-framework":
+        ov["code"] = textwrap.dedent(
+            """
+            import java.util.concurrent.*;
+            class AsyncLogger {
+                private final BlockingQueue<String> q = new LinkedBlockingQueue<>(10_000);
+                AsyncLogger() {
+                    Thread.ofVirtual().start(() -> {
+                        try { while (true) System.out.println(q.take()); }
+                        catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+                    });
+                }
+                void log(String line) throws InterruptedException { q.put(line); }
+            }
+            """
+        ).strip()
     if exercise:
         ov["exercise"] = True
         ov["threadSafety"] = "Use java.util.concurrent primitives; document lock ordering and idempotency."
@@ -1042,15 +1222,81 @@ RAPID_FIRE = [
 ]
 
 
+INTERVIEW_BANK: dict[str, list[tuple[str, str]]] = {
+    "hld-interview": [
+        ("Walk through CAP during a partition.", "Name CP vs AP choice; tie to product tolerances for stale reads."),
+        ("How do you size a cache?", "Working set, TTL, eviction, stampede protection on cold keys."),
+        ("When shard a database?", "Single-node limits, partition key choice, cross-shard query cost."),
+        ("Design a rate limiter at the edge.", "Token bucket vs sliding window; Redis Lua; per-tenant keys."),
+        ("Explain cache invalidation after writes.", "Write DB then invalidate; eventual consistency window."),
+        ("Multi-region active-active pitfalls?", "Conflict resolution, replication lag, data residency."),
+        ("Kafka vs queue for your use case?", "Fan-out replay vs task routing; ordering per partition."),
+        ("What metrics define SLOs?", "Golden signals: latency, traffic, errors, saturation; error budget policy."),
+    ],
+    "lld-interview": [
+        ("Parking lot class diagram.", "VehicleType, Spot, Lot; allocation; extension for pricing."),
+        ("Apply Strategy in checkout.", "Interchangeable pricing without switch on type."),
+        ("Repository vs DAO?", "Domain-oriented persistence abstraction vs thin data mapper."),
+        ("When use State pattern?", "Object behavior changes with phase; avoids large conditionals."),
+        ("How model meeting room booking?", "Interval overlap detection; timezone in value object."),
+    ],
+    "java-interview": [
+        ("HashMap vs ConcurrentHashMap?", "CHM stripes/CAS; never iterate while unsynchronized HashMap mutates."),
+        ("Implement thread-safe counter.", "AtomicLong vs synchronized; measure under contention."),
+        ("Executor rejection policies?", "Abort, CallerRuns, DiscardOldest; backpressure story."),
+        ("Virtual thread pinning?", "synchronized/native JDBC may pin carrier; use tryLock or VT-friendly drivers."),
+    ],
+    "concurrency-interview": [
+        ("Explain happens-before.", "Unlock→lock, volatile write/read, thread start/join edges."),
+        ("Fix double-checked locking.", "volatile singleton or holder idiom."),
+        ("Prevent deadlock.", "Global lock order, tryLock with backoff, timeouts."),
+        ("Producer-consumer without wait/notify?", "BlockingQueue put/take with bounded capacity."),
+    ],
+    "distributed-interview": [
+        ("Idempotency for payments?", "Unique idempotency key constraint; same response on retry."),
+        ("Saga vs 2PC?", "Local commits + compensate vs blocking coordinator."),
+        ("Quorum reads/writes?", "R+W>N avoids stale minority; tunable in Cassandra."),
+        ("Split brain handling?", "Fencing tokens, STONITH, prefer CP for metadata stores."),
+    ],
+    "patterns-interview": [
+        ("Decorator vs inheritance?", "Wrap to add behavior without subclass explosion."),
+        ("When not to use Singleton?", "Testability, hidden deps, clustered state needs external store."),
+        ("Command for undo?", "Encapsulate request; store history stack."),
+        ("Observer memory leaks?", "Weak references or explicit unsubscribe."),
+    ],
+    "senior-architecture-interview": [
+        ("Decompose monolith safely?", "Strangler fig, bounded contexts, contract tests."),
+        ("Tech debt vs delivery?", "Error budgets, incremental extraction, measurable milestones."),
+        ("Blast radius reduction?", "Bulkheads, limits, graceful degradation paths."),
+        ("Cost-aware architecture?", "Right-size tiers; cache and async before more microservices."),
+    ],
+}
+
+WWYDI_SCENARIOS = [
+    ("What if 10,000 threads attempt to book the same seat?", "Serialize on seat row with DB conditional update or short-lived lock; queue overload; never in-memory flag only."),
+    ("How prevent duplicate payment processing?", "Idempotency-Key header + unique index; return cached receipt for replay."),
+    ("What if Redis becomes unavailable?", "Circuit breaker to DB; coalesce requests; degrade features; slow recovery with jittered TTL."),
+    ("What if a Kafka consumer crashes mid-batch?", "Commit offsets after process; idempotent consumer; transactional outbox pattern."),
+    ("How prevent deadlocks in a service?", "Ordered resource acquisition; timeouts; deadlock detection metrics."),
+    ("How scale a thread-safe cache?", "CHM shards; optional local L1; hot key detection and coalescing."),
+    ("When use virtual threads?", "Massive blocking I/O with pinned-sync awareness; not CPU-bound parallel compute."),
+    ("How handle a hot key?", "Local cache, read replicas, salting key, pre-warm, request coalescing."),
+]
+
+
 def build_interview_topics() -> list[dict]:
     out = []
     for title, tid in INTERVIEW_GROUPS:
-        questions = [qa(f"Sample {title} #{i+1}", "Lead with requirements, constraints, trade-offs, and measurable validation.") for i in range(8)]
         if tid == "rapid-fire-50":
             questions = [qa(q, a) for q, a in RAPID_FIRE]
             while len(questions) < 50:
                 idx = len(questions) + 1
                 questions.append(qa(f"Rapid fire #{idx}", "State the concept, failure mode, and production mitigation in under 60 seconds."))
+        elif tid == "scenario-interview":
+            questions = [qa(q, a) for q, a in WWYDI_SCENARIOS]
+        else:
+            bank = INTERVIEW_BANK.get(tid, [])
+            questions = [qa(q, a) for q, a in bank]
         ov = {"interview": questions, "definition": f"Curated {title.lower()} for senior loops with expandable answers."}
         out.append(topic(tid, title, "interview", overrides=ov))
     return out

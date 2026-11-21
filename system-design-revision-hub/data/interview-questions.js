@@ -22,36 +22,36 @@ window.HUB_TOPICS.push(...[
     ],
     "interview": [
       {
-        "q": "Sample HLD Interview Questions #1",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Walk through CAP during a partition.",
+        "a": "Name CP vs AP choice; tie to product tolerances for stale reads."
       },
       {
-        "q": "Sample HLD Interview Questions #2",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "How do you size a cache?",
+        "a": "Working set, TTL, eviction, stampede protection on cold keys."
       },
       {
-        "q": "Sample HLD Interview Questions #3",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "When shard a database?",
+        "a": "Single-node limits, partition key choice, cross-shard query cost."
       },
       {
-        "q": "Sample HLD Interview Questions #4",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Design a rate limiter at the edge.",
+        "a": "Token bucket vs sliding window; Redis Lua; per-tenant keys."
       },
       {
-        "q": "Sample HLD Interview Questions #5",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Explain cache invalidation after writes.",
+        "a": "Write DB then invalidate; eventual consistency window."
       },
       {
-        "q": "Sample HLD Interview Questions #6",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Multi-region active-active pitfalls?",
+        "a": "Conflict resolution, replication lag, data residency."
       },
       {
-        "q": "Sample HLD Interview Questions #7",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Kafka vs queue for your use case?",
+        "a": "Fan-out replay vs task routing; ordering per partition."
       },
       {
-        "q": "Sample HLD Interview Questions #8",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "What metrics define SLOs?",
+        "a": "Golden signals: latency, traffic, errors, saturation; error budget policy."
       }
     ],
     "tags": [
@@ -61,7 +61,7 @@ window.HUB_TOPICS.push(...[
     "id": "hld-interview",
     "title": "HLD Interview Questions",
     "section": "interview",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Curated lld interview questions for senior loops with expandable answers.",
@@ -84,36 +84,24 @@ window.HUB_TOPICS.push(...[
     ],
     "interview": [
       {
-        "q": "Sample LLD Interview Questions #1",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Parking lot class diagram.",
+        "a": "VehicleType, Spot, Lot; allocation; extension for pricing."
       },
       {
-        "q": "Sample LLD Interview Questions #2",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Apply Strategy in checkout.",
+        "a": "Interchangeable pricing without switch on type."
       },
       {
-        "q": "Sample LLD Interview Questions #3",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Repository vs DAO?",
+        "a": "Domain-oriented persistence abstraction vs thin data mapper."
       },
       {
-        "q": "Sample LLD Interview Questions #4",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "When use State pattern?",
+        "a": "Object behavior changes with phase; avoids large conditionals."
       },
       {
-        "q": "Sample LLD Interview Questions #5",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample LLD Interview Questions #6",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample LLD Interview Questions #7",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample LLD Interview Questions #8",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "How model meeting room booking?",
+        "a": "Interval overlap detection; timezone in value object."
       }
     ],
     "tags": [
@@ -123,7 +111,7 @@ window.HUB_TOPICS.push(...[
     "id": "lld-interview",
     "title": "LLD Interview Questions",
     "section": "interview",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Curated java interview questions for senior loops with expandable answers.",
@@ -146,36 +134,20 @@ window.HUB_TOPICS.push(...[
     ],
     "interview": [
       {
-        "q": "Sample Java Interview Questions #1",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "HashMap vs ConcurrentHashMap?",
+        "a": "CHM stripes/CAS; never iterate while unsynchronized HashMap mutates."
       },
       {
-        "q": "Sample Java Interview Questions #2",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Implement thread-safe counter.",
+        "a": "AtomicLong vs synchronized; measure under contention."
       },
       {
-        "q": "Sample Java Interview Questions #3",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Executor rejection policies?",
+        "a": "Abort, CallerRuns, DiscardOldest; backpressure story."
       },
       {
-        "q": "Sample Java Interview Questions #4",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample Java Interview Questions #5",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample Java Interview Questions #6",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample Java Interview Questions #7",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample Java Interview Questions #8",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Virtual thread pinning?",
+        "a": "synchronized/native JDBC may pin carrier; use tryLock or VT-friendly drivers."
       }
     ],
     "tags": [
@@ -185,7 +157,7 @@ window.HUB_TOPICS.push(...[
     "id": "java-interview",
     "title": "Java Interview Questions",
     "section": "interview",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Curated concurrency interview questions for senior loops with expandable answers.",
@@ -208,36 +180,20 @@ window.HUB_TOPICS.push(...[
     ],
     "interview": [
       {
-        "q": "Sample Concurrency Interview Questions #1",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Explain happens-before.",
+        "a": "Unlock→lock, volatile write/read, thread start/join edges."
       },
       {
-        "q": "Sample Concurrency Interview Questions #2",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Fix double-checked locking.",
+        "a": "volatile singleton or holder idiom."
       },
       {
-        "q": "Sample Concurrency Interview Questions #3",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Prevent deadlock.",
+        "a": "Global lock order, tryLock with backoff, timeouts."
       },
       {
-        "q": "Sample Concurrency Interview Questions #4",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample Concurrency Interview Questions #5",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample Concurrency Interview Questions #6",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample Concurrency Interview Questions #7",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample Concurrency Interview Questions #8",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Producer-consumer without wait/notify?",
+        "a": "BlockingQueue put/take with bounded capacity."
       }
     ],
     "tags": [
@@ -247,7 +203,7 @@ window.HUB_TOPICS.push(...[
     "id": "concurrency-interview",
     "title": "Concurrency Interview Questions",
     "section": "interview",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Curated distributed systems interview for senior loops with expandable answers.",
@@ -270,36 +226,20 @@ window.HUB_TOPICS.push(...[
     ],
     "interview": [
       {
-        "q": "Sample Distributed Systems Interview #1",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Idempotency for payments?",
+        "a": "Unique idempotency key constraint; same response on retry."
       },
       {
-        "q": "Sample Distributed Systems Interview #2",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Saga vs 2PC?",
+        "a": "Local commits + compensate vs blocking coordinator."
       },
       {
-        "q": "Sample Distributed Systems Interview #3",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Quorum reads/writes?",
+        "a": "R+W>N avoids stale minority; tunable in Cassandra."
       },
       {
-        "q": "Sample Distributed Systems Interview #4",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample Distributed Systems Interview #5",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample Distributed Systems Interview #6",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample Distributed Systems Interview #7",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample Distributed Systems Interview #8",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Split brain handling?",
+        "a": "Fencing tokens, STONITH, prefer CP for metadata stores."
       }
     ],
     "tags": [
@@ -309,7 +249,7 @@ window.HUB_TOPICS.push(...[
     "id": "distributed-interview",
     "title": "Distributed Systems Interview",
     "section": "interview",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Curated design patterns interview for senior loops with expandable answers.",
@@ -334,36 +274,20 @@ window.HUB_TOPICS.push(...[
     ],
     "interview": [
       {
-        "q": "Sample Design Patterns Interview #1",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Decorator vs inheritance?",
+        "a": "Wrap to add behavior without subclass explosion."
       },
       {
-        "q": "Sample Design Patterns Interview #2",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "When not to use Singleton?",
+        "a": "Testability, hidden deps, clustered state needs external store."
       },
       {
-        "q": "Sample Design Patterns Interview #3",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Command for undo?",
+        "a": "Encapsulate request; store history stack."
       },
       {
-        "q": "Sample Design Patterns Interview #4",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample Design Patterns Interview #5",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample Design Patterns Interview #6",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample Design Patterns Interview #7",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample Design Patterns Interview #8",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Observer memory leaks?",
+        "a": "Weak references or explicit unsubscribe."
       }
     ],
     "tags": [
@@ -373,7 +297,7 @@ window.HUB_TOPICS.push(...[
     "id": "patterns-interview",
     "title": "Design Patterns Interview",
     "section": "interview",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Curated senior architecture interview for senior loops with expandable answers.",
@@ -396,36 +320,20 @@ window.HUB_TOPICS.push(...[
     ],
     "interview": [
       {
-        "q": "Sample Senior Architecture Interview #1",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Decompose monolith safely?",
+        "a": "Strangler fig, bounded contexts, contract tests."
       },
       {
-        "q": "Sample Senior Architecture Interview #2",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Tech debt vs delivery?",
+        "a": "Error budgets, incremental extraction, measurable milestones."
       },
       {
-        "q": "Sample Senior Architecture Interview #3",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Blast radius reduction?",
+        "a": "Bulkheads, limits, graceful degradation paths."
       },
       {
-        "q": "Sample Senior Architecture Interview #4",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample Senior Architecture Interview #5",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample Senior Architecture Interview #6",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample Senior Architecture Interview #7",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
-      },
-      {
-        "q": "Sample Senior Architecture Interview #8",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "Cost-aware architecture?",
+        "a": "Right-size tiers; cache and async before more microservices."
       }
     ],
     "tags": [
@@ -435,7 +343,7 @@ window.HUB_TOPICS.push(...[
     "id": "senior-architecture-interview",
     "title": "Senior Architecture Interview",
     "section": "interview",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Curated scenario-based interview for senior loops with expandable answers.",
@@ -458,36 +366,36 @@ window.HUB_TOPICS.push(...[
     ],
     "interview": [
       {
-        "q": "Sample Scenario-Based Interview #1",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "What if 10,000 threads attempt to book the same seat?",
+        "a": "Serialize on seat row with DB conditional update or short-lived lock; queue overload; never in-memory flag only."
       },
       {
-        "q": "Sample Scenario-Based Interview #2",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "How prevent duplicate payment processing?",
+        "a": "Idempotency-Key header + unique index; return cached receipt for replay."
       },
       {
-        "q": "Sample Scenario-Based Interview #3",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "What if Redis becomes unavailable?",
+        "a": "Circuit breaker to DB; coalesce requests; degrade features; slow recovery with jittered TTL."
       },
       {
-        "q": "Sample Scenario-Based Interview #4",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "What if a Kafka consumer crashes mid-batch?",
+        "a": "Commit offsets after process; idempotent consumer; transactional outbox pattern."
       },
       {
-        "q": "Sample Scenario-Based Interview #5",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "How prevent deadlocks in a service?",
+        "a": "Ordered resource acquisition; timeouts; deadlock detection metrics."
       },
       {
-        "q": "Sample Scenario-Based Interview #6",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "How scale a thread-safe cache?",
+        "a": "CHM shards; optional local L1; hot key detection and coalescing."
       },
       {
-        "q": "Sample Scenario-Based Interview #7",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "When use virtual threads?",
+        "a": "Massive blocking I/O with pinned-sync awareness; not CPU-bound parallel compute."
       },
       {
-        "q": "Sample Scenario-Based Interview #8",
-        "a": "Lead with requirements, constraints, trade-offs, and measurable validation."
+        "q": "How handle a hot key?",
+        "a": "Local cache, read replicas, salting key, pre-warm, request coalescing."
       }
     ],
     "tags": [
@@ -497,7 +405,7 @@ window.HUB_TOPICS.push(...[
     "id": "scenario-interview",
     "title": "Scenario-Based Interview",
     "section": "interview",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Curated top 50 rapid fire revision for senior loops with expandable answers.",

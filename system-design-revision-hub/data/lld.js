@@ -37,7 +37,7 @@ window.HUB_TOPICS.push(...[
     "id": "classes-and-objects",
     "title": "Classes and objects",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Encapsulation is a foundational lld topic for senior interviews and production design reviews.",
@@ -75,7 +75,7 @@ window.HUB_TOPICS.push(...[
     "id": "encapsulation",
     "title": "Encapsulation",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Abstraction is a foundational lld topic for senior interviews and production design reviews.",
@@ -113,7 +113,7 @@ window.HUB_TOPICS.push(...[
     "id": "abstraction",
     "title": "Abstraction",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Inheritance is a foundational lld topic for senior interviews and production design reviews.",
@@ -151,7 +151,7 @@ window.HUB_TOPICS.push(...[
     "id": "inheritance",
     "title": "Inheritance",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Polymorphism is a foundational lld topic for senior interviews and production design reviews.",
@@ -189,7 +189,7 @@ window.HUB_TOPICS.push(...[
     "id": "polymorphism",
     "title": "Polymorphism",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Composition vs inheritance is a foundational lld topic for senior interviews and production design reviews.",
@@ -227,7 +227,7 @@ window.HUB_TOPICS.push(...[
     "id": "composition-vs-inheritance",
     "title": "Composition vs inheritance",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Association, aggregation, and composition is a foundational lld topic for senior interviews and production design reviews.",
@@ -265,7 +265,7 @@ window.HUB_TOPICS.push(...[
     "id": "association-aggregation-and-composition",
     "title": "Association, aggregation, and composition",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Dependency injection is a foundational lld topic for senior interviews and production design reviews.",
@@ -303,7 +303,7 @@ window.HUB_TOPICS.push(...[
     "id": "dependency-injection",
     "title": "Dependency injection",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Coupling and cohesion is a foundational lld topic for senior interviews and production design reviews.",
@@ -341,7 +341,7 @@ window.HUB_TOPICS.push(...[
     "id": "coupling-and-cohesion",
     "title": "Coupling and cohesion",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Interfaces vs abstract classes is a foundational lld topic for senior interviews and production design reviews.",
@@ -379,7 +379,7 @@ window.HUB_TOPICS.push(...[
     "id": "interfaces-vs-abstract-classes",
     "title": "Interfaces vs abstract classes",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Immutable objects is a foundational lld topic for senior interviews and production design reviews.",
@@ -417,7 +417,7 @@ window.HUB_TOPICS.push(...[
     "id": "immutable-objects",
     "title": "Immutable objects",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Object lifecycle is a foundational lld topic for senior interviews and production design reviews.",
@@ -455,7 +455,7 @@ window.HUB_TOPICS.push(...[
     "id": "object-lifecycle",
     "title": "Object lifecycle",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "UML class diagrams is a foundational lld topic for senior interviews and production design reviews.",
@@ -493,7 +493,7 @@ window.HUB_TOPICS.push(...[
     "id": "uml-class-diagrams",
     "title": "UML class diagrams",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "UML sequence diagrams is a foundational lld topic for senior interviews and production design reviews.",
@@ -531,7 +531,7 @@ window.HUB_TOPICS.push(...[
     "id": "uml-sequence-diagrams",
     "title": "UML sequence diagrams",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "UML state diagrams is a foundational lld topic for senior interviews and production design reviews.",
@@ -569,7 +569,7 @@ window.HUB_TOPICS.push(...[
     "id": "uml-state-diagrams",
     "title": "UML state diagrams",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "UML activity diagrams is a foundational lld topic for senior interviews and production design reviews.",
@@ -607,7 +607,7 @@ window.HUB_TOPICS.push(...[
     "id": "uml-activity-diagrams",
     "title": "UML activity diagrams",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "MVC pattern names a proven micro-architecture for recurring change-pressure in OO systems.",
@@ -647,7 +647,7 @@ window.HUB_TOPICS.push(...[
     "id": "mvc-pattern",
     "title": "MVC pattern",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "MVP pattern names a proven micro-architecture for recurring change-pressure in OO systems.",
@@ -687,7 +687,7 @@ window.HUB_TOPICS.push(...[
     "id": "mvp-pattern",
     "title": "MVP pattern",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "MVVM pattern names a proven micro-architecture for recurring change-pressure in OO systems.",
@@ -727,7 +727,7 @@ window.HUB_TOPICS.push(...[
     "id": "mvvm-pattern",
     "title": "MVVM pattern",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Repository pattern names a proven micro-architecture for recurring change-pressure in OO systems.",
@@ -767,7 +767,7 @@ window.HUB_TOPICS.push(...[
     "id": "repository-pattern",
     "title": "Repository pattern",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Unit of Work pattern names a proven micro-architecture for recurring change-pressure in OO systems.",
@@ -807,7 +807,7 @@ window.HUB_TOPICS.push(...[
     "id": "unit-of-work-pattern",
     "title": "Unit of Work pattern",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Specification pattern names a proven micro-architecture for recurring change-pressure in OO systems.",
@@ -847,7 +847,7 @@ window.HUB_TOPICS.push(...[
     "id": "specification-pattern",
     "title": "Specification pattern",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Null Object pattern names a proven micro-architecture for recurring change-pressure in OO systems.",
@@ -887,7 +887,7 @@ window.HUB_TOPICS.push(...[
     "id": "null-object-pattern",
     "title": "Null Object pattern",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Object Pool pattern names a proven micro-architecture for recurring change-pressure in OO systems.",
@@ -927,7 +927,7 @@ window.HUB_TOPICS.push(...[
     "id": "object-pool-pattern",
     "title": "Object Pool pattern",
     "section": "lld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Single Responsibility Principle reduces change amplification by constraining how modules depend on each other.",
@@ -967,10 +967,10 @@ window.HUB_TOPICS.push(...[
     "id": "srp",
     "title": "Single Responsibility Principle",
     "section": "lld",
-    "status": "complete",
     "solid": true,
     "code": "// Bad: OrderService also emails and prints\nclass OrderService {\n    void place(Order o) { save(o); sendEmail(o); printInvoice(o); }\n}\n// Better: separate collaborators\ninterface OrderRepository { void save(Order o); }\nclass OrderService {\n    private final OrderRepository repo;\n    private final NotificationPort notifier;\n    OrderService(OrderRepository repo, NotificationPort notifier) {\n        this.repo = repo; this.notifier = notifier;\n    }\n    void place(Order o) { repo.save(o); notifier.orderPlaced(o); }\n}",
-    "mermaid": "classDiagram\n  class Abstraction\n  class Implementation\n  Abstraction <|.. Implementation"
+    "mermaid": "classDiagram\n  class SRPExample\n  note for SRPExample : Single Responsibility Principle",
+    "status": "complete"
   },
   {
     "definition": "Open/Closed Principle reduces change amplification by constraining how modules depend on each other.",
@@ -1010,8 +1010,10 @@ window.HUB_TOPICS.push(...[
     "id": "ocp",
     "title": "Open/Closed Principle",
     "section": "lld",
-    "status": "complete",
-    "solid": true
+    "solid": true,
+    "code": "// Bad: edit switch for each new discount type\nint price(Order o, String type) {\n    return switch (type) {\n        case \"VIP\" -> (int)(o.subtotal() * 0.9);\n        case \"STAFF\" -> (int)(o.subtotal() * 0.8);\n        default -> o.subtotal();\n    };\n}\n// Better: new discount = new class\ninterface Discount { int apply(int subtotal); }\nclass VipDiscount implements Discount { public int apply(int s) { return (int)(s * 0.9); } }",
+    "mermaid": "classDiagram\n  class OCPExample\n  note for OCPExample : Open/Closed Principle",
+    "status": "complete"
   },
   {
     "definition": "Liskov Substitution Principle reduces change amplification by constraining how modules depend on each other.",
@@ -1051,8 +1053,10 @@ window.HUB_TOPICS.push(...[
     "id": "lsp",
     "title": "Liskov Substitution Principle",
     "section": "lld",
-    "status": "complete",
-    "solid": true
+    "solid": true,
+    "code": "// Bad: Square cannot honor Rectangle setWidth contract\nclass Rectangle { void setWidth(int w); void setHeight(int h); int area(); }\nclass Square extends Rectangle {\n    void setWidth(int w) { super.setWidth(w); super.setHeight(w); }\n}\n// Better: compose or separate type hierarchy\ninterface Shape { int area(); }",
+    "mermaid": "classDiagram\n  class LSPExample\n  note for LSPExample : Liskov Substitution Principle",
+    "status": "complete"
   },
   {
     "definition": "Interface Segregation Principle reduces change amplification by constraining how modules depend on each other.",
@@ -1092,8 +1096,10 @@ window.HUB_TOPICS.push(...[
     "id": "isp",
     "title": "Interface Segregation Principle",
     "section": "lld",
-    "status": "complete",
-    "solid": true
+    "solid": true,
+    "code": "// Bad: fat interface forces no-op methods\ninterface Worker { void work(); void eat(); void sleep(); }\nclass Robot implements Worker { public void eat() { throw new UnsupportedOperationException(); } }\n// Better: Role interfaces\ninterface Workable { void work(); }\nclass Robot implements Workable { public void work() { /* ... */ } }",
+    "mermaid": "classDiagram\n  class ISPExample\n  note for ISPExample : Interface Segregation Principle",
+    "status": "complete"
   },
   {
     "definition": "Dependency Inversion Principle reduces change amplification by constraining how modules depend on each other.",
@@ -1133,7 +1139,9 @@ window.HUB_TOPICS.push(...[
     "id": "dip",
     "title": "Dependency Inversion Principle",
     "section": "lld",
-    "status": "complete",
-    "solid": true
+    "solid": true,
+    "code": "// Bad: high-level module news concrete DB\nclass ReportService {\n    private final MySqlReportDao dao = new MySqlReportDao();\n}\n// Better: depend on abstraction\ninterface ReportDao { List<Row> fetch(); }\nclass ReportService {\n    private final ReportDao dao;\n    ReportService(ReportDao dao) { this.dao = dao; }\n}",
+    "mermaid": "classDiagram\n  class DIPExample\n  note for DIPExample : Dependency Inversion Principle",
+    "status": "complete"
   }
 ]);

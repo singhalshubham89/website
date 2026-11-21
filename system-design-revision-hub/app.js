@@ -21,7 +21,8 @@
     { id: 'case-studies', label: 'System Design Case Studies' },
     { id: 'lld-exercises', label: 'LLD Coding Exercises' },
     { id: 'interview', label: 'Interview Questions' },
-    { id: 'one-day', label: 'One-Day Revision Cheat Sheet' }
+    { id: 'one-day', label: 'One-Day Revision Cheat Sheet' },
+    { id: 'bookmarks', label: 'Bookmarks & Progress' }
   ];
 
   const el = {
@@ -63,6 +64,9 @@
   let recent = loadJson(STORAGE.recent, []);
 
   function topicsForSection(sectionId) {
+    if (sectionId === 'bookmarks') {
+      return topics.filter((t) => bookmarks.includes(t.id));
+    }
     if (sectionId === 'lld-exercises') {
       return topics.filter((t) => t.section === 'java-library' && t.exercise);
     }

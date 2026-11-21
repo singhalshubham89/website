@@ -39,8 +39,9 @@ window.HUB_TOPICS.push(...[
     "id": "singleton",
     "title": "Singleton",
     "section": "patterns",
-    "status": "complete",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "class Config { private static final Config I = new Config(); static Config get() { return I; } }",
+    "mermaid": "classDiagram\n  class Singleton\n  Singleton : -instance\n  Singleton : +getInstance()",
+    "status": "complete"
   },
   {
     "definition": "The Factory Method pattern addresses a recurring object-oriented design problem in the creational category.",
@@ -80,8 +81,9 @@ window.HUB_TOPICS.push(...[
     "id": "factory-method",
     "title": "Factory Method",
     "section": "patterns",
-    "status": "complete",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "abstract class Dialog { abstract Button create(); void render() { create().paint(); } }",
+    "mermaid": "classDiagram\n  class FactoryMethodContext\n  class FactoryMethodRole",
+    "status": "complete"
   },
   {
     "definition": "The Abstract Factory pattern addresses a recurring object-oriented design problem in the creational category.",
@@ -121,8 +123,9 @@ window.HUB_TOPICS.push(...[
     "id": "abstract-factory",
     "title": "Abstract Factory",
     "section": "patterns",
-    "status": "complete",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "interface UIFactory { Button button(); Checkbox box(); }",
+    "mermaid": "classDiagram\n  class AbstractFactoryContext\n  class AbstractFactoryRole",
+    "status": "complete"
   },
   {
     "definition": "The Builder pattern addresses a recurring object-oriented design problem in the creational category.",
@@ -162,8 +165,9 @@ window.HUB_TOPICS.push(...[
     "id": "builder",
     "title": "Builder",
     "section": "patterns",
-    "status": "complete",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "class HttpRequest { String url; int timeout; static class Builder { HttpRequest build() { return new HttpRequest(); } } }",
+    "mermaid": "classDiagram\n  class BuilderContext\n  class BuilderRole",
+    "status": "complete"
   },
   {
     "definition": "The Prototype pattern addresses a recurring object-oriented design problem in the creational category.",
@@ -203,8 +207,9 @@ window.HUB_TOPICS.push(...[
     "id": "prototype",
     "title": "Prototype",
     "section": "patterns",
-    "status": "complete",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "interface CloneableShape extends Cloneable { CloneableShape clone(); }",
+    "mermaid": "classDiagram\n  class PrototypeContext\n  class PrototypeRole",
+    "status": "complete"
   },
   {
     "definition": "The Adapter pattern addresses a recurring object-oriented design problem in the structural category.",
@@ -244,8 +249,9 @@ window.HUB_TOPICS.push(...[
     "id": "adapter",
     "title": "Adapter",
     "section": "patterns",
-    "status": "complete",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "class LegacyPrinter { void print(String s) {} } class PrinterAdapter implements ModernPrinter { LegacyPrinter l; public void print(Pdf p) { l.print(p.text()); } }",
+    "mermaid": "classDiagram\n  class AdapterContext\n  class AdapterRole",
+    "status": "complete"
   },
   {
     "definition": "The Bridge pattern addresses a recurring object-oriented design problem in the structural category.",
@@ -285,8 +291,9 @@ window.HUB_TOPICS.push(...[
     "id": "bridge",
     "title": "Bridge",
     "section": "patterns",
-    "status": "complete",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "interface Renderer { void drawCircle(double r); } class VectorRenderer implements Renderer { /* ... */ }",
+    "mermaid": "classDiagram\n  class BridgeContext\n  class BridgeRole",
+    "status": "complete"
   },
   {
     "definition": "The Composite pattern addresses a recurring object-oriented design problem in the structural category.",
@@ -326,8 +333,9 @@ window.HUB_TOPICS.push(...[
     "id": "composite",
     "title": "Composite",
     "section": "patterns",
-    "status": "complete",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "interface FileNode { long size(); } class FileLeaf implements FileNode { long size() { return bytes; } }",
+    "mermaid": "classDiagram\n  class CompositeContext\n  class CompositeRole",
+    "status": "complete"
   },
   {
     "definition": "The Decorator pattern addresses a recurring object-oriented design problem in the structural category.",
@@ -367,8 +375,9 @@ window.HUB_TOPICS.push(...[
     "id": "decorator",
     "title": "Decorator",
     "section": "patterns",
-    "status": "complete",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "interface Coffee { int cost(); } class MilkDecorator implements Coffee { Coffee inner; public int cost() { return inner.cost() + 2; } }",
+    "mermaid": "classDiagram\n  Component <|.. Decorator\n  Decorator --> Component",
+    "status": "complete"
   },
   {
     "definition": "The Facade pattern addresses a recurring object-oriented design problem in the structural category.",
@@ -408,8 +417,9 @@ window.HUB_TOPICS.push(...[
     "id": "facade",
     "title": "Facade",
     "section": "patterns",
-    "status": "complete",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "class TravelFacade { void bookTrip() { flight.book(); hotel.reserve(); } }",
+    "mermaid": "classDiagram\n  class FacadeContext\n  class FacadeRole",
+    "status": "complete"
   },
   {
     "definition": "The Flyweight pattern addresses a recurring object-oriented design problem in the structural category.",
@@ -449,8 +459,9 @@ window.HUB_TOPICS.push(...[
     "id": "flyweight",
     "title": "Flyweight",
     "section": "patterns",
-    "status": "complete",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "class GlyphFactory { Map<String, Glyph> pool = new HashMap<>(); }",
+    "mermaid": "classDiagram\n  class FlyweightContext\n  class FlyweightRole",
+    "status": "complete"
   },
   {
     "definition": "The Proxy pattern addresses a recurring object-oriented design problem in the structural category.",
@@ -490,8 +501,9 @@ window.HUB_TOPICS.push(...[
     "id": "proxy",
     "title": "Proxy",
     "section": "patterns",
-    "status": "complete",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "interface Image { void display(); } class ImageProxy implements Image { RealImage real; public void display() { if (real == null) real = new RealImage(); real.display(); } }",
+    "mermaid": "classDiagram\n  class ProxyContext\n  class ProxyRole",
+    "status": "complete"
   },
   {
     "definition": "The Chain of Responsibility pattern addresses a recurring object-oriented design problem in the behavioral category.",
@@ -531,8 +543,9 @@ window.HUB_TOPICS.push(...[
     "id": "chain-of-responsibility",
     "title": "Chain of Responsibility",
     "section": "patterns",
-    "status": "complete",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "abstract class Handler { Handler next; void handle(Request r) { if (next != null) next.handle(r); } }",
+    "mermaid": "classDiagram\n  class ChainofResponsibilityContext\n  class ChainofResponsibilityRole",
+    "status": "complete"
   },
   {
     "definition": "The Command pattern addresses a recurring object-oriented design problem in the behavioral category.",
@@ -572,8 +585,9 @@ window.HUB_TOPICS.push(...[
     "id": "command",
     "title": "Command",
     "section": "patterns",
-    "status": "complete",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "interface Command { void execute(); void undo(); } class PasteCommand implements Command { /* ... */ }",
+    "mermaid": "classDiagram\n  class CommandContext\n  class CommandRole",
+    "status": "complete"
   },
   {
     "definition": "The Interpreter pattern addresses a recurring object-oriented design problem in the behavioral category.",
@@ -613,8 +627,9 @@ window.HUB_TOPICS.push(...[
     "id": "interpreter",
     "title": "Interpreter",
     "section": "patterns",
-    "status": "complete",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "interface Expr { int eval(); } record Num(int v) implements Expr { public int eval() { return v; } }",
+    "mermaid": "classDiagram\n  class InterpreterContext\n  class InterpreterRole",
+    "status": "complete"
   },
   {
     "definition": "The Iterator pattern addresses a recurring object-oriented design problem in the behavioral category.",
@@ -654,8 +669,9 @@ window.HUB_TOPICS.push(...[
     "id": "iterator",
     "title": "Iterator",
     "section": "patterns",
-    "status": "complete",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "interface<T> Iterator<T> { boolean hasNext(); T next(); }",
+    "mermaid": "classDiagram\n  class IteratorContext\n  class IteratorRole",
+    "status": "complete"
   },
   {
     "definition": "The Mediator pattern addresses a recurring object-oriented design problem in the behavioral category.",
@@ -695,8 +711,9 @@ window.HUB_TOPICS.push(...[
     "id": "mediator",
     "title": "Mediator",
     "section": "patterns",
-    "status": "complete",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "class ChatRoom { void send(String msg, User from) { /* notify others */ } }",
+    "mermaid": "classDiagram\n  class MediatorContext\n  class MediatorRole",
+    "status": "complete"
   },
   {
     "definition": "The Memento pattern addresses a recurring object-oriented design problem in the behavioral category.",
@@ -736,8 +753,9 @@ window.HUB_TOPICS.push(...[
     "id": "memento",
     "title": "Memento",
     "section": "patterns",
-    "status": "complete",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "record EditorMemento(String text) {} class Editor { EditorMemento save() { return new EditorMemento(body); } void restore(EditorMemento m) { body = m.text(); } }",
+    "mermaid": "classDiagram\n  class MementoContext\n  class MementoRole",
+    "status": "complete"
   },
   {
     "definition": "The Observer pattern addresses a recurring object-oriented design problem in the behavioral category.",
@@ -777,8 +795,9 @@ window.HUB_TOPICS.push(...[
     "id": "observer",
     "title": "Observer",
     "section": "patterns",
-    "status": "complete",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "interface Listener { void onEvent(E e); } class EventBus { List<Listener> ls; void publish(E e) { ls.forEach(l -> l.onEvent(e)); } }",
+    "mermaid": "classDiagram\n  Subject --> Observer\n  Observer : +update()",
+    "status": "complete"
   },
   {
     "definition": "The State pattern addresses a recurring object-oriented design problem in the behavioral category.",
@@ -818,8 +837,9 @@ window.HUB_TOPICS.push(...[
     "id": "state",
     "title": "State",
     "section": "patterns",
-    "status": "complete",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "interface State { void handle(Context ctx); } class Idle implements State { public void handle(Context c) { c.set(new Running()); } }",
+    "mermaid": "stateDiagram-v2\n  [*] --> Idle\n  Idle --> Active: event",
+    "status": "complete"
   },
   {
     "definition": "The Strategy pattern addresses a recurring object-oriented design problem in the behavioral category.",
@@ -859,9 +879,9 @@ window.HUB_TOPICS.push(...[
     "id": "strategy",
     "title": "Strategy",
     "section": "patterns",
-    "status": "complete",
-    "code": "// Strategy example\ninterface PricingStrategy { int price(Order o); }\nclass DiscountStrategy implements PricingStrategy {\n    public int price(Order o) { return (int)(o.subtotal() * 0.9); }\n}\nclass Checkout {\n    private final PricingStrategy strategy;\n    Checkout(PricingStrategy strategy) { this.strategy = strategy; }\n    int total(Order o) { return strategy.price(o); }\n}",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "interface PricingStrategy { int price(Order o); } class Checkout { PricingStrategy s; int total(Order o) { return s.price(o); } }",
+    "mermaid": "classDiagram\n  Context --> Strategy\n  Strategy <|.. ConcreteStrategy",
+    "status": "complete"
   },
   {
     "definition": "The Template Method pattern addresses a recurring object-oriented design problem in the behavioral category.",
@@ -901,8 +921,9 @@ window.HUB_TOPICS.push(...[
     "id": "template-method",
     "title": "Template Method",
     "section": "patterns",
-    "status": "complete",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "abstract class DataMiner { final void mine() { open(); extract(); close(); } abstract void extract(); }",
+    "mermaid": "classDiagram\n  class TemplateMethodContext\n  class TemplateMethodRole",
+    "status": "complete"
   },
   {
     "definition": "The Visitor pattern addresses a recurring object-oriented design problem in the behavioral category.",
@@ -942,8 +963,9 @@ window.HUB_TOPICS.push(...[
     "id": "visitor",
     "title": "Visitor",
     "section": "patterns",
-    "status": "complete",
-    "mermaid": "classDiagram\n  class Context\n  class Strategy\n  Context --> Strategy"
+    "code": "interface Visitor { void visit(Circle c); } interface Shape { void accept(Visitor v); }",
+    "mermaid": "classDiagram\n  class VisitorContext\n  class VisitorRole",
+    "status": "complete"
   },
   {
     "definition": "Dependency Injection names a proven micro-architecture for recurring change-pressure in OO systems.",
@@ -983,7 +1005,7 @@ window.HUB_TOPICS.push(...[
     "id": "dependency-injection-pattern",
     "title": "Dependency Injection",
     "section": "patterns",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Repository names a proven micro-architecture for recurring change-pressure in OO systems.",
@@ -1023,7 +1045,7 @@ window.HUB_TOPICS.push(...[
     "id": "repository-pattern",
     "title": "Repository",
     "section": "patterns",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Unit of Work names a proven micro-architecture for recurring change-pressure in OO systems.",
@@ -1063,6 +1085,6 @@ window.HUB_TOPICS.push(...[
     "id": "unit-of-work-pattern",
     "title": "Unit of Work",
     "section": "patterns",
-    "status": "complete"
+    "status": "partial"
   }
 ]);

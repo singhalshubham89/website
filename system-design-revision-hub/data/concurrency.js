@@ -37,7 +37,6 @@ window.HUB_TOPICS.push(...[
     "id": "process-vs-thread",
     "title": "Process vs thread",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for process vs thread; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -45,7 +44,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Thread lifecycle is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -83,7 +82,6 @@ window.HUB_TOPICS.push(...[
     "id": "thread-lifecycle",
     "title": "Thread lifecycle",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for thread lifecycle; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -91,7 +89,8 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "mermaid": "stateDiagram-v2\n  [*] --> New\n  New --> Runnable\n  Runnable --> Running\n  Running --> Terminated",
+    "status": "partial"
   },
   {
     "definition": "Thread and Runnable is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -129,7 +128,6 @@ window.HUB_TOPICS.push(...[
     "id": "thread-and-runnable",
     "title": "Thread and Runnable",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for thread and runnable; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -137,7 +135,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Callable and Future is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -175,7 +173,6 @@ window.HUB_TOPICS.push(...[
     "id": "callable-and-future",
     "title": "Callable and Future",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for callable and future; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -183,7 +180,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "ExecutorService is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -221,7 +218,6 @@ window.HUB_TOPICS.push(...[
     "id": "executorservice",
     "title": "ExecutorService",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for executorservice; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -229,7 +225,9 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "code": "import java.util.concurrent.*;\nExecutorService pool = Executors.newFixedThreadPool(4);\nFuture<Integer> f = pool.submit(() -> 42);\npool.shutdown();",
+    "mermaid": "flowchart TB\n  Submit --> Q[Queue]\n  Q --> W1[Worker]\n  Q --> W2[Worker]",
+    "status": "complete"
   },
   {
     "definition": "Fixed thread pool is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -267,7 +265,6 @@ window.HUB_TOPICS.push(...[
     "id": "fixed-thread-pool",
     "title": "Fixed thread pool",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for fixed thread pool; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -275,7 +272,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Cached thread pool manages a fast auxiliary store between clients and authoritative data to cut latency and protect databases.",
@@ -315,7 +312,6 @@ window.HUB_TOPICS.push(...[
     "id": "cached-thread-pool",
     "title": "Cached thread pool",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for cached thread pool; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -323,7 +319,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Single-thread executor is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -361,7 +357,6 @@ window.HUB_TOPICS.push(...[
     "id": "single-thread-executor",
     "title": "Single-thread executor",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for single-thread executor; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -369,7 +364,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Scheduled executor is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -407,7 +402,6 @@ window.HUB_TOPICS.push(...[
     "id": "scheduled-executor",
     "title": "Scheduled executor",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for scheduled executor; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -415,7 +409,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "ForkJoinPool is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -453,7 +447,6 @@ window.HUB_TOPICS.push(...[
     "id": "forkjoinpool",
     "title": "ForkJoinPool",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for forkjoinpool; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -461,7 +454,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "CompletableFuture is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -499,7 +492,6 @@ window.HUB_TOPICS.push(...[
     "id": "completablefuture",
     "title": "CompletableFuture",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for completablefuture; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -507,7 +499,8 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "code": "CompletableFuture.supplyAsync(() -> fetchUser())\n    .thenApply(u -> enrich(u))\n    .thenAccept(System.out::println);",
+    "status": "complete"
   },
   {
     "definition": "Parallel streams is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -545,7 +538,6 @@ window.HUB_TOPICS.push(...[
     "id": "parallel-streams",
     "title": "Parallel streams",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for parallel streams; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -553,7 +545,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Synchronous vs asynchronous execution coordinates access to shared mutable state across JVM threads.",
@@ -593,7 +585,6 @@ window.HUB_TOPICS.push(...[
     "id": "synchronous-vs-asynchronous-execution",
     "title": "Synchronous vs asynchronous execution",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for synchronous vs asynchronous execution; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -601,7 +592,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Platform threads vs virtual threads is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -639,7 +630,6 @@ window.HUB_TOPICS.push(...[
     "id": "platform-threads-vs-virtual-threads",
     "title": "Platform threads vs virtual threads",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for platform threads vs virtual threads; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -647,7 +637,8 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "code": "// Java 21+: cheap blocking I/O\ntry (var executor = Executors.newVirtualThreadPerTaskExecutor()) {\n    executor.submit(() -> httpCall());\n}",
+    "status": "complete"
   },
   {
     "definition": "Java 21 virtual threads is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -685,7 +676,6 @@ window.HUB_TOPICS.push(...[
     "id": "java-21-virtual-threads",
     "title": "Java 21 virtual threads",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for java 21 virtual threads; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -693,7 +683,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Race conditions and critical sections is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -731,7 +721,6 @@ window.HUB_TOPICS.push(...[
     "id": "race-conditions-and-critical-sections",
     "title": "Race conditions and critical sections",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for race conditions and critical sections; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -739,7 +728,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "synchronized methods and blocks coordinates access to shared mutable state across JVM threads.",
@@ -779,7 +768,6 @@ window.HUB_TOPICS.push(...[
     "id": "synchronized-methods-and-blocks",
     "title": "synchronized methods and blocks",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for synchronized methods and blocks; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -787,7 +775,8 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "code": "class Account {\n    private int balance;\n    synchronized void credit(int amount) { balance += amount; }\n    synchronized int getBalance() { return balance; }\n}",
+    "status": "complete"
   },
   {
     "definition": "Intrinsic locks and monitors coordinates access to shared mutable state across JVM threads.",
@@ -827,7 +816,6 @@ window.HUB_TOPICS.push(...[
     "id": "intrinsic-locks-and-monitors",
     "title": "Intrinsic locks and monitors",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for intrinsic locks and monitors; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -835,7 +823,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "ReentrantLock coordinates access to shared mutable state across JVM threads.",
@@ -875,7 +863,6 @@ window.HUB_TOPICS.push(...[
     "id": "reentrantlock",
     "title": "ReentrantLock",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for reentrantlock; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -883,7 +870,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "ReadWriteLock coordinates access to shared mutable state across JVM threads.",
@@ -923,7 +910,6 @@ window.HUB_TOPICS.push(...[
     "id": "readwritelock",
     "title": "ReadWriteLock",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for readwritelock; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -931,7 +917,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "StampedLock coordinates access to shared mutable state across JVM threads.",
@@ -971,7 +957,6 @@ window.HUB_TOPICS.push(...[
     "id": "stampedlock",
     "title": "StampedLock",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for stampedlock; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -979,7 +964,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Semaphore is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -1017,7 +1002,6 @@ window.HUB_TOPICS.push(...[
     "id": "semaphore",
     "title": "Semaphore",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for semaphore; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -1025,7 +1009,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "CountDownLatch is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -1063,7 +1047,6 @@ window.HUB_TOPICS.push(...[
     "id": "countdownlatch",
     "title": "CountDownLatch",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for countdownlatch; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -1071,7 +1054,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "CyclicBarrier is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -1109,7 +1092,6 @@ window.HUB_TOPICS.push(...[
     "id": "cyclicbarrier",
     "title": "CyclicBarrier",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for cyclicbarrier; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -1117,7 +1099,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Phaser is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -1155,7 +1137,6 @@ window.HUB_TOPICS.push(...[
     "id": "phaser",
     "title": "Phaser",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for phaser; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -1163,7 +1144,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "AtomicInteger and atomic classes coordinates access to shared mutable state across JVM threads.",
@@ -1203,7 +1184,6 @@ window.HUB_TOPICS.push(...[
     "id": "atomicinteger-and-atomic-classes",
     "title": "AtomicInteger and atomic classes",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for atomicinteger and atomic classes; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -1211,7 +1191,8 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "code": "import java.util.concurrent.atomic.AtomicInteger;\nclass Counter {\n    private final AtomicInteger n = new AtomicInteger();\n    void inc() { n.incrementAndGet(); }\n    int get() { return n.get(); }\n}",
+    "status": "complete"
   },
   {
     "definition": "Compare-and-swap is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -1249,7 +1230,6 @@ window.HUB_TOPICS.push(...[
     "id": "compare-and-swap",
     "title": "Compare-and-swap",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for compare-and-swap; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -1257,7 +1237,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "volatile keyword coordinates access to shared mutable state across JVM threads.",
@@ -1297,7 +1277,6 @@ window.HUB_TOPICS.push(...[
     "id": "volatile-keyword",
     "title": "volatile keyword",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for volatile keyword; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -1305,7 +1284,8 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "code": "class Status {\n    volatile boolean running = true; // publish visibility to readers\n    void stop() { running = false; }\n}",
+    "status": "complete"
   },
   {
     "definition": "Java Memory Model is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -1343,7 +1323,6 @@ window.HUB_TOPICS.push(...[
     "id": "java-memory-model",
     "title": "Java Memory Model",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for java memory model; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -1351,7 +1330,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Happens-before relationship is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -1389,7 +1368,6 @@ window.HUB_TOPICS.push(...[
     "id": "happens-before-relationship",
     "title": "Happens-before relationship",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for happens-before relationship; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -1397,7 +1375,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "ThreadLocal is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -1435,7 +1413,6 @@ window.HUB_TOPICS.push(...[
     "id": "threadlocal",
     "title": "ThreadLocal",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for threadlocal; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -1443,7 +1420,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Immutable objects for concurrency is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -1481,7 +1458,6 @@ window.HUB_TOPICS.push(...[
     "id": "immutable-objects-for-concurrency",
     "title": "Immutable objects for concurrency",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for immutable objects for concurrency; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -1489,7 +1465,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Thread-safe collections overview is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -1527,7 +1503,6 @@ window.HUB_TOPICS.push(...[
     "id": "thread-safe-collections-overview",
     "title": "Thread-safe collections overview",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for thread-safe collections overview; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -1535,7 +1510,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Deadlock coordinates access to shared mutable state across JVM threads.",
@@ -1575,7 +1550,6 @@ window.HUB_TOPICS.push(...[
     "id": "deadlock",
     "title": "Deadlock",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for deadlock; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -1583,8 +1557,9 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "// Fix: global lock ordering\nsynchronized(lockA) {\n    synchronized(lockB) { /* work */ }\n}",
-    "mermaid": "flowchart LR\n  T1[Thread A holds L1] --> W1[waits L2]\n  T2[Thread B holds L2] --> W2[waits L1]"
+    "code": "// Bad: lock order A then B vs B then A → cycle\n// Fix: always acquire in global order (min id first)\nsynchronized (lockLow) { synchronized (lockHigh) { work(); } }",
+    "mermaid": "flowchart LR\n  T1[Thread A holds L1] --> W1[waits L2]\n  T2[Thread B holds L2] --> W2[waits L1]",
+    "status": "complete"
   },
   {
     "definition": "Livelock coordinates access to shared mutable state across JVM threads.",
@@ -1624,7 +1599,6 @@ window.HUB_TOPICS.push(...[
     "id": "livelock",
     "title": "Livelock",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for livelock; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -1632,7 +1606,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Starvation is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -1670,7 +1644,6 @@ window.HUB_TOPICS.push(...[
     "id": "starvation",
     "title": "Starvation",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for starvation; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -1678,7 +1651,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Thread contention is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -1716,7 +1689,6 @@ window.HUB_TOPICS.push(...[
     "id": "thread-contention",
     "title": "Thread contention",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for thread contention; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -1724,7 +1696,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Lost updates is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -1762,7 +1734,6 @@ window.HUB_TOPICS.push(...[
     "id": "lost-updates",
     "title": "Lost updates",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for lost updates; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -1770,7 +1741,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Visibility problems is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -1808,7 +1779,6 @@ window.HUB_TOPICS.push(...[
     "id": "visibility-problems",
     "title": "Visibility problems",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for visibility problems; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -1816,7 +1786,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Double-checked locking coordinates access to shared mutable state across JVM threads.",
@@ -1856,7 +1826,6 @@ window.HUB_TOPICS.push(...[
     "id": "double-checked-locking",
     "title": "Double-checked locking",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for double-checked locking; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -1864,7 +1833,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Producer-consumer problem is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -1902,7 +1871,6 @@ window.HUB_TOPICS.push(...[
     "id": "producer-consumer-problem",
     "title": "Producer-consumer problem",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for producer-consumer problem; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -1910,8 +1878,9 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}",
-    "mermaid": "flowchart LR\n  P[Producer] --> Q[BlockingQueue]\n  Q --> C[Consumer]"
+    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n    void produce(int n) throws InterruptedException { q.put(n); }\n    int consume() throws InterruptedException { return q.take(); }\n}",
+    "mermaid": "flowchart LR\n  P[Producer] --> Q[BlockingQueue]\n  Q --> C[Consumer]",
+    "status": "complete"
   },
   {
     "definition": "Reader-writer problem is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -1949,7 +1918,6 @@ window.HUB_TOPICS.push(...[
     "id": "reader-writer-problem",
     "title": "Reader-writer problem",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for reader-writer problem; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -1957,7 +1925,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Dining philosophers is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -1995,7 +1963,6 @@ window.HUB_TOPICS.push(...[
     "id": "dining-philosophers",
     "title": "Dining philosophers",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for dining philosophers; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -2003,7 +1970,8 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "code": "import java.util.concurrent.Semaphore;\nSemaphore forks = new Semaphore(4); // allow N-1 philosophers to eat\nvoid eat() throws InterruptedException {\n    forks.acquire();\n    try { /* pick forks, chew */ } finally { forks.release(); }\n}",
+    "status": "complete"
   },
   {
     "definition": "Thread coordination patterns names a proven micro-architecture for recurring change-pressure in OO systems.",
@@ -2043,7 +2011,6 @@ window.HUB_TOPICS.push(...[
     "id": "thread-coordination-patterns",
     "title": "Thread coordination patterns",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for thread coordination patterns; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -2051,7 +2018,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "ArrayList vs Vector is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -2089,7 +2056,6 @@ window.HUB_TOPICS.push(...[
     "id": "arraylist-vs-vector",
     "title": "ArrayList vs Vector",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for arraylist vs vector; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -2097,7 +2063,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "HashMap vs Hashtable is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -2135,7 +2101,6 @@ window.HUB_TOPICS.push(...[
     "id": "hashmap-vs-hashtable",
     "title": "HashMap vs Hashtable",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for hashmap vs hashtable; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -2143,7 +2108,8 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "code": "// Prefer CHM over Hashtable for concurrent reads/writes\nvar map = new java.util.concurrent.ConcurrentHashMap<String, Integer>();\nmap.merge(\"hits\", 1, Integer::sum);",
+    "status": "complete"
   },
   {
     "definition": "ConcurrentHashMap internals is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -2181,7 +2147,6 @@ window.HUB_TOPICS.push(...[
     "id": "concurrenthashmap-internals",
     "title": "ConcurrentHashMap internals",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for concurrenthashmap internals; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -2189,7 +2154,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "SynchronizedMap vs ConcurrentHashMap coordinates access to shared mutable state across JVM threads.",
@@ -2229,7 +2194,6 @@ window.HUB_TOPICS.push(...[
     "id": "synchronizedmap-vs-concurrenthashmap",
     "title": "SynchronizedMap vs ConcurrentHashMap",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for synchronizedmap vs concurrenthashmap; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -2237,7 +2201,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "BlockingQueue decouples producers and consumers with durable buffering so spikes do not cascade into outages.",
@@ -2277,7 +2241,6 @@ window.HUB_TOPICS.push(...[
     "id": "blockingqueue",
     "title": "BlockingQueue",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for blockingqueue; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -2285,7 +2248,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "ArrayBlockingQueue decouples producers and consumers with durable buffering so spikes do not cascade into outages.",
@@ -2325,7 +2288,6 @@ window.HUB_TOPICS.push(...[
     "id": "arrayblockingqueue",
     "title": "ArrayBlockingQueue",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for arrayblockingqueue; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -2333,7 +2295,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "LinkedBlockingQueue decouples producers and consumers with durable buffering so spikes do not cascade into outages.",
@@ -2373,7 +2335,6 @@ window.HUB_TOPICS.push(...[
     "id": "linkedblockingqueue",
     "title": "LinkedBlockingQueue",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for linkedblockingqueue; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -2381,7 +2342,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "PriorityBlockingQueue decouples producers and consumers with durable buffering so spikes do not cascade into outages.",
@@ -2421,7 +2382,6 @@ window.HUB_TOPICS.push(...[
     "id": "priorityblockingqueue",
     "title": "PriorityBlockingQueue",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for priorityblockingqueue; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -2429,7 +2389,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "DelayQueue decouples producers and consumers with durable buffering so spikes do not cascade into outages.",
@@ -2469,7 +2429,6 @@ window.HUB_TOPICS.push(...[
     "id": "delayqueue",
     "title": "DelayQueue",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for delayqueue; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -2477,7 +2436,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "ConcurrentLinkedQueue decouples producers and consumers with durable buffering so spikes do not cascade into outages.",
@@ -2517,7 +2476,6 @@ window.HUB_TOPICS.push(...[
     "id": "concurrentlinkedqueue",
     "title": "ConcurrentLinkedQueue",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for concurrentlinkedqueue; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -2525,7 +2483,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "CopyOnWriteArrayList is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -2563,7 +2521,6 @@ window.HUB_TOPICS.push(...[
     "id": "copyonwritearraylist",
     "title": "CopyOnWriteArrayList",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for copyonwritearraylist; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -2571,7 +2528,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "ConcurrentSkipListMap is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -2609,7 +2566,6 @@ window.HUB_TOPICS.push(...[
     "id": "concurrentskiplistmap",
     "title": "ConcurrentSkipListMap",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for concurrentskiplistmap; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -2617,7 +2573,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Lock-free programming coordinates access to shared mutable state across JVM threads.",
@@ -2657,7 +2613,6 @@ window.HUB_TOPICS.push(...[
     "id": "lock-free-programming",
     "title": "Lock-free programming",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for lock-free programming; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -2665,7 +2620,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Wait-free programming is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -2703,7 +2658,6 @@ window.HUB_TOPICS.push(...[
     "id": "wait-free-programming",
     "title": "Wait-free programming",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for wait-free programming; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -2711,7 +2665,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "CAS loops is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -2749,7 +2703,6 @@ window.HUB_TOPICS.push(...[
     "id": "cas-loops",
     "title": "CAS loops",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for cas loops; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -2757,7 +2710,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "False sharing is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -2795,7 +2748,6 @@ window.HUB_TOPICS.push(...[
     "id": "false-sharing",
     "title": "False sharing",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for false sharing; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -2803,7 +2755,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Thread confinement is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -2841,7 +2793,6 @@ window.HUB_TOPICS.push(...[
     "id": "thread-confinement",
     "title": "Thread confinement",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for thread confinement; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -2849,7 +2800,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Work stealing is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -2887,7 +2838,6 @@ window.HUB_TOPICS.push(...[
     "id": "work-stealing",
     "title": "Work stealing",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for work stealing; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -2895,7 +2845,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Fork-join framework is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -2933,7 +2883,6 @@ window.HUB_TOPICS.push(...[
     "id": "fork-join-framework",
     "title": "Fork-join framework",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for fork-join framework; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -2941,7 +2890,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Memory barriers is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -2979,7 +2928,6 @@ window.HUB_TOPICS.push(...[
     "id": "memory-barriers",
     "title": "Memory barriers",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for memory barriers; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -2987,7 +2935,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Lock granularity and striping coordinates access to shared mutable state across JVM threads.",
@@ -3027,7 +2975,6 @@ window.HUB_TOPICS.push(...[
     "id": "lock-granularity-and-striping",
     "title": "Lock granularity and striping",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for lock granularity and striping; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -3035,7 +2982,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Contention management is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -3073,7 +3020,6 @@ window.HUB_TOPICS.push(...[
     "id": "contention-management",
     "title": "Contention management",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for contention management; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -3081,7 +3027,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Structured concurrency is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -3119,7 +3065,6 @@ window.HUB_TOPICS.push(...[
     "id": "structured-concurrency",
     "title": "Structured concurrency",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for structured concurrency; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -3127,7 +3072,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Virtual thread limitations is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -3165,7 +3110,6 @@ window.HUB_TOPICS.push(...[
     "id": "virtual-thread-limitations",
     "title": "Virtual thread limitations",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for virtual thread limitations; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -3173,7 +3117,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Backpressure in concurrent systems is a foundational concurrency topic for senior interviews and production design reviews.",
@@ -3211,7 +3155,6 @@ window.HUB_TOPICS.push(...[
     "id": "backpressure-in-concurrent-systems",
     "title": "Backpressure in concurrent systems",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for backpressure in concurrent systems; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -3219,7 +3162,7 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   },
   {
     "definition": "Bounded vs unbounded queues decouples producers and consumers with durable buffering so spikes do not cascade into outages.",
@@ -3259,7 +3202,6 @@ window.HUB_TOPICS.push(...[
     "id": "bounded-vs-unbounded-queues",
     "title": "Bounded vs unbounded queues",
     "section": "concurrency",
-    "status": "complete",
     "threadSafety": "Document shared mutable state for bounded vs unbounded queues; prefer confinement, immutability, or j.u.c. primitives.",
     "performance": "Measure under contention with JFR; lock-free paths win only when profiling proves benefit.",
     "mistakes": [
@@ -3267,6 +3209,6 @@ window.HUB_TOPICS.push(...[
       "Sharing non-thread-safe collections across threads",
       "Ignoring happens-before when using double-checked locking"
     ],
-    "code": "import java.util.concurrent.*;\n\npublic class ProducerConsumer {\n    public static void main(String[] args) throws InterruptedException {\n        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(10);\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        pool.submit(() -> { for (int i = 0; i < 20; i++) q.put(i); });\n        pool.submit(() -> { while (true) System.out.println(q.take()); });\n        pool.shutdown();\n    }\n}"
+    "status": "partial"
   }
 ]);

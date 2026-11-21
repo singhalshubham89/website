@@ -37,7 +37,7 @@ window.HUB_TOPICS.push(...[
     "id": "functional-and-non-functional-requirements",
     "title": "Functional and non-functional requirements",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Scalability is a foundational hld topic for senior interviews and production design reviews.",
@@ -75,7 +75,7 @@ window.HUB_TOPICS.push(...[
     "id": "scalability",
     "title": "Scalability",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Vertical vs horizontal scaling is a foundational hld topic for senior interviews and production design reviews.",
@@ -113,7 +113,7 @@ window.HUB_TOPICS.push(...[
     "id": "vertical-vs-horizontal-scaling",
     "title": "Vertical vs horizontal scaling",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Availability and reliability is a foundational hld topic for senior interviews and production design reviews.",
@@ -151,7 +151,7 @@ window.HUB_TOPICS.push(...[
     "id": "availability-and-reliability",
     "title": "Availability and reliability",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Fault tolerance is a foundational hld topic for senior interviews and production design reviews.",
@@ -189,7 +189,7 @@ window.HUB_TOPICS.push(...[
     "id": "fault-tolerance",
     "title": "Fault tolerance",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Latency vs throughput is a foundational hld topic for senior interviews and production design reviews.",
@@ -227,7 +227,7 @@ window.HUB_TOPICS.push(...[
     "id": "latency-vs-throughput",
     "title": "Latency vs throughput",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "CAP states that during a network partition, a distributed data store must choose between linearizable Consistency and Availability for every request.",
@@ -264,9 +264,9 @@ window.HUB_TOPICS.push(...[
     "id": "cap-theorem",
     "title": "CAP theorem",
     "section": "hld",
-    "status": "complete",
     "mermaid": "flowchart LR\n  P[Network Partition] --> CP[CP: reject or stall]\n  P --> AP[AP: serve stale, heal later]",
-    "distributed": true
+    "distributed": true,
+    "status": "complete"
   },
   {
     "definition": "PACELC is a foundational hld topic for senior interviews and production design reviews.",
@@ -304,7 +304,7 @@ window.HUB_TOPICS.push(...[
     "id": "pacelc",
     "title": "PACELC",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "ACID vs BASE is a foundational hld topic for senior interviews and production design reviews.",
@@ -342,7 +342,7 @@ window.HUB_TOPICS.push(...[
     "id": "acid-vs-base",
     "title": "ACID vs BASE",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Strong vs eventual consistency is a foundational hld topic for senior interviews and production design reviews.",
@@ -380,7 +380,7 @@ window.HUB_TOPICS.push(...[
     "id": "strong-vs-eventual-consistency",
     "title": "Strong vs eventual consistency",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Stateless vs stateful systems is a foundational hld topic for senior interviews and production design reviews.",
@@ -418,7 +418,7 @@ window.HUB_TOPICS.push(...[
     "id": "stateless-vs-stateful-systems",
     "title": "Stateless vs stateful systems",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Synchronous vs asynchronous communication coordinates access to shared mutable state across JVM threads.",
@@ -458,7 +458,7 @@ window.HUB_TOPICS.push(...[
     "id": "synchronous-vs-asynchronous-communication",
     "title": "Synchronous vs asynchronous communication",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Monolith vs microservices vs SOA is a foundational hld topic for senior interviews and production design reviews.",
@@ -496,7 +496,7 @@ window.HUB_TOPICS.push(...[
     "id": "monolith-vs-microservices-vs-soa",
     "title": "Monolith vs microservices vs SOA",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "OSI and TCP/IP models is a foundational hld topic for senior interviews and production design reviews.",
@@ -534,7 +534,7 @@ window.HUB_TOPICS.push(...[
     "id": "osi-and-tcp-ip-models",
     "title": "OSI and TCP/IP models",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "HTTP, HTTPS, HTTP/1.1, HTTP/2, HTTP/3 is a foundational hld topic for senior interviews and production design reviews.",
@@ -572,7 +572,7 @@ window.HUB_TOPICS.push(...[
     "id": "http-https-http-1-1-http-2-http-3",
     "title": "HTTP, HTTPS, HTTP/1.1, HTTP/2, HTTP/3",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "TCP vs UDP is a foundational hld topic for senior interviews and production design reviews.",
@@ -610,7 +610,7 @@ window.HUB_TOPICS.push(...[
     "id": "tcp-vs-udp",
     "title": "TCP vs UDP",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "DNS and TLS is a foundational hld topic for senior interviews and production design reviews.",
@@ -648,7 +648,7 @@ window.HUB_TOPICS.push(...[
     "id": "dns-and-tls",
     "title": "DNS and TLS",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "REST vs GraphQL vs gRPC is a foundational hld topic for senior interviews and production design reviews.",
@@ -686,7 +686,7 @@ window.HUB_TOPICS.push(...[
     "id": "rest-vs-graphql-vs-grpc",
     "title": "REST vs GraphQL vs gRPC",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "WebSockets vs Server-Sent Events vs polling is a foundational hld topic for senior interviews and production design reviews.",
@@ -724,7 +724,7 @@ window.HUB_TOPICS.push(...[
     "id": "websockets-vs-server-sent-events-vs-polling",
     "title": "WebSockets vs Server-Sent Events vs polling",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "API Gateway and reverse proxy is a foundational hld topic for senior interviews and production design reviews.",
@@ -762,7 +762,7 @@ window.HUB_TOPICS.push(...[
     "id": "api-gateway-and-reverse-proxy",
     "title": "API Gateway and reverse proxy",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Authentication and authorization is a foundational hld topic for senior interviews and production design reviews.",
@@ -800,7 +800,7 @@ window.HUB_TOPICS.push(...[
     "id": "authentication-and-authorization",
     "title": "Authentication and authorization",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "OAuth 2.0 and JWT is a foundational hld topic for senior interviews and production design reviews.",
@@ -838,7 +838,7 @@ window.HUB_TOPICS.push(...[
     "id": "oauth-2-0-and-jwt",
     "title": "OAuth 2.0 and JWT",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Rate limiting and throttling manages a fast auxiliary store between clients and authoritative data to cut latency and protect databases.",
@@ -878,7 +878,7 @@ window.HUB_TOPICS.push(...[
     "id": "rate-limiting-and-throttling",
     "title": "Rate limiting and throttling",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "SQL vs NoSQL is a foundational hld topic for senior interviews and production design reviews.",
@@ -916,7 +916,7 @@ window.HUB_TOPICS.push(...[
     "id": "sql-vs-nosql",
     "title": "SQL vs NoSQL",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Relational databases is a foundational hld topic for senior interviews and production design reviews.",
@@ -954,7 +954,7 @@ window.HUB_TOPICS.push(...[
     "id": "relational-databases",
     "title": "Relational databases",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Document databases is a foundational hld topic for senior interviews and production design reviews.",
@@ -992,7 +992,7 @@ window.HUB_TOPICS.push(...[
     "id": "document-databases",
     "title": "Document databases",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Key-value stores is a foundational hld topic for senior interviews and production design reviews.",
@@ -1030,7 +1030,7 @@ window.HUB_TOPICS.push(...[
     "id": "key-value-stores",
     "title": "Key-value stores",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Column-family databases is a foundational hld topic for senior interviews and production design reviews.",
@@ -1068,7 +1068,7 @@ window.HUB_TOPICS.push(...[
     "id": "column-family-databases",
     "title": "Column-family databases",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Graph databases is a foundational hld topic for senior interviews and production design reviews.",
@@ -1106,7 +1106,7 @@ window.HUB_TOPICS.push(...[
     "id": "graph-databases",
     "title": "Graph databases",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Normalization and denormalization is a foundational hld topic for senior interviews and production design reviews.",
@@ -1144,7 +1144,7 @@ window.HUB_TOPICS.push(...[
     "id": "normalization-and-denormalization",
     "title": "Normalization and denormalization",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "B-Tree and B+ Tree indexes is a foundational hld topic for senior interviews and production design reviews.",
@@ -1182,7 +1182,7 @@ window.HUB_TOPICS.push(...[
     "id": "b-tree-and-b-tree-indexes",
     "title": "B-Tree and B+ Tree indexes",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Hash indexes is a foundational hld topic for senior interviews and production design reviews.",
@@ -1220,7 +1220,7 @@ window.HUB_TOPICS.push(...[
     "id": "hash-indexes",
     "title": "Hash indexes",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Clustered vs non-clustered indexes is a foundational hld topic for senior interviews and production design reviews.",
@@ -1258,7 +1258,7 @@ window.HUB_TOPICS.push(...[
     "id": "clustered-vs-non-clustered-indexes",
     "title": "Clustered vs non-clustered indexes",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Composite indexes is a foundational hld topic for senior interviews and production design reviews.",
@@ -1296,7 +1296,7 @@ window.HUB_TOPICS.push(...[
     "id": "composite-indexes",
     "title": "Composite indexes",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Transactions and isolation levels is a foundational hld topic for senior interviews and production design reviews.",
@@ -1334,7 +1334,7 @@ window.HUB_TOPICS.push(...[
     "id": "transactions-and-isolation-levels",
     "title": "Transactions and isolation levels",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Dirty reads, phantom reads, non-repeatable reads is a foundational hld topic for senior interviews and production design reviews.",
@@ -1372,7 +1372,7 @@ window.HUB_TOPICS.push(...[
     "id": "dirty-reads-phantom-reads-non-repeatable-reads",
     "title": "Dirty reads, phantom reads, non-repeatable reads",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Optimistic vs pessimistic locking coordinates access to shared mutable state across JVM threads.",
@@ -1412,7 +1412,7 @@ window.HUB_TOPICS.push(...[
     "id": "optimistic-vs-pessimistic-locking",
     "title": "Optimistic vs pessimistic locking",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Replication spreads data or traffic across nodes to increase capacity and fault isolation.",
@@ -1452,8 +1452,8 @@ window.HUB_TOPICS.push(...[
     "id": "replication",
     "title": "Replication",
     "section": "hld",
-    "status": "complete",
-    "distributed": true
+    "distributed": true,
+    "status": "partial"
   },
   {
     "definition": "Sharding and partitioning spreads data or traffic across nodes to increase capacity and fault isolation.",
@@ -1493,8 +1493,8 @@ window.HUB_TOPICS.push(...[
     "id": "sharding-and-partitioning",
     "title": "Sharding and partitioning",
     "section": "hld",
-    "status": "complete",
-    "distributed": true
+    "distributed": true,
+    "status": "partial"
   },
   {
     "definition": "Read replicas is a foundational hld topic for senior interviews and production design reviews.",
@@ -1532,7 +1532,7 @@ window.HUB_TOPICS.push(...[
     "id": "read-replicas",
     "title": "Read replicas",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Connection pooling is a foundational hld topic for senior interviews and production design reviews.",
@@ -1570,7 +1570,7 @@ window.HUB_TOPICS.push(...[
     "id": "connection-pooling",
     "title": "Connection pooling",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "OLTP vs OLAP is a foundational hld topic for senior interviews and production design reviews.",
@@ -1608,7 +1608,7 @@ window.HUB_TOPICS.push(...[
     "id": "oltp-vs-olap",
     "title": "OLTP vs OLAP",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Object, block, and file storage coordinates access to shared mutable state across JVM threads.",
@@ -1648,7 +1648,7 @@ window.HUB_TOPICS.push(...[
     "id": "object-block-and-file-storage",
     "title": "Object, block, and file storage",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "CQRS is a foundational hld topic for senior interviews and production design reviews.",
@@ -1686,7 +1686,7 @@ window.HUB_TOPICS.push(...[
     "id": "cqrs",
     "title": "CQRS",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Event sourcing is a foundational hld topic for senior interviews and production design reviews.",
@@ -1724,7 +1724,7 @@ window.HUB_TOPICS.push(...[
     "id": "event-sourcing",
     "title": "Event sourcing",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Cache Aside manages a fast auxiliary store between clients and authoritative data to cut latency and protect databases.",
@@ -1764,7 +1764,7 @@ window.HUB_TOPICS.push(...[
     "id": "cache-aside",
     "title": "Cache Aside",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Read Through is a foundational hld topic for senior interviews and production design reviews.",
@@ -1802,7 +1802,7 @@ window.HUB_TOPICS.push(...[
     "id": "read-through",
     "title": "Read Through",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Write Through is a foundational hld topic for senior interviews and production design reviews.",
@@ -1840,7 +1840,7 @@ window.HUB_TOPICS.push(...[
     "id": "write-through",
     "title": "Write Through",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Write Behind is a foundational hld topic for senior interviews and production design reviews.",
@@ -1878,7 +1878,7 @@ window.HUB_TOPICS.push(...[
     "id": "write-behind",
     "title": "Write Behind",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Write Around is a foundational hld topic for senior interviews and production design reviews.",
@@ -1916,7 +1916,7 @@ window.HUB_TOPICS.push(...[
     "id": "write-around",
     "title": "Write Around",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Redis vs Memcached manages a fast auxiliary store between clients and authoritative data to cut latency and protect databases.",
@@ -1956,7 +1956,7 @@ window.HUB_TOPICS.push(...[
     "id": "redis-vs-memcached",
     "title": "Redis vs Memcached",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "TTL and eviction policies manages a fast auxiliary store between clients and authoritative data to cut latency and protect databases.",
@@ -1996,7 +1996,7 @@ window.HUB_TOPICS.push(...[
     "id": "ttl-and-eviction-policies",
     "title": "TTL and eviction policies",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "LRU, LFU, and FIFO eviction manages a fast auxiliary store between clients and authoritative data to cut latency and protect databases.",
@@ -2036,7 +2036,7 @@ window.HUB_TOPICS.push(...[
     "id": "lru-lfu-and-fifo-eviction",
     "title": "LRU, LFU, and FIFO eviction",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Cache invalidation manages a fast auxiliary store between clients and authoritative data to cut latency and protect databases.",
@@ -2076,7 +2076,7 @@ window.HUB_TOPICS.push(...[
     "id": "cache-invalidation",
     "title": "Cache invalidation",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Cache stampede manages a fast auxiliary store between clients and authoritative data to cut latency and protect databases.",
@@ -2116,7 +2116,7 @@ window.HUB_TOPICS.push(...[
     "id": "cache-stampede",
     "title": "Cache stampede",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Cache penetration and avalanche manages a fast auxiliary store between clients and authoritative data to cut latency and protect databases.",
@@ -2156,7 +2156,7 @@ window.HUB_TOPICS.push(...[
     "id": "cache-penetration-and-avalanche",
     "title": "Cache penetration and avalanche",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Hot keys is a foundational hld topic for senior interviews and production design reviews.",
@@ -2194,7 +2194,7 @@ window.HUB_TOPICS.push(...[
     "id": "hot-keys",
     "title": "Hot keys",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Cache consistency manages a fast auxiliary store between clients and authoritative data to cut latency and protect databases.",
@@ -2234,13 +2234,13 @@ window.HUB_TOPICS.push(...[
     "id": "cache-consistency",
     "title": "Cache consistency",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
-    "definition": "Distributed locks coordinates access to shared mutable state across JVM threads.",
-    "mechanism": "Mechanisms map to happens-before edges: monitors, java.util.concurrent locks, atomics, or confinement; misuse causes deadlocks, lost updates, or visibility bugs.",
+    "definition": "Graceful degradation is a foundational hld topic for senior interviews and production design reviews.",
+    "mechanism": "Engineers articulate how graceful degradation affects APIs, data ownership, failure handling, and measurable SLIs; they validate assumptions with load tests and failure injection.",
     "advantages": [
-      "Clarifies design decisions around distributed locks for interviews and on-call.",
+      "Clarifies design decisions around graceful degradation for interviews and on-call.",
       "Improves alignment between product requirements and engineering constraints.",
       "Surfaces operational risks early (scaling, consistency, security)."
     ],
@@ -2249,21 +2249,19 @@ window.HUB_TOPICS.push(...[
       "Requires team discipline: monitoring, runbooks, and incremental rollout.",
       "Easy to over-engineer when requirements are still unknown."
     ],
-    "tradeoffs": "Favor distributed locks when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
+    "tradeoffs": "Favor graceful degradation when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
     "useCases": [
       "Senior system design interviews",
       "Production architecture reviews",
-      "Refactoring discussions involving distributed locks",
-      "Counters, caches, booking flows",
-      "Thread pool task handoff"
+      "Refactoring discussions involving graceful degradation"
     ],
     "interview": [
       {
-        "q": "When would you introduce Distributed locks?",
+        "q": "When would you introduce Graceful degradation?",
         "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
       },
       {
-        "q": "What breaks if Distributed locks is ignored?",
+        "q": "What breaks if Graceful degradation is ignored?",
         "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
       }
     ],
@@ -2271,256 +2269,17 @@ window.HUB_TOPICS.push(...[
       "hld",
       "concept"
     ],
-    "id": "distributed-locks",
-    "title": "Distributed locks",
+    "id": "graceful-degradation",
+    "title": "Graceful degradation",
     "section": "hld",
-    "status": "complete",
-    "distributed": true
-  },
-  {
-    "definition": "Circuit breaker is a foundational hld topic for senior interviews and production design reviews.",
-    "mechanism": "Engineers articulate how circuit breaker affects APIs, data ownership, failure handling, and measurable SLIs; they validate assumptions with load tests and failure injection.",
-    "advantages": [
-      "Clarifies design decisions around circuit breaker for interviews and on-call.",
-      "Improves alignment between product requirements and engineering constraints.",
-      "Surfaces operational risks early (scaling, consistency, security)."
-    ],
-    "disadvantages": [
-      "Misapplied in the wrong context adds complexity without reliability gains.",
-      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
-      "Easy to over-engineer when requirements are still unknown."
-    ],
-    "tradeoffs": "Favor circuit breaker when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
-    "useCases": [
-      "Senior system design interviews",
-      "Production architecture reviews",
-      "Refactoring discussions involving circuit breaker"
-    ],
-    "interview": [
-      {
-        "q": "When would you introduce Circuit breaker?",
-        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
-      },
-      {
-        "q": "What breaks if Circuit breaker is ignored?",
-        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
-      }
-    ],
-    "tags": [
-      "hld",
-      "concept"
-    ],
-    "id": "circuit-breaker",
-    "title": "Circuit breaker",
-    "section": "hld",
-    "status": "complete",
-    "distributed": true
-  },
-  {
-    "definition": "Failover is a foundational hld topic for senior interviews and production design reviews.",
-    "mechanism": "Engineers articulate how failover affects APIs, data ownership, failure handling, and measurable SLIs; they validate assumptions with load tests and failure injection.",
-    "advantages": [
-      "Clarifies design decisions around failover for interviews and on-call.",
-      "Improves alignment between product requirements and engineering constraints.",
-      "Surfaces operational risks early (scaling, consistency, security)."
-    ],
-    "disadvantages": [
-      "Misapplied in the wrong context adds complexity without reliability gains.",
-      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
-      "Easy to over-engineer when requirements are still unknown."
-    ],
-    "tradeoffs": "Favor failover when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
-    "useCases": [
-      "Senior system design interviews",
-      "Production architecture reviews",
-      "Refactoring discussions involving failover"
-    ],
-    "interview": [
-      {
-        "q": "When would you introduce Failover?",
-        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
-      },
-      {
-        "q": "What breaks if Failover is ignored?",
-        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
-      }
-    ],
-    "tags": [
-      "hld",
-      "concept"
-    ],
-    "id": "failover",
-    "title": "Failover",
-    "section": "hld",
-    "status": "complete",
-    "distributed": true
-  },
-  {
-    "definition": "Paxos ensures replicas agree on order and value of updates despite crashes and network delays.",
-    "mechanism": "Leaders propose entries; followers acknowledge quorums; elections run on timeouts; clients must handle leader changes and fenced tokens where needed.",
-    "advantages": [
-      "Clarifies design decisions around paxos for interviews and on-call.",
-      "Improves alignment between product requirements and engineering constraints.",
-      "Surfaces operational risks early (scaling, consistency, security)."
-    ],
-    "disadvantages": [
-      "Misapplied in the wrong context adds complexity without reliability gains.",
-      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
-      "Easy to over-engineer when requirements are still unknown."
-    ],
-    "tradeoffs": "Favor paxos when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
-    "useCases": [
-      "Senior system design interviews",
-      "Production architecture reviews",
-      "Refactoring discussions involving paxos",
-      "Distributed configuration",
-      "Metadata coordination"
-    ],
-    "interview": [
-      {
-        "q": "When would you introduce Paxos?",
-        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
-      },
-      {
-        "q": "What breaks if Paxos is ignored?",
-        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
-      }
-    ],
-    "tags": [
-      "hld",
-      "concept"
-    ],
-    "id": "paxos",
-    "title": "Paxos",
-    "section": "hld",
-    "status": "complete",
-    "distributed": true
-  },
-  {
-    "definition": "Split brain is a foundational hld topic for senior interviews and production design reviews.",
-    "mechanism": "Engineers articulate how split brain affects APIs, data ownership, failure handling, and measurable SLIs; they validate assumptions with load tests and failure injection.",
-    "advantages": [
-      "Clarifies design decisions around split brain for interviews and on-call.",
-      "Improves alignment between product requirements and engineering constraints.",
-      "Surfaces operational risks early (scaling, consistency, security)."
-    ],
-    "disadvantages": [
-      "Misapplied in the wrong context adds complexity without reliability gains.",
-      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
-      "Easy to over-engineer when requirements are still unknown."
-    ],
-    "tradeoffs": "Favor split brain when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
-    "useCases": [
-      "Senior system design interviews",
-      "Production architecture reviews",
-      "Refactoring discussions involving split brain"
-    ],
-    "interview": [
-      {
-        "q": "When would you introduce Split brain?",
-        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
-      },
-      {
-        "q": "What breaks if Split brain is ignored?",
-        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
-      }
-    ],
-    "tags": [
-      "hld",
-      "concept"
-    ],
-    "id": "split-brain",
-    "title": "Split brain",
-    "section": "hld",
-    "status": "complete",
-    "distributed": true
-  },
-  {
-    "definition": "Heartbeats is a foundational hld topic for senior interviews and production design reviews.",
-    "mechanism": "Engineers articulate how heartbeats affects APIs, data ownership, failure handling, and measurable SLIs; they validate assumptions with load tests and failure injection.",
-    "advantages": [
-      "Clarifies design decisions around heartbeats for interviews and on-call.",
-      "Improves alignment between product requirements and engineering constraints.",
-      "Surfaces operational risks early (scaling, consistency, security)."
-    ],
-    "disadvantages": [
-      "Misapplied in the wrong context adds complexity without reliability gains.",
-      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
-      "Easy to over-engineer when requirements are still unknown."
-    ],
-    "tradeoffs": "Favor heartbeats when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
-    "useCases": [
-      "Senior system design interviews",
-      "Production architecture reviews",
-      "Refactoring discussions involving heartbeats"
-    ],
-    "interview": [
-      {
-        "q": "When would you introduce Heartbeats?",
-        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
-      },
-      {
-        "q": "What breaks if Heartbeats is ignored?",
-        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
-      }
-    ],
-    "tags": [
-      "hld",
-      "concept"
-    ],
-    "id": "heartbeats",
-    "title": "Heartbeats",
-    "section": "hld",
-    "status": "complete",
-    "distributed": true
-  },
-  {
-    "definition": "Raft is a leader-based consensus protocol that replicates a replicated log across nodes with understandable leader election and log matching rules.",
-    "mechanism": "Followers accept entries only from the elected leader; elections use randomized timeouts; commits advance when a majority replicates an index.",
-    "advantages": [
-      "Clarifies design decisions around raft for interviews and on-call.",
-      "Improves alignment between product requirements and engineering constraints.",
-      "Surfaces operational risks early (scaling, consistency, security)."
-    ],
-    "disadvantages": [
-      "Misapplied in the wrong context adds complexity without reliability gains.",
-      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
-      "Easy to over-engineer when requirements are still unknown."
-    ],
-    "tradeoffs": "Favor raft when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
-    "useCases": [
-      "Senior system design interviews",
-      "Production architecture reviews",
-      "Refactoring discussions involving raft",
-      "Distributed configuration",
-      "Metadata coordination"
-    ],
-    "interview": [
-      {
-        "q": "When would you introduce Raft?",
-        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
-      },
-      {
-        "q": "What breaks if Raft is ignored?",
-        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
-      }
-    ],
-    "tags": [
-      "hld",
-      "concept"
-    ],
-    "id": "raft",
-    "title": "Raft",
-    "section": "hld",
-    "status": "complete",
     "distributed": true,
-    "mermaid": "sequenceDiagram\n  participant L as Leader\n  participant F1 as Follower\n  participant F2 as Follower\n  L->>F1: AppendEntries\n  L->>F2: AppendEntries\n  F1-->>L: ACK\n  F2-->>L: ACK\n  L->>L: commit index"
+    "status": "partial"
   },
   {
-    "definition": "Kafka decouples producers and consumers with durable buffering so spikes do not cascade into outages.",
-    "mechanism": "Messages land on brokers or topics; consumers track offsets or acknowledgments; failures retry to DLQ; ordering is per-partition or per-queue depending on product.",
+    "definition": "Gossip protocol is a foundational hld topic for senior interviews and production design reviews.",
+    "mechanism": "Engineers articulate how gossip protocol affects APIs, data ownership, failure handling, and measurable SLIs; they validate assumptions with load tests and failure injection.",
     "advantages": [
-      "Clarifies design decisions around kafka for interviews and on-call.",
+      "Clarifies design decisions around gossip protocol for interviews and on-call.",
       "Improves alignment between product requirements and engineering constraints.",
       "Surfaces operational risks early (scaling, consistency, security)."
     ],
@@ -2529,21 +2288,19 @@ window.HUB_TOPICS.push(...[
       "Requires team discipline: monitoring, runbooks, and incremental rollout.",
       "Easy to over-engineer when requirements are still unknown."
     ],
-    "tradeoffs": "Favor kafka when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
+    "tradeoffs": "Favor gossip protocol when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
     "useCases": [
       "Senior system design interviews",
       "Production architecture reviews",
-      "Refactoring discussions involving kafka",
-      "Event notification",
-      "Audit and CDC pipelines"
+      "Refactoring discussions involving gossip protocol"
     ],
     "interview": [
       {
-        "q": "When would you introduce Kafka?",
+        "q": "When would you introduce Gossip protocol?",
         "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
       },
       {
-        "q": "What breaks if Kafka is ignored?",
+        "q": "What breaks if Gossip protocol is ignored?",
         "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
       }
     ],
@@ -2551,173 +2308,11 @@ window.HUB_TOPICS.push(...[
       "hld",
       "concept"
     ],
-    "id": "kafka",
-    "title": "Kafka",
+    "id": "gossip-protocol",
+    "title": "Gossip protocol",
     "section": "hld",
-    "status": "complete",
-    "distributed": true
-  },
-  {
-    "definition": "Leader election ensures replicas agree on order and value of updates despite crashes and network delays.",
-    "mechanism": "Leaders propose entries; followers acknowledge quorums; elections run on timeouts; clients must handle leader changes and fenced tokens where needed.",
-    "advantages": [
-      "Clarifies design decisions around leader election for interviews and on-call.",
-      "Improves alignment between product requirements and engineering constraints.",
-      "Surfaces operational risks early (scaling, consistency, security)."
-    ],
-    "disadvantages": [
-      "Misapplied in the wrong context adds complexity without reliability gains.",
-      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
-      "Easy to over-engineer when requirements are still unknown."
-    ],
-    "tradeoffs": "Favor leader election when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
-    "useCases": [
-      "Senior system design interviews",
-      "Production architecture reviews",
-      "Refactoring discussions involving leader election",
-      "Distributed configuration",
-      "Metadata coordination"
-    ],
-    "interview": [
-      {
-        "q": "When would you introduce Leader election?",
-        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
-      },
-      {
-        "q": "What breaks if Leader election is ignored?",
-        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
-      }
-    ],
-    "tags": [
-      "hld",
-      "concept"
-    ],
-    "id": "leader-election",
-    "title": "Leader election",
-    "section": "hld",
-    "status": "complete",
-    "distributed": true
-  },
-  {
-    "definition": "Clock synchronization coordinates access to shared mutable state across JVM threads.",
-    "mechanism": "Mechanisms map to happens-before edges: monitors, java.util.concurrent locks, atomics, or confinement; misuse causes deadlocks, lost updates, or visibility bugs.",
-    "advantages": [
-      "Clarifies design decisions around clock synchronization for interviews and on-call.",
-      "Improves alignment between product requirements and engineering constraints.",
-      "Surfaces operational risks early (scaling, consistency, security)."
-    ],
-    "disadvantages": [
-      "Misapplied in the wrong context adds complexity without reliability gains.",
-      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
-      "Easy to over-engineer when requirements are still unknown."
-    ],
-    "tradeoffs": "Favor clock synchronization when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
-    "useCases": [
-      "Senior system design interviews",
-      "Production architecture reviews",
-      "Refactoring discussions involving clock synchronization",
-      "Counters, caches, booking flows",
-      "Thread pool task handoff"
-    ],
-    "interview": [
-      {
-        "q": "When would you introduce Clock synchronization?",
-        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
-      },
-      {
-        "q": "What breaks if Clock synchronization is ignored?",
-        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
-      }
-    ],
-    "tags": [
-      "hld",
-      "concept"
-    ],
-    "id": "clock-synchronization",
-    "title": "Clock synchronization",
-    "section": "hld",
-    "status": "complete",
-    "distributed": true
-  },
-  {
-    "definition": "Bulkhead pattern names a proven micro-architecture for recurring change-pressure in OO systems.",
-    "mechanism": "Separate what varies from what stays stable; compose objects instead of branching; keep collaborators substitutable behind narrow interfaces.",
-    "advantages": [
-      "Clarifies design decisions around bulkhead pattern for interviews and on-call.",
-      "Improves alignment between product requirements and engineering constraints.",
-      "Surfaces operational risks early (scaling, consistency, security)."
-    ],
-    "disadvantages": [
-      "Misapplied in the wrong context adds complexity without reliability gains.",
-      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
-      "Easy to over-engineer when requirements are still unknown."
-    ],
-    "tradeoffs": "Favor bulkhead pattern when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
-    "useCases": [
-      "Senior system design interviews",
-      "Production architecture reviews",
-      "Refactoring discussions involving bulkhead pattern",
-      "Payment routing strategies",
-      "UI widget frameworks"
-    ],
-    "interview": [
-      {
-        "q": "When would you introduce Bulkhead pattern?",
-        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
-      },
-      {
-        "q": "What breaks if Bulkhead pattern is ignored?",
-        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
-      }
-    ],
-    "tags": [
-      "hld",
-      "concept"
-    ],
-    "id": "bulkhead-pattern",
-    "title": "Bulkhead pattern",
-    "section": "hld",
-    "status": "complete",
-    "distributed": true
-  },
-  {
-    "definition": "At-most-once, at-least-once, effectively-once is a foundational hld topic for senior interviews and production design reviews.",
-    "mechanism": "Engineers articulate how at-most-once, at-least-once, effectively-once affects APIs, data ownership, failure handling, and measurable SLIs; they validate assumptions with load tests and failure injection.",
-    "advantages": [
-      "Clarifies design decisions around at-most-once, at-least-once, effectively-once for interviews and on-call.",
-      "Improves alignment between product requirements and engineering constraints.",
-      "Surfaces operational risks early (scaling, consistency, security)."
-    ],
-    "disadvantages": [
-      "Misapplied in the wrong context adds complexity without reliability gains.",
-      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
-      "Easy to over-engineer when requirements are still unknown."
-    ],
-    "tradeoffs": "Favor at-most-once, at-least-once, effectively-once when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
-    "useCases": [
-      "Senior system design interviews",
-      "Production architecture reviews",
-      "Refactoring discussions involving at-most-once, at-least-once, effectively-once"
-    ],
-    "interview": [
-      {
-        "q": "When would you introduce At-most-once, at-least-once, effectively-once?",
-        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
-      },
-      {
-        "q": "What breaks if At-most-once, at-least-once, effectively-once is ignored?",
-        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
-      }
-    ],
-    "tags": [
-      "hld",
-      "concept"
-    ],
-    "id": "at-most-once-at-least-once-effectively-once",
-    "title": "At-most-once, at-least-once, effectively-once",
-    "section": "hld",
-    "status": "complete",
-    "distributed": true
+    "distributed": true,
+    "status": "partial"
   },
   {
     "definition": "Saga pattern names a proven micro-architecture for recurring change-pressure in OO systems.",
@@ -2757,14 +2352,14 @@ window.HUB_TOPICS.push(...[
     "id": "saga-pattern",
     "title": "Saga pattern",
     "section": "hld",
-    "status": "complete",
-    "distributed": true
+    "distributed": true,
+    "status": "partial"
   },
   {
-    "definition": "Idempotency is a foundational hld topic for senior interviews and production design reviews.",
-    "mechanism": "Engineers articulate how idempotency affects APIs, data ownership, failure handling, and measurable SLIs; they validate assumptions with load tests and failure injection.",
+    "definition": "Raft is a leader-based consensus protocol that replicates a replicated log across nodes with understandable leader election and log matching rules.",
+    "mechanism": "Followers accept entries only from the elected leader; elections use randomized timeouts; commits advance when a majority replicates an index.",
     "advantages": [
-      "Clarifies design decisions around idempotency for interviews and on-call.",
+      "Clarifies design decisions around raft for interviews and on-call.",
       "Improves alignment between product requirements and engineering constraints.",
       "Surfaces operational risks early (scaling, consistency, security)."
     ],
@@ -2773,19 +2368,21 @@ window.HUB_TOPICS.push(...[
       "Requires team discipline: monitoring, runbooks, and incremental rollout.",
       "Easy to over-engineer when requirements are still unknown."
     ],
-    "tradeoffs": "Favor idempotency when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
+    "tradeoffs": "Favor raft when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
     "useCases": [
       "Senior system design interviews",
       "Production architecture reviews",
-      "Refactoring discussions involving idempotency"
+      "Refactoring discussions involving raft",
+      "Distributed configuration",
+      "Metadata coordination"
     ],
     "interview": [
       {
-        "q": "When would you introduce Idempotency?",
+        "q": "When would you introduce Raft?",
         "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
       },
       {
-        "q": "What breaks if Idempotency is ignored?",
+        "q": "What breaks if Raft is ignored?",
         "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
       }
     ],
@@ -2793,17 +2390,18 @@ window.HUB_TOPICS.push(...[
       "hld",
       "concept"
     ],
-    "id": "idempotency",
-    "title": "Idempotency",
+    "id": "raft",
+    "title": "Raft",
     "section": "hld",
-    "status": "complete",
-    "distributed": true
+    "distributed": true,
+    "mermaid": "sequenceDiagram\n  participant L as Leader\n  participant F1 as Follower\n  participant F2 as Follower\n  L->>F1: AppendEntries\n  L->>F2: AppendEntries\n  F1-->>L: ACK\n  F2-->>L: ACK\n  L->>L: commit index",
+    "status": "complete"
   },
   {
-    "definition": "Retries and exponential backoff is a foundational hld topic for senior interviews and production design reviews.",
-    "mechanism": "Engineers articulate how retries and exponential backoff affects APIs, data ownership, failure handling, and measurable SLIs; they validate assumptions with load tests and failure injection.",
+    "definition": "Heartbeats is a foundational hld topic for senior interviews and production design reviews.",
+    "mechanism": "Engineers articulate how heartbeats affects APIs, data ownership, failure handling, and measurable SLIs; they validate assumptions with load tests and failure injection.",
     "advantages": [
-      "Clarifies design decisions around retries and exponential backoff for interviews and on-call.",
+      "Clarifies design decisions around heartbeats for interviews and on-call.",
       "Improves alignment between product requirements and engineering constraints.",
       "Surfaces operational risks early (scaling, consistency, security)."
     ],
@@ -2812,19 +2410,19 @@ window.HUB_TOPICS.push(...[
       "Requires team discipline: monitoring, runbooks, and incremental rollout.",
       "Easy to over-engineer when requirements are still unknown."
     ],
-    "tradeoffs": "Favor retries and exponential backoff when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
+    "tradeoffs": "Favor heartbeats when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
     "useCases": [
       "Senior system design interviews",
       "Production architecture reviews",
-      "Refactoring discussions involving retries and exponential backoff"
+      "Refactoring discussions involving heartbeats"
     ],
     "interview": [
       {
-        "q": "When would you introduce Retries and exponential backoff?",
+        "q": "When would you introduce Heartbeats?",
         "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
       },
       {
-        "q": "What breaks if Retries and exponential backoff is ignored?",
+        "q": "What breaks if Heartbeats is ignored?",
         "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
       }
     ],
@@ -2832,11 +2430,11 @@ window.HUB_TOPICS.push(...[
       "hld",
       "concept"
     ],
-    "id": "retries-and-exponential-backoff",
-    "title": "Retries and exponential backoff",
+    "id": "heartbeats",
+    "title": "Heartbeats",
     "section": "hld",
-    "status": "complete",
-    "distributed": true
+    "distributed": true,
+    "status": "partial"
   },
   {
     "definition": "Distributed transactions is a foundational hld topic for senior interviews and production design reviews.",
@@ -2874,14 +2472,14 @@ window.HUB_TOPICS.push(...[
     "id": "distributed-transactions",
     "title": "Distributed transactions",
     "section": "hld",
-    "status": "complete",
-    "distributed": true
+    "distributed": true,
+    "status": "partial"
   },
   {
-    "definition": "Backpressure is a foundational hld topic for senior interviews and production design reviews.",
-    "mechanism": "Engineers articulate how backpressure affects APIs, data ownership, failure handling, and measurable SLIs; they validate assumptions with load tests and failure injection.",
+    "definition": "Paxos ensures replicas agree on order and value of updates despite crashes and network delays.",
+    "mechanism": "Leaders propose entries; followers acknowledge quorums; elections run on timeouts; clients must handle leader changes and fenced tokens where needed.",
     "advantages": [
-      "Clarifies design decisions around backpressure for interviews and on-call.",
+      "Clarifies design decisions around paxos for interviews and on-call.",
       "Improves alignment between product requirements and engineering constraints.",
       "Surfaces operational risks early (scaling, consistency, security)."
     ],
@@ -2890,19 +2488,21 @@ window.HUB_TOPICS.push(...[
       "Requires team discipline: monitoring, runbooks, and incremental rollout.",
       "Easy to over-engineer when requirements are still unknown."
     ],
-    "tradeoffs": "Favor backpressure when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
+    "tradeoffs": "Favor paxos when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
     "useCases": [
       "Senior system design interviews",
       "Production architecture reviews",
-      "Refactoring discussions involving backpressure"
+      "Refactoring discussions involving paxos",
+      "Distributed configuration",
+      "Metadata coordination"
     ],
     "interview": [
       {
-        "q": "When would you introduce Backpressure?",
+        "q": "When would you introduce Paxos?",
         "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
       },
       {
-        "q": "What breaks if Backpressure is ignored?",
+        "q": "What breaks if Paxos is ignored?",
         "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
       }
     ],
@@ -2910,130 +2510,11 @@ window.HUB_TOPICS.push(...[
       "hld",
       "concept"
     ],
-    "id": "backpressure",
-    "title": "Backpressure",
+    "id": "paxos",
+    "title": "Paxos",
     "section": "hld",
-    "status": "complete",
-    "distributed": true
-  },
-  {
-    "definition": "Quorum reads and writes is a foundational hld topic for senior interviews and production design reviews.",
-    "mechanism": "Engineers articulate how quorum reads and writes affects APIs, data ownership, failure handling, and measurable SLIs; they validate assumptions with load tests and failure injection.",
-    "advantages": [
-      "Clarifies design decisions around quorum reads and writes for interviews and on-call.",
-      "Improves alignment between product requirements and engineering constraints.",
-      "Surfaces operational risks early (scaling, consistency, security)."
-    ],
-    "disadvantages": [
-      "Misapplied in the wrong context adds complexity without reliability gains.",
-      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
-      "Easy to over-engineer when requirements are still unknown."
-    ],
-    "tradeoffs": "Favor quorum reads and writes when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
-    "useCases": [
-      "Senior system design interviews",
-      "Production architecture reviews",
-      "Refactoring discussions involving quorum reads and writes"
-    ],
-    "interview": [
-      {
-        "q": "When would you introduce Quorum reads and writes?",
-        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
-      },
-      {
-        "q": "What breaks if Quorum reads and writes is ignored?",
-        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
-      }
-    ],
-    "tags": [
-      "hld",
-      "concept"
-    ],
-    "id": "quorum-reads-and-writes",
-    "title": "Quorum reads and writes",
-    "section": "hld",
-    "status": "complete",
-    "distributed": true
-  },
-  {
-    "definition": "Vector clocks coordinates access to shared mutable state across JVM threads.",
-    "mechanism": "Mechanisms map to happens-before edges: monitors, java.util.concurrent locks, atomics, or confinement; misuse causes deadlocks, lost updates, or visibility bugs.",
-    "advantages": [
-      "Clarifies design decisions around vector clocks for interviews and on-call.",
-      "Improves alignment between product requirements and engineering constraints.",
-      "Surfaces operational risks early (scaling, consistency, security)."
-    ],
-    "disadvantages": [
-      "Misapplied in the wrong context adds complexity without reliability gains.",
-      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
-      "Easy to over-engineer when requirements are still unknown."
-    ],
-    "tradeoffs": "Favor vector clocks when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
-    "useCases": [
-      "Senior system design interviews",
-      "Production architecture reviews",
-      "Refactoring discussions involving vector clocks",
-      "Counters, caches, booking flows",
-      "Thread pool task handoff"
-    ],
-    "interview": [
-      {
-        "q": "When would you introduce Vector clocks?",
-        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
-      },
-      {
-        "q": "What breaks if Vector clocks is ignored?",
-        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
-      }
-    ],
-    "tags": [
-      "hld",
-      "concept"
-    ],
-    "id": "vector-clocks",
-    "title": "Vector clocks",
-    "section": "hld",
-    "status": "complete",
-    "distributed": true
-  },
-  {
-    "definition": "Graceful degradation is a foundational hld topic for senior interviews and production design reviews.",
-    "mechanism": "Engineers articulate how graceful degradation affects APIs, data ownership, failure handling, and measurable SLIs; they validate assumptions with load tests and failure injection.",
-    "advantages": [
-      "Clarifies design decisions around graceful degradation for interviews and on-call.",
-      "Improves alignment between product requirements and engineering constraints.",
-      "Surfaces operational risks early (scaling, consistency, security)."
-    ],
-    "disadvantages": [
-      "Misapplied in the wrong context adds complexity without reliability gains.",
-      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
-      "Easy to over-engineer when requirements are still unknown."
-    ],
-    "tradeoffs": "Favor graceful degradation when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
-    "useCases": [
-      "Senior system design interviews",
-      "Production architecture reviews",
-      "Refactoring discussions involving graceful degradation"
-    ],
-    "interview": [
-      {
-        "q": "When would you introduce Graceful degradation?",
-        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
-      },
-      {
-        "q": "What breaks if Graceful degradation is ignored?",
-        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
-      }
-    ],
-    "tags": [
-      "hld",
-      "concept"
-    ],
-    "id": "graceful-degradation",
-    "title": "Graceful degradation",
-    "section": "hld",
-    "status": "complete",
-    "distributed": true
+    "distributed": true,
+    "status": "partial"
   },
   {
     "definition": "Consensus ensures replicas agree on order and value of updates despite crashes and network delays.",
@@ -3073,8 +2554,447 @@ window.HUB_TOPICS.push(...[
     "id": "consensus",
     "title": "Consensus",
     "section": "hld",
-    "status": "complete",
-    "distributed": true
+    "distributed": true,
+    "status": "partial"
+  },
+  {
+    "definition": "Bulkhead pattern names a proven micro-architecture for recurring change-pressure in OO systems.",
+    "mechanism": "Separate what varies from what stays stable; compose objects instead of branching; keep collaborators substitutable behind narrow interfaces.",
+    "advantages": [
+      "Clarifies design decisions around bulkhead pattern for interviews and on-call.",
+      "Improves alignment between product requirements and engineering constraints.",
+      "Surfaces operational risks early (scaling, consistency, security)."
+    ],
+    "disadvantages": [
+      "Misapplied in the wrong context adds complexity without reliability gains.",
+      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
+      "Easy to over-engineer when requirements are still unknown."
+    ],
+    "tradeoffs": "Favor bulkhead pattern when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
+    "useCases": [
+      "Senior system design interviews",
+      "Production architecture reviews",
+      "Refactoring discussions involving bulkhead pattern",
+      "Payment routing strategies",
+      "UI widget frameworks"
+    ],
+    "interview": [
+      {
+        "q": "When would you introduce Bulkhead pattern?",
+        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
+      },
+      {
+        "q": "What breaks if Bulkhead pattern is ignored?",
+        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
+      }
+    ],
+    "tags": [
+      "hld",
+      "concept"
+    ],
+    "id": "bulkhead-pattern",
+    "title": "Bulkhead pattern",
+    "section": "hld",
+    "distributed": true,
+    "status": "partial"
+  },
+  {
+    "definition": "At-most-once, at-least-once, effectively-once is a foundational hld topic for senior interviews and production design reviews.",
+    "mechanism": "Engineers articulate how at-most-once, at-least-once, effectively-once affects APIs, data ownership, failure handling, and measurable SLIs; they validate assumptions with load tests and failure injection.",
+    "advantages": [
+      "Clarifies design decisions around at-most-once, at-least-once, effectively-once for interviews and on-call.",
+      "Improves alignment between product requirements and engineering constraints.",
+      "Surfaces operational risks early (scaling, consistency, security)."
+    ],
+    "disadvantages": [
+      "Misapplied in the wrong context adds complexity without reliability gains.",
+      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
+      "Easy to over-engineer when requirements are still unknown."
+    ],
+    "tradeoffs": "Favor at-most-once, at-least-once, effectively-once when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
+    "useCases": [
+      "Senior system design interviews",
+      "Production architecture reviews",
+      "Refactoring discussions involving at-most-once, at-least-once, effectively-once"
+    ],
+    "interview": [
+      {
+        "q": "When would you introduce At-most-once, at-least-once, effectively-once?",
+        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
+      },
+      {
+        "q": "What breaks if At-most-once, at-least-once, effectively-once is ignored?",
+        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
+      }
+    ],
+    "tags": [
+      "hld",
+      "concept"
+    ],
+    "id": "at-most-once-at-least-once-effectively-once",
+    "title": "At-most-once, at-least-once, effectively-once",
+    "section": "hld",
+    "distributed": true,
+    "status": "partial"
+  },
+  {
+    "definition": "Backpressure is a foundational hld topic for senior interviews and production design reviews.",
+    "mechanism": "Engineers articulate how backpressure affects APIs, data ownership, failure handling, and measurable SLIs; they validate assumptions with load tests and failure injection.",
+    "advantages": [
+      "Clarifies design decisions around backpressure for interviews and on-call.",
+      "Improves alignment between product requirements and engineering constraints.",
+      "Surfaces operational risks early (scaling, consistency, security)."
+    ],
+    "disadvantages": [
+      "Misapplied in the wrong context adds complexity without reliability gains.",
+      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
+      "Easy to over-engineer when requirements are still unknown."
+    ],
+    "tradeoffs": "Favor backpressure when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
+    "useCases": [
+      "Senior system design interviews",
+      "Production architecture reviews",
+      "Refactoring discussions involving backpressure"
+    ],
+    "interview": [
+      {
+        "q": "When would you introduce Backpressure?",
+        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
+      },
+      {
+        "q": "What breaks if Backpressure is ignored?",
+        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
+      }
+    ],
+    "tags": [
+      "hld",
+      "concept"
+    ],
+    "id": "backpressure",
+    "title": "Backpressure",
+    "section": "hld",
+    "distributed": true,
+    "status": "partial"
+  },
+  {
+    "definition": "Retries and exponential backoff is a foundational hld topic for senior interviews and production design reviews.",
+    "mechanism": "Engineers articulate how retries and exponential backoff affects APIs, data ownership, failure handling, and measurable SLIs; they validate assumptions with load tests and failure injection.",
+    "advantages": [
+      "Clarifies design decisions around retries and exponential backoff for interviews and on-call.",
+      "Improves alignment between product requirements and engineering constraints.",
+      "Surfaces operational risks early (scaling, consistency, security)."
+    ],
+    "disadvantages": [
+      "Misapplied in the wrong context adds complexity without reliability gains.",
+      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
+      "Easy to over-engineer when requirements are still unknown."
+    ],
+    "tradeoffs": "Favor retries and exponential backoff when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
+    "useCases": [
+      "Senior system design interviews",
+      "Production architecture reviews",
+      "Refactoring discussions involving retries and exponential backoff"
+    ],
+    "interview": [
+      {
+        "q": "When would you introduce Retries and exponential backoff?",
+        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
+      },
+      {
+        "q": "What breaks if Retries and exponential backoff is ignored?",
+        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
+      }
+    ],
+    "tags": [
+      "hld",
+      "concept"
+    ],
+    "id": "retries-and-exponential-backoff",
+    "title": "Retries and exponential backoff",
+    "section": "hld",
+    "distributed": true,
+    "status": "partial"
+  },
+  {
+    "definition": "Distributed locks coordinates access to shared mutable state across JVM threads.",
+    "mechanism": "Mechanisms map to happens-before edges: monitors, java.util.concurrent locks, atomics, or confinement; misuse causes deadlocks, lost updates, or visibility bugs.",
+    "advantages": [
+      "Clarifies design decisions around distributed locks for interviews and on-call.",
+      "Improves alignment between product requirements and engineering constraints.",
+      "Surfaces operational risks early (scaling, consistency, security)."
+    ],
+    "disadvantages": [
+      "Misapplied in the wrong context adds complexity without reliability gains.",
+      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
+      "Easy to over-engineer when requirements are still unknown."
+    ],
+    "tradeoffs": "Favor distributed locks when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
+    "useCases": [
+      "Senior system design interviews",
+      "Production architecture reviews",
+      "Refactoring discussions involving distributed locks",
+      "Counters, caches, booking flows",
+      "Thread pool task handoff"
+    ],
+    "interview": [
+      {
+        "q": "When would you introduce Distributed locks?",
+        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
+      },
+      {
+        "q": "What breaks if Distributed locks is ignored?",
+        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
+      }
+    ],
+    "tags": [
+      "hld",
+      "concept"
+    ],
+    "id": "distributed-locks",
+    "title": "Distributed locks",
+    "section": "hld",
+    "distributed": true,
+    "status": "partial"
+  },
+  {
+    "definition": "Idempotency is a foundational hld topic for senior interviews and production design reviews.",
+    "mechanism": "Engineers articulate how idempotency affects APIs, data ownership, failure handling, and measurable SLIs; they validate assumptions with load tests and failure injection.",
+    "advantages": [
+      "Clarifies design decisions around idempotency for interviews and on-call.",
+      "Improves alignment between product requirements and engineering constraints.",
+      "Surfaces operational risks early (scaling, consistency, security)."
+    ],
+    "disadvantages": [
+      "Misapplied in the wrong context adds complexity without reliability gains.",
+      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
+      "Easy to over-engineer when requirements are still unknown."
+    ],
+    "tradeoffs": "Favor idempotency when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
+    "useCases": [
+      "Senior system design interviews",
+      "Production architecture reviews",
+      "Refactoring discussions involving idempotency"
+    ],
+    "interview": [
+      {
+        "q": "When would you introduce Idempotency?",
+        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
+      },
+      {
+        "q": "What breaks if Idempotency is ignored?",
+        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
+      }
+    ],
+    "tags": [
+      "hld",
+      "concept"
+    ],
+    "id": "idempotency",
+    "title": "Idempotency",
+    "section": "hld",
+    "distributed": true,
+    "status": "partial"
+  },
+  {
+    "definition": "Leader election ensures replicas agree on order and value of updates despite crashes and network delays.",
+    "mechanism": "Leaders propose entries; followers acknowledge quorums; elections run on timeouts; clients must handle leader changes and fenced tokens where needed.",
+    "advantages": [
+      "Clarifies design decisions around leader election for interviews and on-call.",
+      "Improves alignment between product requirements and engineering constraints.",
+      "Surfaces operational risks early (scaling, consistency, security)."
+    ],
+    "disadvantages": [
+      "Misapplied in the wrong context adds complexity without reliability gains.",
+      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
+      "Easy to over-engineer when requirements are still unknown."
+    ],
+    "tradeoffs": "Favor leader election when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
+    "useCases": [
+      "Senior system design interviews",
+      "Production architecture reviews",
+      "Refactoring discussions involving leader election",
+      "Distributed configuration",
+      "Metadata coordination"
+    ],
+    "interview": [
+      {
+        "q": "When would you introduce Leader election?",
+        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
+      },
+      {
+        "q": "What breaks if Leader election is ignored?",
+        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
+      }
+    ],
+    "tags": [
+      "hld",
+      "concept"
+    ],
+    "id": "leader-election",
+    "title": "Leader election",
+    "section": "hld",
+    "distributed": true,
+    "status": "partial"
+  },
+  {
+    "definition": "Circuit breaker is a foundational hld topic for senior interviews and production design reviews.",
+    "mechanism": "Engineers articulate how circuit breaker affects APIs, data ownership, failure handling, and measurable SLIs; they validate assumptions with load tests and failure injection.",
+    "advantages": [
+      "Clarifies design decisions around circuit breaker for interviews and on-call.",
+      "Improves alignment between product requirements and engineering constraints.",
+      "Surfaces operational risks early (scaling, consistency, security)."
+    ],
+    "disadvantages": [
+      "Misapplied in the wrong context adds complexity without reliability gains.",
+      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
+      "Easy to over-engineer when requirements are still unknown."
+    ],
+    "tradeoffs": "Favor circuit breaker when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
+    "useCases": [
+      "Senior system design interviews",
+      "Production architecture reviews",
+      "Refactoring discussions involving circuit breaker"
+    ],
+    "interview": [
+      {
+        "q": "When would you introduce Circuit breaker?",
+        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
+      },
+      {
+        "q": "What breaks if Circuit breaker is ignored?",
+        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
+      }
+    ],
+    "tags": [
+      "hld",
+      "concept"
+    ],
+    "id": "circuit-breaker",
+    "title": "Circuit breaker",
+    "section": "hld",
+    "distributed": true,
+    "status": "partial"
+  },
+  {
+    "definition": "Clock synchronization coordinates access to shared mutable state across JVM threads.",
+    "mechanism": "Mechanisms map to happens-before edges: monitors, java.util.concurrent locks, atomics, or confinement; misuse causes deadlocks, lost updates, or visibility bugs.",
+    "advantages": [
+      "Clarifies design decisions around clock synchronization for interviews and on-call.",
+      "Improves alignment between product requirements and engineering constraints.",
+      "Surfaces operational risks early (scaling, consistency, security)."
+    ],
+    "disadvantages": [
+      "Misapplied in the wrong context adds complexity without reliability gains.",
+      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
+      "Easy to over-engineer when requirements are still unknown."
+    ],
+    "tradeoffs": "Favor clock synchronization when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
+    "useCases": [
+      "Senior system design interviews",
+      "Production architecture reviews",
+      "Refactoring discussions involving clock synchronization",
+      "Counters, caches, booking flows",
+      "Thread pool task handoff"
+    ],
+    "interview": [
+      {
+        "q": "When would you introduce Clock synchronization?",
+        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
+      },
+      {
+        "q": "What breaks if Clock synchronization is ignored?",
+        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
+      }
+    ],
+    "tags": [
+      "hld",
+      "concept"
+    ],
+    "id": "clock-synchronization",
+    "title": "Clock synchronization",
+    "section": "hld",
+    "distributed": true,
+    "status": "partial"
+  },
+  {
+    "definition": "Vector clocks coordinates access to shared mutable state across JVM threads.",
+    "mechanism": "Mechanisms map to happens-before edges: monitors, java.util.concurrent locks, atomics, or confinement; misuse causes deadlocks, lost updates, or visibility bugs.",
+    "advantages": [
+      "Clarifies design decisions around vector clocks for interviews and on-call.",
+      "Improves alignment between product requirements and engineering constraints.",
+      "Surfaces operational risks early (scaling, consistency, security)."
+    ],
+    "disadvantages": [
+      "Misapplied in the wrong context adds complexity without reliability gains.",
+      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
+      "Easy to over-engineer when requirements are still unknown."
+    ],
+    "tradeoffs": "Favor vector clocks when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
+    "useCases": [
+      "Senior system design interviews",
+      "Production architecture reviews",
+      "Refactoring discussions involving vector clocks",
+      "Counters, caches, booking flows",
+      "Thread pool task handoff"
+    ],
+    "interview": [
+      {
+        "q": "When would you introduce Vector clocks?",
+        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
+      },
+      {
+        "q": "What breaks if Vector clocks is ignored?",
+        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
+      }
+    ],
+    "tags": [
+      "hld",
+      "concept"
+    ],
+    "id": "vector-clocks",
+    "title": "Vector clocks",
+    "section": "hld",
+    "distributed": true,
+    "status": "partial"
+  },
+  {
+    "definition": "Split brain is a foundational hld topic for senior interviews and production design reviews.",
+    "mechanism": "Engineers articulate how split brain affects APIs, data ownership, failure handling, and measurable SLIs; they validate assumptions with load tests and failure injection.",
+    "advantages": [
+      "Clarifies design decisions around split brain for interviews and on-call.",
+      "Improves alignment between product requirements and engineering constraints.",
+      "Surfaces operational risks early (scaling, consistency, security)."
+    ],
+    "disadvantages": [
+      "Misapplied in the wrong context adds complexity without reliability gains.",
+      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
+      "Easy to over-engineer when requirements are still unknown."
+    ],
+    "tradeoffs": "Favor split brain when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
+    "useCases": [
+      "Senior system design interviews",
+      "Production architecture reviews",
+      "Refactoring discussions involving split brain"
+    ],
+    "interview": [
+      {
+        "q": "When would you introduce Split brain?",
+        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
+      },
+      {
+        "q": "What breaks if Split brain is ignored?",
+        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
+      }
+    ],
+    "tags": [
+      "hld",
+      "concept"
+    ],
+    "id": "split-brain",
+    "title": "Split brain",
+    "section": "hld",
+    "distributed": true,
+    "status": "partial"
   },
   {
     "definition": "Two-phase commit is a foundational hld topic for senior interviews and production design reviews.",
@@ -3112,14 +3032,14 @@ window.HUB_TOPICS.push(...[
     "id": "two-phase-commit",
     "title": "Two-phase commit",
     "section": "hld",
-    "status": "complete",
-    "distributed": true
+    "distributed": true,
+    "status": "partial"
   },
   {
-    "definition": "Gossip protocol is a foundational hld topic for senior interviews and production design reviews.",
-    "mechanism": "Engineers articulate how gossip protocol affects APIs, data ownership, failure handling, and measurable SLIs; they validate assumptions with load tests and failure injection.",
+    "definition": "Failover is a foundational hld topic for senior interviews and production design reviews.",
+    "mechanism": "Engineers articulate how failover affects APIs, data ownership, failure handling, and measurable SLIs; they validate assumptions with load tests and failure injection.",
     "advantages": [
-      "Clarifies design decisions around gossip protocol for interviews and on-call.",
+      "Clarifies design decisions around failover for interviews and on-call.",
       "Improves alignment between product requirements and engineering constraints.",
       "Surfaces operational risks early (scaling, consistency, security)."
     ],
@@ -3128,19 +3048,19 @@ window.HUB_TOPICS.push(...[
       "Requires team discipline: monitoring, runbooks, and incremental rollout.",
       "Easy to over-engineer when requirements are still unknown."
     ],
-    "tradeoffs": "Favor gossip protocol when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
+    "tradeoffs": "Favor failover when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
     "useCases": [
       "Senior system design interviews",
       "Production architecture reviews",
-      "Refactoring discussions involving gossip protocol"
+      "Refactoring discussions involving failover"
     ],
     "interview": [
       {
-        "q": "When would you introduce Gossip protocol?",
+        "q": "When would you introduce Failover?",
         "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
       },
       {
-        "q": "What breaks if Gossip protocol is ignored?",
+        "q": "What breaks if Failover is ignored?",
         "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
       }
     ],
@@ -3148,11 +3068,91 @@ window.HUB_TOPICS.push(...[
       "hld",
       "concept"
     ],
-    "id": "gossip-protocol",
-    "title": "Gossip protocol",
+    "id": "failover",
+    "title": "Failover",
     "section": "hld",
-    "status": "complete",
-    "distributed": true
+    "distributed": true,
+    "status": "partial"
+  },
+  {
+    "definition": "Kafka decouples producers and consumers with durable buffering so spikes do not cascade into outages.",
+    "mechanism": "Messages land on brokers or topics; consumers track offsets or acknowledgments; failures retry to DLQ; ordering is per-partition or per-queue depending on product.",
+    "advantages": [
+      "Clarifies design decisions around kafka for interviews and on-call.",
+      "Improves alignment between product requirements and engineering constraints.",
+      "Surfaces operational risks early (scaling, consistency, security)."
+    ],
+    "disadvantages": [
+      "Misapplied in the wrong context adds complexity without reliability gains.",
+      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
+      "Easy to over-engineer when requirements are still unknown."
+    ],
+    "tradeoffs": "Favor kafka when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
+    "useCases": [
+      "Senior system design interviews",
+      "Production architecture reviews",
+      "Refactoring discussions involving kafka",
+      "Event notification",
+      "Audit and CDC pipelines"
+    ],
+    "interview": [
+      {
+        "q": "When would you introduce Kafka?",
+        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
+      },
+      {
+        "q": "What breaks if Kafka is ignored?",
+        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
+      }
+    ],
+    "tags": [
+      "hld",
+      "concept"
+    ],
+    "id": "kafka",
+    "title": "Kafka",
+    "section": "hld",
+    "distributed": true,
+    "status": "partial"
+  },
+  {
+    "definition": "Quorum reads and writes is a foundational hld topic for senior interviews and production design reviews.",
+    "mechanism": "Engineers articulate how quorum reads and writes affects APIs, data ownership, failure handling, and measurable SLIs; they validate assumptions with load tests and failure injection.",
+    "advantages": [
+      "Clarifies design decisions around quorum reads and writes for interviews and on-call.",
+      "Improves alignment between product requirements and engineering constraints.",
+      "Surfaces operational risks early (scaling, consistency, security)."
+    ],
+    "disadvantages": [
+      "Misapplied in the wrong context adds complexity without reliability gains.",
+      "Requires team discipline: monitoring, runbooks, and incremental rollout.",
+      "Easy to over-engineer when requirements are still unknown."
+    ],
+    "tradeoffs": "Favor quorum reads and writes when non-functional requirements dominate; simplify when team size, traffic, or compliance does not justify the machinery yet.",
+    "useCases": [
+      "Senior system design interviews",
+      "Production architecture reviews",
+      "Refactoring discussions involving quorum reads and writes"
+    ],
+    "interview": [
+      {
+        "q": "When would you introduce Quorum reads and writes?",
+        "a": "When measured pain (latency, outages, coordination cost) exceeds the complexity budget; start with the simplest model that meets SLAs."
+      },
+      {
+        "q": "What breaks if Quorum reads and writes is ignored?",
+        "a": "Hidden coupling, incident blast radius grows, and scaling steps become expensive firefighting."
+      }
+    ],
+    "tags": [
+      "hld",
+      "concept"
+    ],
+    "id": "quorum-reads-and-writes",
+    "title": "Quorum reads and writes",
+    "section": "hld",
+    "distributed": true,
+    "status": "partial"
   },
   {
     "definition": "Message queues and publish-subscribe decouples producers and consumers with durable buffering so spikes do not cascade into outages.",
@@ -3192,7 +3192,7 @@ window.HUB_TOPICS.push(...[
     "id": "message-queues-and-publish-subscribe",
     "title": "Message queues and publish-subscribe",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Kafka architecture decouples producers and consumers with durable buffering so spikes do not cascade into outages.",
@@ -3232,8 +3232,8 @@ window.HUB_TOPICS.push(...[
     "id": "kafka-architecture",
     "title": "Kafka architecture",
     "section": "hld",
-    "status": "complete",
-    "distributed": true
+    "distributed": true,
+    "status": "partial"
   },
   {
     "definition": "RabbitMQ decouples producers and consumers with durable buffering so spikes do not cascade into outages.",
@@ -3273,7 +3273,7 @@ window.HUB_TOPICS.push(...[
     "id": "rabbitmq",
     "title": "RabbitMQ",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Topics, partitions, and consumer groups spreads data or traffic across nodes to increase capacity and fault isolation.",
@@ -3313,7 +3313,7 @@ window.HUB_TOPICS.push(...[
     "id": "topics-partitions-and-consumer-groups",
     "title": "Topics, partitions, and consumer groups",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Offset management and ordering is a foundational hld topic for senior interviews and production design reviews.",
@@ -3351,7 +3351,7 @@ window.HUB_TOPICS.push(...[
     "id": "offset-management-and-ordering",
     "title": "Offset management and ordering",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Dead-letter queues decouples producers and consumers with durable buffering so spikes do not cascade into outages.",
@@ -3391,7 +3391,7 @@ window.HUB_TOPICS.push(...[
     "id": "dead-letter-queues",
     "title": "Dead-letter queues",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Acknowledgments and retries is a foundational hld topic for senior interviews and production design reviews.",
@@ -3429,7 +3429,7 @@ window.HUB_TOPICS.push(...[
     "id": "acknowledgments-and-retries",
     "title": "Acknowledgments and retries",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Transactional outbox is a foundational hld topic for senior interviews and production design reviews.",
@@ -3467,7 +3467,7 @@ window.HUB_TOPICS.push(...[
     "id": "transactional-outbox",
     "title": "Transactional outbox",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Change Data Capture is a foundational hld topic for senior interviews and production design reviews.",
@@ -3505,7 +3505,7 @@ window.HUB_TOPICS.push(...[
     "id": "change-data-capture",
     "title": "Change Data Capture",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Stream processing is a foundational hld topic for senior interviews and production design reviews.",
@@ -3543,7 +3543,7 @@ window.HUB_TOPICS.push(...[
     "id": "stream-processing",
     "title": "Stream processing",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Choreography vs orchestration is a foundational hld topic for senior interviews and production design reviews.",
@@ -3581,7 +3581,7 @@ window.HUB_TOPICS.push(...[
     "id": "choreography-vs-orchestration",
     "title": "Choreography vs orchestration",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Load balancing and algorithms is a foundational hld topic for senior interviews and production design reviews.",
@@ -3619,7 +3619,7 @@ window.HUB_TOPICS.push(...[
     "id": "load-balancing-and-algorithms",
     "title": "Load balancing and algorithms",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Layer 4 vs Layer 7 load balancing is a foundational hld topic for senior interviews and production design reviews.",
@@ -3657,7 +3657,7 @@ window.HUB_TOPICS.push(...[
     "id": "layer-4-vs-layer-7-load-balancing",
     "title": "Layer 4 vs Layer 7 load balancing",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Consistent hashing is a foundational hld topic for senior interviews and production design reviews.",
@@ -3695,7 +3695,7 @@ window.HUB_TOPICS.push(...[
     "id": "consistent-hashing",
     "title": "Consistent hashing",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "CDN is a foundational hld topic for senior interviews and production design reviews.",
@@ -3733,7 +3733,7 @@ window.HUB_TOPICS.push(...[
     "id": "cdn",
     "title": "CDN",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Auto-scaling is a foundational hld topic for senior interviews and production design reviews.",
@@ -3771,7 +3771,7 @@ window.HUB_TOPICS.push(...[
     "id": "auto-scaling",
     "title": "Auto-scaling",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Docker containers is a foundational hld topic for senior interviews and production design reviews.",
@@ -3809,7 +3809,7 @@ window.HUB_TOPICS.push(...[
     "id": "docker-containers",
     "title": "Docker containers",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Kubernetes orchestration is a foundational hld topic for senior interviews and production design reviews.",
@@ -3847,7 +3847,7 @@ window.HUB_TOPICS.push(...[
     "id": "kubernetes-orchestration",
     "title": "Kubernetes orchestration",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Service discovery is a foundational hld topic for senior interviews and production design reviews.",
@@ -3885,7 +3885,7 @@ window.HUB_TOPICS.push(...[
     "id": "service-discovery",
     "title": "Service discovery",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Service mesh is a foundational hld topic for senior interviews and production design reviews.",
@@ -3923,7 +3923,7 @@ window.HUB_TOPICS.push(...[
     "id": "service-mesh",
     "title": "Service mesh",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Multi-region architecture is a foundational hld topic for senior interviews and production design reviews.",
@@ -3961,7 +3961,7 @@ window.HUB_TOPICS.push(...[
     "id": "multi-region-architecture",
     "title": "Multi-region architecture",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Active-active vs active-passive is a foundational hld topic for senior interviews and production design reviews.",
@@ -3999,7 +3999,7 @@ window.HUB_TOPICS.push(...[
     "id": "active-active-vs-active-passive",
     "title": "Active-active vs active-passive",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Disaster recovery, RTO, and RPO is a foundational hld topic for senior interviews and production design reviews.",
@@ -4037,7 +4037,7 @@ window.HUB_TOPICS.push(...[
     "id": "disaster-recovery-rto-and-rpo",
     "title": "Disaster recovery, RTO, and RPO",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Blue-green deployment is a foundational hld topic for senior interviews and production design reviews.",
@@ -4075,7 +4075,7 @@ window.HUB_TOPICS.push(...[
     "id": "blue-green-deployment",
     "title": "Blue-green deployment",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Canary deployment is a foundational hld topic for senior interviews and production design reviews.",
@@ -4113,7 +4113,7 @@ window.HUB_TOPICS.push(...[
     "id": "canary-deployment",
     "title": "Canary deployment",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Rolling deployment is a foundational hld topic for senior interviews and production design reviews.",
@@ -4151,7 +4151,7 @@ window.HUB_TOPICS.push(...[
     "id": "rolling-deployment",
     "title": "Rolling deployment",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Encryption at rest and in transit is a foundational hld topic for senior interviews and production design reviews.",
@@ -4189,7 +4189,7 @@ window.HUB_TOPICS.push(...[
     "id": "encryption-at-rest-and-in-transit",
     "title": "Encryption at rest and in transit",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Secrets management is a foundational hld topic for senior interviews and production design reviews.",
@@ -4227,7 +4227,7 @@ window.HUB_TOPICS.push(...[
     "id": "secrets-management",
     "title": "Secrets management",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "OWASP Top 10 is a foundational hld topic for senior interviews and production design reviews.",
@@ -4265,7 +4265,7 @@ window.HUB_TOPICS.push(...[
     "id": "owasp-top-10",
     "title": "OWASP Top 10",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "SQL injection is a foundational hld topic for senior interviews and production design reviews.",
@@ -4303,7 +4303,7 @@ window.HUB_TOPICS.push(...[
     "id": "sql-injection",
     "title": "SQL injection",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "XSS and CSRF is a foundational hld topic for senior interviews and production design reviews.",
@@ -4341,7 +4341,7 @@ window.HUB_TOPICS.push(...[
     "id": "xss-and-csrf",
     "title": "XSS and CSRF",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "API security is a foundational hld topic for senior interviews and production design reviews.",
@@ -4379,7 +4379,7 @@ window.HUB_TOPICS.push(...[
     "id": "api-security",
     "title": "API security",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Logging, metrics, and tracing is a foundational hld topic for senior interviews and production design reviews.",
@@ -4417,7 +4417,7 @@ window.HUB_TOPICS.push(...[
     "id": "logging-metrics-and-tracing",
     "title": "Logging, metrics, and tracing",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Prometheus and Grafana is a foundational hld topic for senior interviews and production design reviews.",
@@ -4455,7 +4455,7 @@ window.HUB_TOPICS.push(...[
     "id": "prometheus-and-grafana",
     "title": "Prometheus and Grafana",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "OpenTelemetry is a foundational hld topic for senior interviews and production design reviews.",
@@ -4493,7 +4493,7 @@ window.HUB_TOPICS.push(...[
     "id": "opentelemetry",
     "title": "OpenTelemetry",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "SLI, SLO, SLA, and error budgets is a foundational hld topic for senior interviews and production design reviews.",
@@ -4531,7 +4531,7 @@ window.HUB_TOPICS.push(...[
     "id": "sli-slo-sla-and-error-budgets",
     "title": "SLI, SLO, SLA, and error budgets",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Chaos engineering is a foundational hld topic for senior interviews and production design reviews.",
@@ -4569,7 +4569,7 @@ window.HUB_TOPICS.push(...[
     "id": "chaos-engineering",
     "title": "Chaos engineering",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   },
   {
     "definition": "Health checks is a foundational hld topic for senior interviews and production design reviews.",
@@ -4607,6 +4607,6 @@ window.HUB_TOPICS.push(...[
     "id": "health-checks",
     "title": "Health checks",
     "section": "hld",
-    "status": "complete"
+    "status": "partial"
   }
 ]);
